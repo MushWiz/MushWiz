@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be4e0377dba7f4e4e9da81dbfe6d902c, type: 3}
+  m_Name: ShootAbility
+  m_EditorClassIdentifier: 
+  abilityButtonPrefab: {fileID: 2469224552398132121, guid: 72892614237bc43478ce3edc6f6ba6be, type: 3}
+  abilityDamage: 5
+  cooldown: 6
+  cooldownTimer: 0
+  projectileSpeed: 5
+  projectileMaxTravel: 10
+  destroyable: 1
+  unlockLevel: 2
+  bulletPrefab: {fileID: 7205232142759422555, guid: e449347c3de71bc41bc9d934236103e7, type: 3}

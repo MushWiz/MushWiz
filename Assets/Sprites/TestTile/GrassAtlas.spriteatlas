@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GrassAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: -461051619, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 124865333, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -1187078174, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -1675278997, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -1734601270, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -1061105628, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -1202450946, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 807971254, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -1390921730, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -1558334842, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 784619473, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -436896928, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 1592134493, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -645021596, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 704404861, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -2009146797, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -1060750765, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 436835195, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: -2054049703, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 157286600, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 1773218584, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  - {fileID: 2046585254, guid: de0fd1e076983224b8d7a1cc0d0b9388, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - GrassTile_20
+  - GrassTile_21
+  - GrassTile_8
+  - GrassTile_9
+  - GrassTile_2
+  - GrassTile_3
+  - GrassTile_0
+  - GrassTile_1
+  - GrassTile_6
+  - GrassTile_7
+  - GrassTile_4
+  - GrassTile_5
+  - GrassTile_11
+  - GrassTile_10
+  - GrassTile_13
+  - GrassTile_12
+  - GrassTile_15
+  - GrassTile_14
+  - GrassTile_17
+  - GrassTile_16
+  - GrassTile_19
+  - GrassTile_18
+  m_RenderDataMap: {}
+  m_Tag: GrassAtlas
+  m_IsVariant: 0

@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+
+public class MonsterStateController : MonoBehaviour
+{
+
+    public string animationPrefix = "";
+
+    public MonsterState currentState;
+    public MonsterState remainState;
+
+    public List<GameObject> patrolPoints = new List<GameObject>();
+
+    [HideInInspector] public int wayPointListIndex = 0;
+
+    [HideInInspector] public float stateTimeElapsed;
+    [HideInInspector] public NavMeshAgent navMeshAgent;
+    [HideInInspector] public GameObject target;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public MonsterController monsterController;
+
+    private void Awake()
+    {
+        monsterController = GetComponent<MonsterController>();
+        target = GameObject.FindGameObjectWithTag("Player");
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.stoppingDistance = Mathf.Max(monsterController.attackRange - Random.Range(0.5f, 1.5f), 0);
+        Vector2 setPosition = transform.position;
+        navMeshAgent.baseOffset = -4.03f;
+        transform.position = setPosition;
+        animator = GetComponent<Animator>();
+    }
+
+    private bool aiActive = true;
+
+    void Update()
+    {
+        if (!aiActive)
+            return;
+        currentState.UpdateState(this);
+    }
+
+    public void TransitionToState(MonsterState nextState)
+    {
+        if (nextState != remainState)
+        {
+            currentState = nextState;
+            OnExitState();
+        }
+    }
+
+    public bool CheckIfCountDownElapsed(float duration)
+    {
+        stateTimeElapsed += Time.deltaTime;
+        return (stateTimeElapsed >= duration);
+    }
+
+    private void OnExitState()
+    {
+        stateTimeElapsed = 0;
+    }
+}
