@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - Projectile
+  - Ability
+  - EnemyProjectile
+  - ReflectiveObstacle
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Obstacle
+  - Player
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1280416185
+    locked: 0
+  - name: Obstacles
+    uniqueID: 154224119
+    locked: 0
+  - name: Mob
+    uniqueID: 2029353469
+    locked: 0
+  - name: Item
+    uniqueID: 3527794423
+    locked: 0
+  - name: Foreground
+    uniqueID: 3305288603
+    locked: 0
+  - name: UI elements
+    uniqueID: 1659001093
+    locked: 0

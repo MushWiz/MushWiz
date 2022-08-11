@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a6123a8f869f44bbcf392616219da2, type: 3}
+  m_Name: WaveAbility
+  m_EditorClassIdentifier: 
+  abilityButtonPrefab: {fileID: 7968484641829919525, guid: 48f16789f1591494699fc11544f86bfb, type: 3}
+  abilityDamage: 12
+  cooldown: 10
+  cooldownTimer: 7.1986547
+  projectileSpeed: 5
+  projectileMaxTravel: 10
+  destroyable: 0
+  unlockLevel: 2
+  wavePrefab: {fileID: 963397080570278073, guid: 4933c1d5a5c7a5d4b8049a164dc22feb, type: 3}
