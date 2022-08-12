@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4e0377dba7f4e4e9da81dbfe6d902c, type: 3}
   m_Name: ShootAbility
   m_EditorClassIdentifier: 
+  abilityName: ShootAbility
+  abilityIcon: {fileID: 21300000, guid: a050c270b3ceb954cb467b2b924f74e4, type: 3}
   abilityButtonPrefab: {fileID: 2469224552398132121, guid: 72892614237bc43478ce3edc6f6ba6be, type: 3}
   abilityDamage: 5
   cooldown: 6

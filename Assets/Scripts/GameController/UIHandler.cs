@@ -16,6 +16,7 @@ public class UIHandler : MonoBehaviour
     public TextMeshProUGUI currentWaveInitialization;
 
     public InfoPanelManager infoPanelManager;
+    public ActionBarManager actionBarManager;
 
     public void EnableUIByType(UIType type)
     {
@@ -106,6 +107,11 @@ public class UIHandler : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void UpdateActionBar(MushController mushController)
+    {
+        actionBarManager.mushController = mushController;
     }
 
 }

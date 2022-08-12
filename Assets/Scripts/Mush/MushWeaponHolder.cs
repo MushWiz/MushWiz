@@ -7,41 +7,20 @@ public class MushWeaponHolder : MonoBehaviour
     public Transform weaponHolder;
     public GameObject currentWeapon;
 
-    public void EquipWeapon(WeaponItem weapon)
+
+    public void EquipWeapon(WeaponItem weapon, MushEquipment equipmentSlot)
     {
-        if (currentWeapon != null)
-        {
-            DropCurrentWeapon();
-        }
         currentWeapon = Instantiate(weapon.weaponPrefab, weaponHolder.position, weaponHolder.rotation) as GameObject;
-        currentWeapon.transform.parent = weaponHolder;
-        currentWeapon.GetComponent<WeaponManager>().weaponBase = weapon;
+        currentWeapon.transform.SetParent(weaponHolder);
         if (weapon.weaponType == WeaponType.Ranged)
         {
             gameObject.GetComponentInParent<MushMainShooter>().bulletPrefab = weapon.projectilePrefab;
         }
-
     }
 
-    public void UnequipWeapon()
+    public void UnequipWeapon(WeaponItem weapon)
     {
-        DropCurrentWeapon();
-    }
-
-    public void DropCurrentWeapon()
-    {
-        if (currentWeapon != null)
-        {
-            WeaponItem currentWeaponItem = currentWeapon.GetComponent<WeaponManager>().weaponBase;
-            currentWeaponItem.Unequip(gameObject.GetComponentInParent<MushController>());
-            currentWeaponItem.OnDrop(gameObject.GetComponentInParent<MushController>());
-            if (currentWeaponItem.weaponType == WeaponType.Ranged)
-            {
-                gameObject.GetComponentInParent<MushMainShooter>().bulletPrefab = null;
-            }
-            Destroy(currentWeapon);
-            currentWeapon = null;
-        }
+        Destroy(currentWeapon);
     }
 
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MushAbilities : ScriptableObject
 {
-
+    public string abilityName;
+    public Sprite abilityIcon;
     public GameObject abilityButtonPrefab;
     public float abilityDamage;
     public float cooldown;

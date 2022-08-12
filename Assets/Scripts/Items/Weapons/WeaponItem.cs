@@ -10,18 +10,24 @@ public class WeaponItem : Item
 
     public GameObject projectilePrefab;
 
-    public override void OnPickup(MushController mushController)
+    public override void OnEquip(MushController mushController, MushEquipment equipmentSlot)
     {
-        Equip(mushController);
+        Equip(mushController, equipmentSlot);
     }
 
-    public override void Equip(MushController mushController)
+    public override void Equip(MushController mushController, MushEquipment equipmentSlot)
     {
-        mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().EquipWeapon(this);
+        mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().EquipWeapon(this, equipmentSlot);
     }
 
-    public override void Unequip(MushController mushController)
+    public override void OnUnequip(MushController mushController, MushEquipment equipmentSlot)
     {
+        Unequip(mushController, equipmentSlot);
+    }
+
+    public override void Unequip(MushController mushController, MushEquipment equipmentSlot)
+    {
+        mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().UnequipWeapon(this);
         CreateCollectible(mushController.transform);
     }
 }

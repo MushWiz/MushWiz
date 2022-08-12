@@ -9,6 +9,8 @@ TagManager:
   - Ability
   - EnemyProjectile
   - ReflectiveObstacle
+  - ActionBarSlot
+  - InventorySlot
   layers:
   - Default
   - TransparentFX

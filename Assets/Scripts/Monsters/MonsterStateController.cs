@@ -25,16 +25,20 @@ public class MonsterStateController : MonoBehaviour
     private void Awake()
     {
         monsterController = GetComponent<MonsterController>();
-        target = GameObject.FindGameObjectWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = Mathf.Max(monsterController.attackRange - Random.Range(0.5f, 1.5f), 0);
         Vector2 setPosition = transform.position;
         navMeshAgent.baseOffset = -4.03f;
         transform.position = setPosition;
+    }
+
+    private void Start()
+    {
+        target = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
     }
 
-    private bool aiActive = true;
+    public bool aiActive = true;
 
     void Update()
     {

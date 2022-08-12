@@ -42,6 +42,10 @@ public class MonsterController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        if (!gameController.enemiesEntities.Contains(gameObject))
+        {
+            gameController.enemiesEntities.Add(gameObject);
+        }
 
         if (randomStats)
         {
@@ -114,6 +118,7 @@ public class MonsterController : MonoBehaviour
         if (dead)
         {
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            gameObject.GetComponent<MonsterStateController>().aiActive = false;
             return;
         }
     }

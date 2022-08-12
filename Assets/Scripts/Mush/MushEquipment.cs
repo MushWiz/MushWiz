@@ -8,9 +8,7 @@ using UnityEngine.UI;
 public class MushEquipment
 {
     public MushInventoryType type;
-
     public Sprite icon;
-
     public Item item;
 
     public MushEquipment(MushInventoryType type = MushInventoryType.Item, Sprite icon = null, Item item = null)
@@ -19,7 +17,6 @@ public class MushEquipment
         this.icon = icon;
         this.item = item;
     }
-
 }
 
 public enum MushInventoryType

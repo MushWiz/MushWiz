@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
 
     public GameObject playerPrefab;
     public GameObject playerEntity;
+    public MushController mushController;
 
     public CameraController cameraController;
 
@@ -35,6 +36,8 @@ public class GameController : MonoBehaviour
     public bool paused = false;
 
     public bool testing = false;
+
+    public bool shouldWork = true;
 
     private void Awake()
     {
@@ -59,13 +62,15 @@ public class GameController : MonoBehaviour
             playerEntity = Instantiate(playerPrefab, transform.position, Quaternion.identity);
         }
 
+        mushController = playerEntity.GetComponent<MushController>();
+
         if (!testing)
         {
-            playerEntity.GetComponent<MushController>().isActive = false;
+            mushController.isActive = false;
         }
 
 
-        playerEntity.GetComponent<MushController>().controller = this;
+        mushController.controller = this;
 
         cameraController.playerEntity = playerEntity;
 
@@ -79,6 +84,7 @@ public class GameController : MonoBehaviour
         uIHandler.DisableUIByType(UIType.LevelUp);
         uIHandler.DisableUIByType(UIType.CharacterInfo);
         UpdateInfoPanel();
+        UpdateActionBar();
     }
 
     private void Update()
@@ -98,6 +104,15 @@ public class GameController : MonoBehaviour
             {
                 uIHandler.DisableUIByType(UIType.CharacterInfo);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadGame();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SaveGame();
         }
 
         if (gameState == GameState.MainMenu)
@@ -157,16 +172,13 @@ public class GameController : MonoBehaviour
 
     private void ResetPlayer()
     {
-
-        MushController mushController = playerEntity.GetComponent<MushController>();
-
         mushController.Reset();
     }
 
     public void StartGame()
     {
         ChangeGameState(GameState.Playing);
-        playerEntity.GetComponent<MushController>().isActive = true;
+        mushController.isActive = true;
         uIHandler.DisableUIByType(UIType.MainMenu);
         uIHandler.EnableUIByType(UIType.InGame);
     }
@@ -182,7 +194,7 @@ public class GameController : MonoBehaviour
 
     public void CheckPlayerHealth()
     {
-        if (playerEntity.GetComponent<MushController>().isDead)
+        if (mushController.isDead)
         {
             ChangeGameState(GameState.GameOver);
         }
@@ -207,7 +219,7 @@ public class GameController : MonoBehaviour
 
     public void IncreaseExperience(float experiencePoints)
     {
-        playerEntity.GetComponent<MushController>().IncreaseExperience(experiencePoints);
+        mushController.IncreaseExperience(experiencePoints);
     }
 
     private void OnGameStateChanged(GameState newState)
@@ -244,7 +256,7 @@ public class GameController : MonoBehaviour
         paused = true;
         uIHandler.EnableUIByType(UIType.LevelUp);
 
-        playerEntity.GetComponent<MushController>().CreateLevelUpButtons();
+        mushController.CreateLevelUpButtons();
 
         while (paused)
         {
@@ -256,7 +268,7 @@ public class GameController : MonoBehaviour
 
     public void OnLevelUpButtonPressed(string statName)
     {
-        playerEntity.GetComponent<MushController>().OnLevelUpButtonPressed(statName);
+        mushController.OnLevelUpButtonPressed(statName);
         paused = false;
         PauseGame(true, GameState.Playing);
     }
@@ -268,7 +280,50 @@ public class GameController : MonoBehaviour
 
     public void UpdateInfoPanel()
     {
-        uIHandler.UpdateInfoPanel(playerEntity.GetComponent<MushController>());
+        uIHandler.UpdateInfoPanel(mushController);
+    }
+
+    public void UpdateActionBar()
+    {
+        uIHandler.UpdateActionBar(mushController);
+    }
+
+    public void SaveGame()
+    {
+        SaveSystem.SaveGame(this);
+    }
+
+    public void LoadGame()
+    {
+        GameData data = SaveSystem.LoadGame();
+
+        PlayerData playerData = data.player;
+        mushController.LoadPlayer(playerData);
+
+        foreach (int id in playerData.items)
+        {
+            ItemDatabase itemDatabase = playerEntity.GetComponent<MushInventory>().database;
+            //Search the database dictionary for the item with the matching id
+            foreach (KeyValuePair<Item, int> entry in itemDatabase.itemsIDs)
+            {
+                if (entry.Value == id)
+                {
+                    Debug.Log("Found item: " + entry.Key.name);
+                }
+            }
+        }
+        foreach (int id in playerData.equipments)
+        {
+            ItemDatabase itemDatabase = playerEntity.GetComponent<MushInventory>().database;
+            //Search the database dictionary for the item with the matching id
+            foreach (KeyValuePair<Item, int> entry in itemDatabase.itemsIDs)
+            {
+                if (entry.Value == id)
+                {
+                    Debug.Log("Found item: " + entry.Key.name);
+                }
+            }
+        }
     }
 }
 

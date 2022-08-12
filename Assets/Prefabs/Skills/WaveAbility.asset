@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a6123a8f869f44bbcf392616219da2, type: 3}
   m_Name: WaveAbility
   m_EditorClassIdentifier: 
+  abilityName: WaveAbility
+  abilityIcon: {fileID: 21300000, guid: f81fbbbf82aecac49a2a9e85b066028d, type: 3}
   abilityButtonPrefab: {fileID: 7968484641829919525, guid: 48f16789f1591494699fc11544f86bfb, type: 3}
   abilityDamage: 12
   cooldown: 10
-  cooldownTimer: 7.1986547
+  cooldownTimer: 0
   projectileSpeed: 5
   projectileMaxTravel: 10
   destroyable: 0

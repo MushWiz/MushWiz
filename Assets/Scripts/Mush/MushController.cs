@@ -40,7 +40,7 @@ public class MushController : MonoBehaviour
         new MushStats(0f, "Block")
     };
 
-    MushWeaponHolder weaponHolder;
+    public MushWeaponHolder weaponHolder;
 
     private void Start()
     {
@@ -161,23 +161,6 @@ public class MushController : MonoBehaviour
         }
         mushMainShooter.ShootControl(this);
         mushMovementController.MovementControl(this);
-
-        if (abilities.Count > 0)
-        {
-            foreach (MushAbilities ability in abilities)
-            {
-                //If the ability is not on cooldown, use it
-                if (ability.cooldownTimer <= 0)
-                {
-                    ability.UseAbility(this);
-                    ability.cooldownTimer = ability.cooldown;
-                }
-                else
-                {
-                    ability.cooldownTimer -= Time.deltaTime;
-                }
-            }
-        }
     }
 
     IEnumerator TookDamage(float damageAmount)
@@ -221,12 +204,23 @@ public class MushController : MonoBehaviour
             return;
         }
         abilities.Add(ability);
+        controller.uIHandler.actionBarManager.AddAbility(ability);
     }
 
     //Remove an ability from the player
     public void RemoveAbility(MushAbilities ability)
     {
         abilities.Remove(ability);
+        controller.uIHandler.actionBarManager.RemoveAbility(ability);
+    }
+
+    public void RemoveAllAbilities()
+    {
+        foreach (MushAbilities ability in abilities)
+        {
+            controller.uIHandler.actionBarManager.RemoveAbility(ability);
+        }
+        abilities.Clear();
     }
 
     //Get the player's current level
@@ -401,7 +395,7 @@ public class MushController : MonoBehaviour
         }
         Heal(maxLifePoints * GetStatValueByName("Health"));
 
-        abilities.Clear();
+        RemoveAllAbilities();
 
         transform.position = new Vector3(0, 0, 0);
     }
@@ -411,6 +405,57 @@ public class MushController : MonoBehaviour
         button.GetComponent<Button>().interactable = false;
         button.transform.SetParent(controller.uIHandler.infoPanelManager.abilityContainer.transform);
         button.transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    public MushAbilities GetAbilityByName(string name)
+    {
+        foreach (MushAbilities ability in abilities)
+        {
+            if (ability.name == name)
+            {
+                return ability;
+            }
+        }
+        return null;
+    }
+
+    public MushAbilities GetAvailableAbilityByName(string name)
+    {
+        foreach (MushAbilities ability in activableAbilities)
+        {
+            if (ability.name == name)
+            {
+                return ability;
+            }
+        }
+        return null;
+    }
+
+    public void LoadPlayer(PlayerData playerData)
+    {
+        Reset();
+
+        foreach (string abilityName in playerData.abilities)
+        {
+            MushAbilities ability = GetAvailableAbilityByName(abilityName);
+            if (ability != null)
+            {
+                AddAbility(ability);
+            }
+        }
+
+        foreach (MushStats stat in stats)
+        {
+            stat.SetValue(playerData.stats[stats.IndexOf(stat)]);
+        }
+        experience = playerData.experience;
+        level = playerData.level;
+        experienceToNextLevel = playerData.experienceToNextLevel;
+        isActive = true;
+        isDead = false;
+        controller.paused = false;
+
+        transform.position = new Vector3(playerData.position[0], playerData.position[1], playerData.position[2]);
     }
 
 }

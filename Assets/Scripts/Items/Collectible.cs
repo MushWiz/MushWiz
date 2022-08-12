@@ -24,8 +24,10 @@ public class Collectible : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !isCollected)
         {
             isCollected = true;
-            touchingInventory.AddItem(item);
-            Destroy(gameObject);
+            if (touchingInventory.AddToInventory(item))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

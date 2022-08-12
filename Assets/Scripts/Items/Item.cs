@@ -16,42 +16,42 @@ public class Item : ScriptableObject
         collectible.GetComponent<Collectible>().item = this;
     }
 
-    public virtual void Use(MushController mushController)
+    public virtual void Use(MushController mushController, MushEquipment equipmentSlot)
     {
         Debug.Log("Using " + itemName);
     }
 
-    public virtual void Discard(MushController mushController)
+    public virtual void Discard(MushController mushController, MushEquipment equipmentSlot)
     {
         Debug.Log("Discarding " + itemName);
     }
 
-    public virtual void Equip(MushController mushController)
+    public virtual void Equip(MushController mushController, MushEquipment equipmentSlot)
     {
         Debug.Log("Equipping " + itemName);
     }
 
-    public virtual void Unequip(MushController mushController)
+    public virtual void Unequip(MushController mushController, MushEquipment equipmentSlot)
     {
         Debug.Log("Unequipping " + itemName);
     }
 
-    public virtual void OnPickup(MushController mushController)
+    public virtual void OnPickup(MushController mushController, MushEquipment equipmentSlot)
     {
         Debug.Log("Picking up " + itemName);
     }
 
-    public virtual void OnDrop(MushController mushController)
+    public virtual void OnDrop(MushController mushController, MushEquipment equipmentSlot)
     {
         Debug.Log("Dropping " + itemName);
     }
 
-    public virtual void OnEquip(MushController mushController)
+    public virtual void OnEquip(MushController mushController, MushEquipment equipmentSlot)
     {
         Debug.Log("Equipping " + itemName);
     }
 
-    public virtual void OnUnequip(MushController mushController)
+    public virtual void OnUnequip(MushController mushController, MushEquipment equipmentSlot)
     {
         Debug.Log("Unequipping " + itemName);
     }
