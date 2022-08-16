@@ -4,16 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class MushInventorySlotDrag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class MushInventorySlotDrag : EventTrigger
 {
     public MushInventory mushInventory;
 
-    public void OnPointerDown(PointerEventData eventData)
+    public float overlayWaitTime = 0.5f;
+    public float overlayTimer = 0;
+    public bool overlayActive = false;
+    public bool overlayShown = false;
+
+    public override void OnPointerDown(PointerEventData eventData)
     {
         mushInventory.dragging = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public override void OnPointerUp(PointerEventData eventData)
     {
         mushInventory.dragging = false;
         //Use the event data raycast results to see if we hit another slot
@@ -26,4 +31,32 @@ public class MushInventorySlotDrag : MonoBehaviour, IPointerDownHandler, IPointe
             }
         }
     }
+
+    private void Update()
+    {
+        if (overlayActive)
+        {
+            overlayTimer += Time.deltaTime;
+        }
+
+        if (overlayTimer >= overlayWaitTime && !overlayShown)
+        {
+            mushInventory.ShowOverlay(gameObject);
+            overlayShown = true;
+        }
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        overlayActive = true;
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        overlayActive = false;
+        overlayTimer = 0;
+        overlayShown = false;
+        mushInventory.HideOverlay();
+    }
+
 }

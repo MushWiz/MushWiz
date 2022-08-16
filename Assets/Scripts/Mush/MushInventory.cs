@@ -7,11 +7,19 @@ public class MushInventory : MonoBehaviour
 {
     public MushController mushController;
     public ItemDatabase database;
+
+    public MushInventoryItemOverlay itemOverlay;
+
     public List<MushEquipment> equipments = new List<MushEquipment>();
 
     public List<MushInventorySlot> inventorySlots = new List<MushInventorySlot>();
 
     public bool dragging = false;
+
+    private void Start()
+    {
+        HideOverlay();
+    }
 
     public bool AddToInventory(Item item)
     {
@@ -152,6 +160,29 @@ public class MushInventory : MonoBehaviour
 
         AddItem(tempInventory1, inventoryIndex2);
         AddItem(tempInventory2, inventoryIndex1);
+    }
+
+    public void ShowOverlay(GameObject inventorySlot)
+    {
+        MushInventorySlot slot = null;
+        foreach (MushInventorySlot checkedSlot in inventorySlots)
+        {
+            if (checkedSlot.inventorySlot == inventorySlot)
+            {
+                slot = checkedSlot;
+            }
+        }
+        if (slot == null)
+        {
+            return;
+        }
+
+        itemOverlay.ShowOverlay(slot.itemEquipment.item);
+    }
+
+    public void HideOverlay()
+    {
+        itemOverlay.HideOverlay();
     }
 
 }
