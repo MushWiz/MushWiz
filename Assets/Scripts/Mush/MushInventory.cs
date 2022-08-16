@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MushInventory : MonoBehaviour
 {
-    MushController mushController;
+    public MushController mushController;
     public ItemDatabase database;
-    public List<MushEquipment> items = new List<MushEquipment>();
     public List<MushEquipment> equipments = new List<MushEquipment>();
 
-    private void Awake()
-    {
-        mushController = GetComponent<MushController>();
-    }
+    public List<MushInventorySlot> inventorySlots = new List<MushInventorySlot>();
+
+    public bool dragging = false;
 
     public bool AddToInventory(Item item)
     {
@@ -28,14 +27,21 @@ public class MushInventory : MonoBehaviour
 
     public bool AddItem(Item item)
     {
-        //find a spot in the inventory
-        for (int i = 0; i < items.Count; i++)
+        if (item == null)
         {
-            if (items[i].item == null)
+            Debug.LogError("Item is null");
+            return false;
+        }
+        //find a spot in the inventory
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            if (inventorySlots[i].itemEquipment.item == null)
             {
-                items[i].item = item;
-                items[i].icon = item.itemIcon;
-                item.OnPickup(mushController, items[i]);
+                inventorySlots[i].itemEquipment.item = item;
+                inventorySlots[i].itemEquipment.icon = item.itemIcon;
+                inventorySlots[i].inventoryIcon = item.itemIcon;
+                item.OnPickup(mushController, inventorySlots[i].itemEquipment);
+                inventorySlots[i].inventorySlot.GetComponent<Image>().sprite = item.itemIcon;
                 return true;
             }
         }
@@ -46,6 +52,11 @@ public class MushInventory : MonoBehaviour
 
     public bool AddEquipment(Item item)
     {
+        if (item == null)
+        {
+            Debug.LogError("Item is null");
+            return false;
+        }
         //Find a spot in the equipment list that is not currently equipped by the same type
         for (int i = 0; i < equipments.Count; i++)
         {
@@ -61,25 +72,42 @@ public class MushInventory : MonoBehaviour
         return AddItem(item);
     }
 
-    public void AddItemToSlot(Item item, int slot)
+    public void AddItem(Item item, int slot)
     {
-        items[slot].item = item;
-        items[slot].icon = item.itemIcon;
-        item.OnPickup(mushController, items[slot]);
+
+        if (item == null)
+        {
+            return;
+        }
+
+        inventorySlots[slot].itemEquipment.item = item;
+        inventorySlots[slot].itemEquipment.icon = item.itemIcon;
+        inventorySlots[slot].inventoryIcon = item.itemIcon;
+        inventorySlots[slot].inventorySlot.GetComponent<Image>().sprite = item.itemIcon;
     }
 
     public void RemoveItem(Item item)
     {
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < inventorySlots.Count; i++)
         {
-            if (items[i].item == item)
+            if (inventorySlots[i].itemEquipment.item == item)
             {
-                items[i].item = null;
-                items[i].icon = null;
-                item.OnDrop(mushController, items[i]);
+                inventorySlots[i].itemEquipment.item = null;
+                inventorySlots[i].itemEquipment.icon = null;
+                inventorySlots[i].inventoryIcon = null;
+                item.OnDrop(mushController, inventorySlots[i].itemEquipment);
+                inventorySlots[i].inventorySlot.GetComponent<Image>().sprite = null;
                 return;
             }
         }
+    }
+
+    public void RemoveItem(int slot)
+    {
+        inventorySlots[slot].itemEquipment.item = null;
+        inventorySlots[slot].itemEquipment.icon = null;
+        inventorySlots[slot].inventoryIcon = null;
+        inventorySlots[slot].inventorySlot.GetComponent<Image>().sprite = null;
     }
 
     public void RemoveEquipment(Item item)
@@ -94,6 +122,36 @@ public class MushInventory : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void SwapInventories(GameObject inventorySlot1, GameObject inventorySlot2)
+    {
+        int firstSlot = -1;
+        int secondSlot = -1;
+        foreach (MushInventorySlot slot in inventorySlots)
+        {
+            if (slot.inventorySlot == inventorySlot1)
+            {
+                firstSlot = inventorySlots.IndexOf(slot);
+            }
+            if (slot.inventorySlot == inventorySlot2)
+            {
+                secondSlot = inventorySlots.IndexOf(slot);
+            }
+        }
+        SwapInventories(firstSlot, secondSlot);
+    }
+
+    public void SwapInventories(int inventoryIndex1, int inventoryIndex2)
+    {
+        Item tempInventory1 = inventorySlots[inventoryIndex1].itemEquipment.item;
+        Item tempInventory2 = inventorySlots[inventoryIndex2].itemEquipment.item;
+
+        RemoveItem(inventoryIndex1);
+        RemoveItem(inventoryIndex2);
+
+        AddItem(tempInventory1, inventoryIndex2);
+        AddItem(tempInventory2, inventoryIndex1);
     }
 
 }

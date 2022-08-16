@@ -85,6 +85,7 @@ public class GameController : MonoBehaviour
         uIHandler.DisableUIByType(UIType.CharacterInfo);
         UpdateInfoPanel();
         UpdateActionBar();
+        UpdateInventory();
     }
 
     private void Update()
@@ -288,6 +289,11 @@ public class GameController : MonoBehaviour
         uIHandler.UpdateActionBar(mushController);
     }
 
+    public void UpdateInventory()
+    {
+        uIHandler.UpdateInventory(mushController);
+    }
+
     public void SaveGame()
     {
         SaveSystem.SaveGame(this);
@@ -302,7 +308,7 @@ public class GameController : MonoBehaviour
 
         foreach (int id in playerData.items)
         {
-            ItemDatabase itemDatabase = playerEntity.GetComponent<MushInventory>().database;
+            ItemDatabase itemDatabase = uIHandler.mushInventory.database;
             //Search the database dictionary for the item with the matching id
             foreach (KeyValuePair<Item, int> entry in itemDatabase.itemsIDs)
             {
@@ -314,7 +320,7 @@ public class GameController : MonoBehaviour
         }
         foreach (int id in playerData.equipments)
         {
-            ItemDatabase itemDatabase = playerEntity.GetComponent<MushInventory>().database;
+            ItemDatabase itemDatabase = uIHandler.mushInventory.database;
             //Search the database dictionary for the item with the matching id
             foreach (KeyValuePair<Item, int> entry in itemDatabase.itemsIDs)
             {

@@ -84,15 +84,15 @@ public class PlayerData
             abilities.Add(ability.abilityName);
         }
 
-        MushInventory inventory = player.GetComponent<MushInventory>();
+        MushInventory inventory = player.controller.uIHandler.mushInventory;
         ItemDatabase database = inventory.database;
 
-        foreach (MushEquipment equipment in inventory.items)
+        foreach (MushInventorySlot equipment in inventory.inventorySlots)
         {
-            if (equipment != null && equipment.item != null)
+            if (equipment != null && equipment.itemEquipment != null)
             {
-                items.Add(database.itemsIDs[equipment.item]);
-                Debug.Log(equipment.item.itemName + " " + database.itemsIDs[equipment.item]);
+                items.Add(database.itemsIDs[equipment.itemEquipment.item]);
+                Debug.Log(equipment.itemEquipment.item.itemName + " " + database.itemsIDs[equipment.itemEquipment.item]);
             }
         }
 

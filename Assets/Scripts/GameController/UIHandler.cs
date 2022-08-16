@@ -17,6 +17,7 @@ public class UIHandler : MonoBehaviour
 
     public InfoPanelManager infoPanelManager;
     public ActionBarManager actionBarManager;
+    public MushInventory mushInventory;
 
     public void EnableUIByType(UIType type)
     {
@@ -112,6 +113,11 @@ public class UIHandler : MonoBehaviour
     public void UpdateActionBar(MushController mushController)
     {
         actionBarManager.mushController = mushController;
+    }
+
+    public void UpdateInventory(MushController mushController)
+    {
+        mushInventory.mushController = mushController;
     }
 
 }

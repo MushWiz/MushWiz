@@ -35,7 +35,7 @@ public class Collectible : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            touchingInventory = other.gameObject.GetComponent<MushInventory>();
+            touchingInventory = other.gameObject.GetComponent<MushController>().controller.uIHandler.mushInventory;
             enabled = true;
             actionText.SetActive(true);
         }
