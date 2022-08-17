@@ -32,8 +32,8 @@ public class FireAbility : MushAbilities
         fire.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         fire.GetComponent<AbilityStats>().abilityDamage = abilityDamage;
         fire.GetComponent<AbilityStats>().sourceAbility = this;
-        fire.GetComponent<ProjectileStats>().shooter = mushController.transform;
-        fire.GetComponent<ProjectileStats>().maxTravelDistance = projectileMaxTravel;
+        fire.GetComponent<ProjectileController>().shooter = mushController.transform;
+        fire.GetComponent<ProjectileController>().maxTravelDistance = projectileMaxTravel;
 
     }
 }

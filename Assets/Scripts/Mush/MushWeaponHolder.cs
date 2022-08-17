@@ -15,8 +15,9 @@ public class MushWeaponHolder : MonoBehaviour
         gameObject.GetComponentInParent<MushAttack>().EquipWeapon(weapon);
     }
 
-    public void UnequipWeapon(WeaponItem weapon)
+    public void UnequipWeapon()
     {
+        gameObject.GetComponentInParent<MushAttack>().UnequipWeapon();
         Destroy(currentWeapon);
     }
 

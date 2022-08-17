@@ -43,7 +43,11 @@ public class MonsterStateController : MonoBehaviour
     void Update()
     {
         if (!aiActive)
+        {
+            transform.rotation = Quaternion.identity;
+            transform.position = new Vector3(navMeshAgent.nextPosition.x, navMeshAgent.nextPosition.y, 0);
             return;
+        }
         currentState.UpdateState(this);
     }
 
@@ -65,5 +69,11 @@ public class MonsterStateController : MonoBehaviour
     private void OnExitState()
     {
         stateTimeElapsed = 0;
+    }
+
+    public void ChangeAIState(bool isActive)
+    {
+        aiActive = isActive;
+        navMeshAgent.isStopped = !isActive;
     }
 }

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileStats : MonoBehaviour
+public class ProjectileController : MonoBehaviour
 {
     public float projectileDamage = 1f;
 
     public float maxTravelDistance = 10f;
+    public float travelTime;
+    public bool deleting = false;
 
     public int projectileMaxReflections = 3;
     public float dampeningEffect = 0.75f;
@@ -18,8 +20,11 @@ public class ProjectileStats : MonoBehaviour
     float pauseTime;
     float resumeTime;
 
-    Vector2 currentVelocity;
-    Rigidbody2D rb;
+    [HideInInspector] public Vector2 currentVelocity;
+    [HideInInspector] public Rigidbody2D rb;
+    bool paused = false;
+
+    public List<ProjectileBehaviour> behaviours = new List<ProjectileBehaviour>();
 
     private void Awake()
     {
@@ -34,6 +39,10 @@ public class ProjectileStats : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        foreach (ProjectileBehaviour behaviour in behaviours)
+        {
+            behaviour.OnProjectileCreated(this);
+        }
     }
 
     private void Update()
@@ -50,6 +59,18 @@ public class ProjectileStats : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (paused)
+        {
+            return;
+        }
+
+        travelTime += Time.deltaTime;
+
+        foreach (ProjectileBehaviour behaviour in behaviours)
+        {
+            behaviour.OnProjectileTravel(this);
+        }
     }
 
     private void OnGameStateChanged(GameState newState)
@@ -60,7 +81,7 @@ public class ProjectileStats : MonoBehaviour
             return;
         }
 
-        bool paused = newState == GameState.Paused && newState != GameState.Playing;
+        paused = newState == GameState.Paused && newState != GameState.Playing;
 
         if (paused)
         {
@@ -110,21 +131,17 @@ public class ProjectileStats : MonoBehaviour
         //check the layer of the collider
         if (other.gameObject.tag == "ReflectiveObstacle")
         {
-            if (projectileMaxReflections > 0)
+            foreach (ProjectileBehaviour behaviour in behaviours)
             {
-                //reflect the projectile
-                Vector2 newVelocity = Vector2.Reflect(currentVelocity, other.contacts[0].normal);
-                rb.velocity = newVelocity * dampeningEffect;
-                projectileMaxReflections--;
-            }
-            else
-            {
-                Destroy(gameObject);
+                behaviour.OnProjectileReflected(this, other);
             }
         }
         else
         {
-            Destroy(gameObject);
+            foreach (ProjectileBehaviour behaviour in behaviours)
+            {
+                behaviour.OnProjectileHit(this, other);
+            }
         }
 
     }

@@ -46,7 +46,7 @@ public class WeaponItem : Item
 
     public override void Unequip(MushController mushController, MushEquipment equipmentSlot)
     {
-        mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().UnequipWeapon(this);
+        mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().UnequipWeapon();
         CreateCollectible(mushController.transform);
     }
 }

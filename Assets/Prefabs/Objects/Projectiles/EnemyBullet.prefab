@@ -246,6 +246,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileDamage: 4
-  projectileSpeed: 10
   maxTravelDistance: 10
+  travelTime: 0
+  deleting: 0
+  projectileMaxReflections: 3
+  dampeningEffect: 0.75
   shooter: {fileID: 0}
+  currentVelocity: {x: 0, y: 0}
+  rb: {fileID: 0}
+  behaviours:
+  - {fileID: 11400000, guid: 02289f52f4f6b52478f33961bf6db945, type: 2}

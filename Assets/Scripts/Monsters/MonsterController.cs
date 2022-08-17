@@ -97,7 +97,7 @@ public class MonsterController : MonoBehaviour
 
         if (other.gameObject.tag == "Projectile")
         {
-            TakeDamage(other.gameObject.GetComponent<ProjectileStats>().projectileDamage);
+            TakeDamage(other.gameObject.GetComponent<ProjectileController>().projectileDamage);
             Destroy(other.gameObject);
         }
     }
@@ -128,11 +128,13 @@ public class MonsterController : MonoBehaviour
         if (newState != GameState.Paused)
         {
             enabled = true;
+            gameObject.GetComponent<MonsterStateController>().ChangeAIState(true);
             GetComponent<Collider2D>().enabled = true;
             return;
         }
 
         enabled = false;
+        gameObject.GetComponent<MonsterStateController>().ChangeAIState(false);
         GetComponent<Collider2D>().enabled = false;
     }
 

@@ -82,9 +82,9 @@ public class ShooterMovement : MonsterBehaviour
             Vector2 direction = controller.playerObject.transform.position - controller.transform.position;
             direction.Normalize();
             bullet.GetComponent<Rigidbody2D>().velocity = direction * controller.projectileSpeed;
-            bullet.GetComponent<ProjectileStats>().shooter = controller.transform;
-            bullet.GetComponent<ProjectileStats>().maxTravelDistance = controller.projectileMaxTravel;
-            bullet.GetComponent<ProjectileStats>().projectileDamage = controller.damageDealer;
+            bullet.GetComponent<ProjectileController>().shooter = controller.transform;
+            bullet.GetComponent<ProjectileController>().maxTravelDistance = controller.projectileMaxTravel;
+            bullet.GetComponent<ProjectileController>().projectileDamage = controller.damageDealer;
             controller.canAttack = false;
         }
 

@@ -33,9 +33,9 @@ public class MonsterActionShoot : MonsterAction
             Vector2 direction = controller.target.transform.position - controller.transform.position;
             direction.Normalize();
             bullet.GetComponent<Rigidbody2D>().velocity = direction * controller.monsterController.projectileSpeed;
-            bullet.GetComponent<ProjectileStats>().shooter = controller.transform;
-            bullet.GetComponent<ProjectileStats>().maxTravelDistance = controller.monsterController.projectileMaxTravel;
-            bullet.GetComponent<ProjectileStats>().projectileDamage = controller.monsterController.damageDealer;
+            bullet.GetComponent<ProjectileController>().shooter = controller.transform;
+            bullet.GetComponent<ProjectileController>().maxTravelDistance = controller.monsterController.projectileMaxTravel;
+            bullet.GetComponent<ProjectileController>().projectileDamage = controller.monsterController.damageDealer;
             controller.monsterController.canAttack = false;
         }
     }

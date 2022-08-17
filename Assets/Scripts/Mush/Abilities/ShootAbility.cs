@@ -33,9 +33,9 @@ public class ShootAbility : MushAbilities
             //Create the bullet at the player's position and with the random direction
             GameObject bullet = Instantiate(bulletPrefab, mushController.transform.position + (Vector3)direction, rotation);
             bullet.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-            bullet.GetComponent<ProjectileStats>().projectileDamage = abilityDamage;
-            bullet.GetComponent<ProjectileStats>().maxTravelDistance = projectileMaxTravel;
-            bullet.GetComponent<ProjectileStats>().shooter = mushController.transform;
+            bullet.GetComponent<ProjectileController>().projectileDamage = abilityDamage;
+            bullet.GetComponent<ProjectileController>().maxTravelDistance = projectileMaxTravel;
+            bullet.GetComponent<ProjectileController>().shooter = mushController.transform;
             bullet.GetComponent<AbilityStats>().sourceAbility = this;
         }
 

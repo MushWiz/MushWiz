@@ -92,7 +92,7 @@ public class MushController : MonoBehaviour
         {
             if (Time.time - lastDamageTime > 1.5f && !isInvincible)
             {
-                float damageAmount = TakeDamage(other.gameObject.GetComponent<ProjectileStats>().projectileDamage);
+                float damageAmount = TakeDamage(other.gameObject.GetComponent<ProjectileController>().projectileDamage);
                 lastDamageTime = Time.time;
                 if (!isDead)
                 {

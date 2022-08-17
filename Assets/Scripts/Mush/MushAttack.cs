@@ -66,7 +66,7 @@ public class MushAttack : MonoBehaviour
         for (int i = 0; i < currentWeapon.projectileCount; i++)
         {
             GameObject bullet = Instantiate(currentWeapon.projectilePrefab, shootingPoint.position - shootingPoint.forward.normalized * 0.4f + shootingPoint.forward.normalized * currentWeapon.minRange, shootingPoint.rotation);
-            ProjectileStats projectileStats = bullet.GetComponent<ProjectileStats>();
+            ProjectileController projectileStats = bullet.GetComponent<ProjectileController>();
 
             projectileStats.maxTravelDistance = currentWeapon.maxRange;
 
@@ -92,6 +92,11 @@ public class MushAttack : MonoBehaviour
     public void EquipWeapon(WeaponItem weapon)
     {
         currentWeapon = weapon;
+    }
+
+    public void UnequipWeapon()
+    {
+        currentWeapon = null;
     }
 
 }

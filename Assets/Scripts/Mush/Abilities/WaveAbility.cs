@@ -29,8 +29,8 @@ public class WaveAbility : MushAbilities
         wave.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         wave.GetComponent<AbilityStats>().abilityDamage = abilityDamage;
         wave.GetComponent<AbilityStats>().sourceAbility = this;
-        wave.GetComponent<ProjectileStats>().shooter = mushController.transform;
-        wave.GetComponent<ProjectileStats>().maxTravelDistance = projectileMaxTravel;
+        wave.GetComponent<ProjectileController>().shooter = mushController.transform;
+        wave.GetComponent<ProjectileController>().maxTravelDistance = projectileMaxTravel;
 
     }
 }

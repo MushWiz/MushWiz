@@ -63,7 +63,6 @@ public class MushInventory : MonoBehaviour
     {
         if (item == null)
         {
-            Debug.LogError("Item is null");
             return false;
         }
         if (currentWeaponSlot.itemEquipment.item == null)
@@ -136,6 +135,7 @@ public class MushInventory : MonoBehaviour
         currentWeaponSlot.itemEquipment.icon = null;
         currentWeaponSlot.inventoryIcon = null;
         currentWeaponSlot.inventorySlot.GetComponent<Image>().sprite = null;
+        mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().UnequipWeapon();
     }
 
     public void SwapInventories(GameObject inventorySlot1, GameObject inventorySlot2)
