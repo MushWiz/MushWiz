@@ -11,6 +11,12 @@ public class MushInventoryItemOverlay : MonoBehaviour
 
     public void SetItem(Item item)
     {
+        if (item == null)
+        {
+            itemIcon.sprite = null;
+            itemName.text = "";
+            return;
+        }
         itemIcon.sprite = item.itemIcon;
         itemName.text = item.itemName;
     }

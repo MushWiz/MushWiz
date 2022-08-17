@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Item : ScriptableObject
 {
+    [Header("Base Item Properties")]
     public Sprite itemIcon;
     public string itemName;
     public MushInventoryType itemType;

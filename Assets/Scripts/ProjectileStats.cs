@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class ProjectileStats : MonoBehaviour
 {
-    public float projectileDamage = 4f;
-    public float projectileSpeed = 10f;
+    public float projectileDamage = 1f;
 
     public float maxTravelDistance = 10f;
 
-    public float projectileMaxReflections = 3f;
+    public int projectileMaxReflections = 3;
     public float dampeningEffect = 0.75f;
 
     public Transform shooter;

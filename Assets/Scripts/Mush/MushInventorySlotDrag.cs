@@ -13,6 +13,11 @@ public class MushInventorySlotDrag : EventTrigger
     public bool overlayActive = false;
     public bool overlayShown = false;
 
+    private void Start()
+    {
+        mushInventory = GetComponentInParent<MushInventory>();
+    }
+
     public override void OnPointerDown(PointerEventData eventData)
     {
         mushInventory.dragging = true;

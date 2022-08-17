@@ -12,10 +12,7 @@ public class MushWeaponHolder : MonoBehaviour
     {
         currentWeapon = Instantiate(weapon.weaponPrefab, weaponHolder.position, weaponHolder.rotation) as GameObject;
         currentWeapon.transform.SetParent(weaponHolder);
-        if (weapon.weaponType == WeaponType.Ranged)
-        {
-            gameObject.GetComponentInParent<MushMainShooter>().bulletPrefab = weapon.projectilePrefab;
-        }
+        gameObject.GetComponentInParent<MushAttack>().EquipWeapon(weapon);
     }
 
     public void UnequipWeapon(WeaponItem weapon)

@@ -96,13 +96,11 @@ public class PlayerData
             }
         }
 
-        foreach (MushEquipment equipment in inventory.equipments)
+        MushInventorySlot currentWeaponSlot = inventory.currentWeaponSlot;
+        if (currentWeaponSlot != null && currentWeaponSlot.itemEquipment != null)
         {
-            if (equipment != null && equipment.item != null)
-            {
-                equipments.Add(database.itemsIDs[equipment.item]);
-                Debug.Log(equipment.item.itemName + " " + database.itemsIDs[equipment.item]);
-            }
+            equipments.Add(database.itemsIDs[currentWeaponSlot.itemEquipment.item]);
+            Debug.Log(currentWeaponSlot.itemEquipment.item.itemName + " " + database.itemsIDs[currentWeaponSlot.itemEquipment.item]);
         }
 
         isActive = player.isActive;

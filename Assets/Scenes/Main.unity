@@ -1143,17 +1143,17 @@ RectTransform:
   m_GameObject: {fileID: 80265378}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1663965322}
   - {fileID: 866306049}
-  m_Father: {fileID: 2144578815}
-  m_RootOrder: 4
+  m_Father: {fileID: 1700376534}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -240, y: 30}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &89702931
@@ -2058,82 +2058,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 245377758}
   m_CullTransparentMesh: 1
---- !u!1 &258805147
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 258805148}
-  - component: {fileID: 258805150}
-  - component: {fileID: 258805149}
-  m_Layer: 5
-  m_Name: InventorySlot (1)
-  m_TagString: InventorySlot
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &258805148
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258805147}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6666654, y: 0.6666654, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 866306049}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &258805149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258805147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &258805150
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258805147}
-  m_CullTransparentMesh: 1
 --- !u!1 &279621407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2939,7 +2863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -2955,6 +2879,7 @@ GameObject:
   - component: {fileID: 464386984}
   - component: {fileID: 464386986}
   - component: {fileID: 464386985}
+  - component: {fileID: 464386987}
   m_Layer: 5
   m_Name: InventorySlot (0)
   m_TagString: InventorySlot
@@ -2971,7 +2896,7 @@ RectTransform:
   m_GameObject: {fileID: 464386983}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6666654, y: 0.6666654, z: 1}
+  m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 866306049}
@@ -3020,6 +2945,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464386983}
   m_CullTransparentMesh: 1
+--- !u!114 &464386987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464386983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783c596d575f38b449879c20453479ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  mushInventory: {fileID: 0}
+  overlayWaitTime: 0.5
+  overlayTimer: 0
+  overlayActive: 0
+  overlayShown: 0
 --- !u!1001 &517272201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3956,7 +3899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -4249,82 +4192,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiType: 2
---- !u!1 &760193639
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 760193640}
-  - component: {fileID: 760193642}
-  - component: {fileID: 760193641}
-  m_Layer: 5
-  m_Name: InventorySlot (2)
-  m_TagString: InventorySlot
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &760193640
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760193639}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6666654, y: 0.6666654, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 866306049}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &760193641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760193639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &760193642
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760193639}
-  m_CullTransparentMesh: 1
 --- !u!1 &775126336
 GameObject:
   m_ObjectHideFlags: 0
@@ -8194,20 +8061,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 866306048}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 464386984}
-  - {fileID: 258805148}
-  - {fileID: 760193640}
   m_Father: {fileID: 80265379}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -242.58443, y: -227}
+  m_AnchoredPosition: {x: -242.58438, y: -227}
   m_SizeDelta: {x: 204.8311, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &866306050
@@ -8791,7 +8656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -9095,7 +8960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -9500,7 +9365,7 @@ RectTransform:
   - {fileID: 805205647}
   - {fileID: 1514462840}
   m_Father: {fileID: 1700376534}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9628,7 +9493,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1700376534}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9824,7 +9689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -10429,7 +10294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -10718,7 +10583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -10865,7 +10730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -10960,7 +10825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -11112,7 +10977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -15105,6 +14970,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 80265379}
   - {fileID: 1305158627}
   - {fileID: 1910361773}
   - {fileID: 1201724744}
@@ -15131,16 +14997,14 @@ MonoBehaviour:
   mushController: {fileID: 0}
   database: {fileID: 11400000, guid: 03bccb285825ce74fbae5768570f936c, type: 2}
   itemOverlay: {fileID: 1201724745}
-  equipments:
-  - type: 1
-    icon: {fileID: 0}
-    item: {fileID: 0}
-  - type: 2
-    icon: {fileID: 0}
-    item: {fileID: 0}
-  - type: 3
-    icon: {fileID: 0}
-    item: {fileID: 0}
+  currentWeaponSlot:
+    inventorySlot: {fileID: 464386983}
+    inventoryIcon: {fileID: 0}
+    itemEquipment:
+      type: 1
+      icon: {fileID: 0}
+      item: {fileID: 0}
+  defaultWeapon: {fileID: 0}
   inventorySlots:
   - inventorySlot: {fileID: 2001230418}
     inventoryIcon: {fileID: 0}
@@ -15323,7 +15187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -18749,7 +18613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -19209,7 +19073,7 @@ RectTransform:
   - {fileID: 1582299173}
   - {fileID: 1522169021}
   m_Father: {fileID: 1700376534}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -19368,7 +19232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -19463,7 +19327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -20153,7 +20017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
-  mushInventory: {fileID: 1700376535}
+  mushInventory: {fileID: 0}
   overlayWaitTime: 0.5
   overlayTimer: 0
   overlayActive: 0
@@ -20193,7 +20057,6 @@ RectTransform:
   - {fileID: 245377759}
   - {fileID: 1761509124}
   - {fileID: 1182292537}
-  - {fileID: 80265379}
   m_Father: {fileID: 779165016}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

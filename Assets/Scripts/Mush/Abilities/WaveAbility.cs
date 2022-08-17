@@ -17,7 +17,7 @@ public class WaveAbility : MushAbilities
     private void Ability(MushController mushController)
     {
         //Use the direction of the player pivot to create the wave
-        Vector2 direction = mushController.gameObject.GetComponent<MushMainShooter>().pivotPoint.up;
+        Vector2 direction = mushController.gameObject.GetComponent<MushAttack>().pivotPoint.up;
 
         direction.Normalize();
 

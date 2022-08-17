@@ -18,4 +18,16 @@ MonoBehaviour:
   collectiblePrefab: {fileID: 5932013499083416374, guid: 181adf61e39e2624fa67a5e151117fe8, type: 3}
   weaponPrefab: {fileID: 724468895263049700, guid: 5a5cb1995d4961e42b2e10658d43409d, type: 3}
   weaponType: 1
+  attackTiming: 1.5
+  meleeDamage: 0
+  rangedDamage: 3
+  maxRange: 10
+  minRange: 1
   projectilePrefab: {fileID: 2549609154492035102, guid: c60a5bb6d1592b74a84dfc6ea6bf5041, type: 3}
+  projectileSpeed: 1
+  projectileLifetime: 10
+  projectileDamage: 10
+  projectileSize: 1.5
+  projectileSpread: 0
+  projectileCount: 3
+  projectileMaxReflections: 0

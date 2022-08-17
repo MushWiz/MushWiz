@@ -10,7 +10,8 @@ public class MushInventory : MonoBehaviour
 
     public MushInventoryItemOverlay itemOverlay;
 
-    public List<MushEquipment> equipments = new List<MushEquipment>();
+    public MushInventorySlot currentWeaponSlot;
+    public Item defaultWeapon;
 
     public List<MushInventorySlot> inventorySlots = new List<MushInventorySlot>();
 
@@ -65,17 +66,16 @@ public class MushInventory : MonoBehaviour
             Debug.LogError("Item is null");
             return false;
         }
-        //Find a spot in the equipment list that is not currently equipped by the same type
-        for (int i = 0; i < equipments.Count; i++)
+        if (currentWeaponSlot.itemEquipment.item == null)
         {
-            if (equipments[i].item == null && equipments[i].type == item.itemType)
-            {
-                equipments[i].item = item;
-                equipments[i].icon = item.itemIcon;
-                item.OnEquip(mushController, equipments[i]);
-                return true;
-            }
+            currentWeaponSlot.itemEquipment.item = item;
+            currentWeaponSlot.itemEquipment.icon = item.itemIcon;
+            currentWeaponSlot.inventoryIcon = item.itemIcon;
+            currentWeaponSlot.inventorySlot.GetComponent<Image>().sprite = item.itemIcon;
+            item.OnEquip(mushController, currentWeaponSlot.itemEquipment);
+            return true;
         }
+
         //if no spot found, put the item in the items
         return AddItem(item);
     }
@@ -120,20 +120,43 @@ public class MushInventory : MonoBehaviour
 
     public void RemoveEquipment(Item item)
     {
-        for (int i = 0; i < equipments.Count; i++)
+        if (currentWeaponSlot.itemEquipment.item == item)
         {
-            if (equipments[i].item == item)
-            {
-                equipments[i].item = null;
-                equipments[i].icon = null;
-                item.OnUnequip(mushController, equipments[i]);
-                return;
-            }
+            currentWeaponSlot.itemEquipment.item = null;
+            currentWeaponSlot.itemEquipment.icon = null;
+            currentWeaponSlot.inventoryIcon = null;
+            currentWeaponSlot.inventorySlot.GetComponent<Image>().sprite = null;
+            item.OnUnequip(mushController, currentWeaponSlot.itemEquipment);
         }
+    }
+
+    public void RemoveEquipment()
+    {
+        currentWeaponSlot.itemEquipment.item = null;
+        currentWeaponSlot.itemEquipment.icon = null;
+        currentWeaponSlot.inventoryIcon = null;
+        currentWeaponSlot.inventorySlot.GetComponent<Image>().sprite = null;
     }
 
     public void SwapInventories(GameObject inventorySlot1, GameObject inventorySlot2)
     {
+
+        if (inventorySlot1 == null || inventorySlot2 == null)
+        {
+            return;
+        }
+
+        if (inventorySlot1 == inventorySlot2)
+        {
+            return;
+        }
+
+        if (inventorySlot1 == currentWeaponSlot.inventorySlot || inventorySlot2 == currentWeaponSlot.inventorySlot)
+        {
+            SwapEquipment(inventorySlot1, inventorySlot2);
+            return;
+        }
+
         int firstSlot = -1;
         int secondSlot = -1;
         foreach (MushInventorySlot slot in inventorySlots)
@@ -162,6 +185,42 @@ public class MushInventory : MonoBehaviour
         AddItem(tempInventory2, inventoryIndex1);
     }
 
+    public void SwapEquipment(GameObject inventorySlot1, GameObject inventorySlot2)
+    {
+        int inventorySlot = -1;
+
+        if (inventorySlot1 == currentWeaponSlot.inventorySlot)
+        {
+            foreach (MushInventorySlot slot in inventorySlots)
+            {
+                if (slot.inventorySlot == inventorySlot2)
+                {
+                    inventorySlot = inventorySlots.IndexOf(slot);
+                }
+            }
+        }
+        else
+        {
+            foreach (MushInventorySlot slot in inventorySlots)
+            {
+                if (slot.inventorySlot == inventorySlot1)
+                {
+                    inventorySlot = inventorySlots.IndexOf(slot);
+                }
+            }
+        }
+
+        Item tempInventory = inventorySlots[inventorySlot].itemEquipment.item;
+        Item tempEquipment = currentWeaponSlot.itemEquipment.item;
+
+        RemoveEquipment();
+        RemoveItem(inventorySlot);
+
+        AddEquipment(tempInventory);
+        AddItem(tempEquipment, inventorySlot);
+
+    }
+
     public void ShowOverlay(GameObject inventorySlot)
     {
         MushInventorySlot slot = null;
@@ -172,6 +231,12 @@ public class MushInventory : MonoBehaviour
                 slot = checkedSlot;
             }
         }
+
+        if (slot == null)
+        {
+            slot = currentWeaponSlot;
+        }
+
         if (slot == null)
         {
             return;

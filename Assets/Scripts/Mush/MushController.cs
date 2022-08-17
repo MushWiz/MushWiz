@@ -12,7 +12,7 @@ public class MushController : MonoBehaviour
 
     private float lastDamageTime = 0f;
 
-    private MushMainShooter mushMainShooter;
+    private MushAttack mushAttack;
     private MushMovementController mushMovementController;
 
     public bool isActive = true;
@@ -44,7 +44,7 @@ public class MushController : MonoBehaviour
 
     private void Start()
     {
-        mushMainShooter = GetComponent<MushMainShooter>();
+        mushAttack = GetComponent<MushAttack>();
         mushMovementController = GetComponent<MushMovementController>();
 
         weaponHolder = GetComponentInChildren<MushWeaponHolder>();
@@ -159,7 +159,7 @@ public class MushController : MonoBehaviour
         {
             return;
         }
-        mushMainShooter.ShootControl(this);
+        mushAttack.AttackControl(this);
         mushMovementController.MovementControl(this);
     }
 

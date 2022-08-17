@@ -483,12 +483,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2807871955938259933}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0afa5e7ea3d2ab046bf88f9a3907a940, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c942974a44d53049b9651ad95116b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pivotPoint: {fileID: 2807871955197926422}
   shootingPoint: {fileID: 4682065494417171480}
-  bulletPrefab: {fileID: 0}
+  currentWeapon: {fileID: 0}
 --- !u!114 &4682065494144873192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,7 +515,7 @@ MonoBehaviour:
   - {x: 0.118817806, y: -0.50107765, z: 0}
   m_ShapePathHash: -1586722963
   m_Mesh: {fileID: 0}
-  m_InstanceId: 38250
+  m_InstanceId: 35794
 --- !u!114 &2807871955938259768
 MonoBehaviour:
   m_ObjectHideFlags: 0
