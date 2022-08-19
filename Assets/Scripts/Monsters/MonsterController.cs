@@ -37,15 +37,8 @@ public class MonsterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerObject = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        if (!gameController.enemiesEntities.Contains(gameObject))
-        {
-            gameController.enemiesEntities.Add(gameObject);
-        }
 
         if (randomStats)
         {

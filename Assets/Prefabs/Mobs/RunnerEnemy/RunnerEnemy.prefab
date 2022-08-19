@@ -237,7 +237,7 @@ MonoBehaviour:
   lifePoints: 4
   maxLifePoints: 4
   damageDealer: 1
-  chaseRange: 5
+  chaseRange: 50
   attackRange: 2
   projectilePrefab: {fileID: 0}
   projectileSpeed: 0
@@ -273,6 +273,7 @@ MonoBehaviour:
   target: {fileID: 0}
   animator: {fileID: 0}
   monsterController: {fileID: 0}
+  aiActive: 1
 --- !u!195 &730739829010067093
 NavMeshAgent:
   m_ObjectHideFlags: 0

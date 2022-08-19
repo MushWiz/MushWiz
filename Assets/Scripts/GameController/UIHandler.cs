@@ -30,6 +30,14 @@ public class UIHandler : MonoBehaviour
         }
     }
 
+    public void EnableUIByTypeList(List<UIType> types)
+    {
+        foreach (UIType type in types)
+        {
+            EnableUIByType(type);
+        }
+    }
+
     public void DisableUIByType(UIType type)
     {
         foreach (UITypeController uITypeController in uiTypeControllers)
@@ -41,6 +49,14 @@ public class UIHandler : MonoBehaviour
         }
     }
 
+    public void DisableUIByTypeList(List<UIType> types)
+    {
+        foreach (UIType type in types)
+        {
+            DisableUIByType(type);
+        }
+    }
+
     public void UpdateUIByType(UIType type)
     {
         foreach (UITypeController uITypeController in uiTypeControllers)
@@ -49,6 +65,14 @@ public class UIHandler : MonoBehaviour
             {
                 uITypeController.UpdateUI();
             }
+        }
+    }
+
+    public void UpdateUIByTypeList(List<UIType> types)
+    {
+        foreach (UIType type in types)
+        {
+            UpdateUIByType(type);
         }
     }
 
@@ -97,15 +121,20 @@ public class UIHandler : MonoBehaviour
     public void UpdateInfoPanel(MushController mushController)
     {
         infoPanelManager.level.text = "Level: " + mushController.level.ToString();
-        infoPanelManager.infoSprite.sprite = mushController.GetComponent<SpriteRenderer>().sprite;
-        for (int i = 0; i < infoPanelManager.stats.Count; i++)
+        infoPanelManager.playerName.text = mushController.name;
+        infoPanelManager.availablePoints.text = "Available Points: " + mushController.availablePoints.ToString();
+        foreach (UIStatSlot statSlot in infoPanelManager.stats)
         {
-            foreach (MushStats mushStats in mushController.stats)
+            statSlot.UpdateStatSlot(mushController);
+            statSlot.increaseValueButton.onClick.RemoveAllListeners();
+            statSlot.increaseValueButton.onClick.AddListener(() => { mushController.OnLevelUpButtonPressed(statSlot.mushStat.GetStatType()); });
+            if (mushController.availablePoints > 0)
             {
-                if (mushStats.name == infoPanelManager.stats[i].gameObject.name)
-                {
-                    infoPanelManager.stats[i].text = mushStats.name + ": " + mushStats.value.ToString();
-                }
+                statSlot.increaseValueButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                statSlot.increaseValueButton.gameObject.SetActive(false);
             }
         }
     }

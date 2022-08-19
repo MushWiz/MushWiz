@@ -9,7 +9,7 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    private Scene currentScene;
+    public Scene currentScene;
 
     public NavMeshSurface navMeshSurface;
 
@@ -38,6 +38,8 @@ public class GameController : MonoBehaviour
     public bool testing = false;
 
     public bool shouldWork = true;
+
+    [HideInInspector] public List<GameObject> spawnPointsList = new List<GameObject>();
 
     private void Awake()
     {
@@ -69,7 +71,6 @@ public class GameController : MonoBehaviour
             mushController.isActive = false;
         }
 
-
         mushController.controller = this;
 
         cameraController.playerEntity = playerEntity;
@@ -80,12 +81,16 @@ public class GameController : MonoBehaviour
         uIHandler.killCountHighscoreText.text = highscore.ToString();
         uIHandler.killCountText.text = "Score: " + killCount.ToString();
         uIHandler.EnableUIByType(UIType.MainMenu);
-        uIHandler.DisableUIByType(UIType.InGame);
-        uIHandler.DisableUIByType(UIType.LevelUp);
-        uIHandler.DisableUIByType(UIType.CharacterInfo);
+        uIHandler.DisableUIByTypeList(new List<UIType>() { UIType.InGame, UIType.LevelUp, UIType.CharacterInfo });
         UpdateInfoPanel();
         UpdateActionBar();
         UpdateInventory();
+
+        GameObject[] enemiesSpawners = GameObject.FindGameObjectsWithTag("EnemySpawner");
+        foreach (GameObject enemySpawner in enemiesSpawners)
+        {
+            enemySpawner.GetComponent<EnemySpawner>().SpawnEnemy(this);
+        }
     }
 
     private void Update()
@@ -118,16 +123,17 @@ public class GameController : MonoBehaviour
 
         if (gameState == GameState.MainMenu)
         {
-            ResetWorld();
+
         }
         if (gameState == GameState.Playing)
         {
             currentTime = Time.time;
             uIHandler.UpdateUIByType(UIType.InGame);
+            SpawnEnemies();
         }
         if (gameState == GameState.GameOver)
         {
-            ClearAllEnemies();
+            ResetWorld();
             ChangeGameState(GameState.MainMenu);
             uIHandler.UpdateUIByType(UIType.MainMenu);
             uIHandler.DisableUIByType(UIType.InGame);
@@ -139,7 +145,7 @@ public class GameController : MonoBehaviour
     {
         foreach (GameObject enemyCheck in enemiesEntities.ToList())
         {
-            if (enemyCheck == null)
+            if (enemyCheck == null || enemyCheck.GetComponent<MonsterController>() == null)
             {
                 enemiesEntities.Remove(enemyCheck);
             }
@@ -247,7 +253,7 @@ public class GameController : MonoBehaviour
     {
         if (gameEvent == GameEvent.LevelUp)
         {
-            StartCoroutine(OnLevelUp());
+            //StartCoroutine(OnLevelUp());
         }
     }
 
@@ -267,16 +273,17 @@ public class GameController : MonoBehaviour
         PauseGame(true, GameState.Playing);
     }
 
-    public void OnLevelUpButtonPressed(string statName)
+    public void OnLevelUpButtonPressed(StatType statType)
     {
-        mushController.OnLevelUpButtonPressed(statName);
-        paused = false;
-        PauseGame(true, GameState.Playing);
+        mushController.OnLevelUpButtonPressed(statType);
+        //paused = false;
+        //PauseGame(true, GameState.Playing);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         navMeshSurface.BuildNavMesh();
+        SearchSpawnPoints();
     }
 
     public void UpdateInfoPanel()
@@ -330,6 +337,26 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SearchSpawnPoints()
+    {
+        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawner");
+        foreach (GameObject spawnPoint in spawnPoints)
+        {
+            spawnPointsList.Add(spawnPoint);
+        }
+    }
+
+    public void SpawnEnemies()
+    {
+
+        if (spawnPointsList.Count == 0)
+        {
+            SearchSpawnPoints();
+        }
+
+        enemyWaveController.ControlWaveActivation(spawnPointsList);
     }
 }
 

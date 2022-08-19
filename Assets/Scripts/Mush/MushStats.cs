@@ -9,7 +9,8 @@ public class MushStats
 {
     public float value;
 
-    public string name;
+
+    public StatType statType;
 
     public float statIncreaseAmount = 0.1f;
 
@@ -17,11 +18,11 @@ public class MushStats
 
     private float initialValue;
 
-    public MushStats(float value, string name)
+    public MushStats(float value, StatType statType)
     {
         this.value = value;
         this.initialValue = value;
-        this.name = name;
+        this.statType = statType;
     }
 
     public void IncreaseValue(float value = -1)
@@ -48,9 +49,9 @@ public class MushStats
         return statIncreaseAmount;
     }
 
-    public string GetName()
+    public StatType GetStatType()
     {
-        return name;
+        return statType;
     }
 
     public void ResetValueToInitial()
@@ -58,4 +59,26 @@ public class MushStats
         this.value = initialValue;
     }
 
+}
+
+public enum StatType
+{
+    Health,
+    Mana,
+    Stamina,
+    Strength,
+    Agility,
+    Intelligence,
+    Luck,
+    Speed,
+    Defense,
+    Resistance,
+    Accuracy,
+    Evasion,
+    CritChance,
+    CritDamage,
+    BlockChance,
+    BlockAmount,
+    BlockDamage,
+    BlockReflect
 }

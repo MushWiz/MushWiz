@@ -9,7 +9,8 @@ public class InfoPanelManager : MonoBehaviour
     public Image infoSprite;
     public TextMeshProUGUI playerName;
     public TextMeshProUGUI level;
+    public TextMeshProUGUI availablePoints;
 
-    public List<TextMeshProUGUI> stats = new List<TextMeshProUGUI>();
+    public List<UIStatSlot> stats = new List<UIStatSlot>();
     public Transform abilityContainer;
 }

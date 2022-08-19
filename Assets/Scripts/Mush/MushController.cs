@@ -30,14 +30,15 @@ public class MushController : MonoBehaviour
     public float experienceToNextLevel = 10f;
     public float experienceToNextLevelMultiplier = 1.5f;
     public int level = 1;
+    public int availablePoints = 0;
 
     public List<MushStats> stats = new List<MushStats>(){
-        new MushStats(10f, "Health"),
-        new MushStats(5f, "Magic"),
-        new MushStats(5f, "Speed"),
-        new MushStats(0f, "Armor"),
-        new MushStats(0f, "Dodge"),
-        new MushStats(0f, "Block")
+        new MushStats(10f, StatType.Health),
+        new MushStats(5f, StatType.Intelligence),
+        new MushStats(5f, StatType.Speed),
+        new MushStats(0f, StatType.Defense),
+        new MushStats(0f, StatType.Evasion),
+        new MushStats(0f, StatType.BlockChance),
     };
 
     public MushWeaponHolder weaponHolder;
@@ -55,7 +56,7 @@ public class MushController : MonoBehaviour
             ability.cooldownTimer = 0f;
         }
 
-        Heal(maxLifePoints * GetStatValueByName("Health"));
+        Heal(maxLifePoints * GetStatValueByType(StatType.Health));
     }
 
     private void Awake()
@@ -104,29 +105,29 @@ public class MushController : MonoBehaviour
         }
     }
 
-    public float GetStatValueByName(string statName)
+    public float GetStatValueByType(StatType statType)
     {
         foreach (MushStats stat in stats)
         {
-            if (stat.name == statName)
+            if (stat.GetStatType() == statType)
             {
                 return stat.GetValue();
             }
         }
-        Debug.LogError("Stat not found: " + statName);
+        Debug.LogError("Stat not found: " + statType.ToString());
         return 0f;
     }
 
-    public float GetStatValueIncreaseByName(string statName)
+    public float GetStatValueIncreaseByType(StatType statType)
     {
         foreach (MushStats stat in stats)
         {
-            if (stat.name == statName)
+            if (stat.GetStatType() == statType)
             {
                 return stat.GetValueIncrease();
             }
         }
-        Debug.LogError("Stat not found: " + statName);
+        Debug.LogError("Stat not found: " + statType.ToString());
         return 0f;
     }
 
@@ -138,14 +139,14 @@ public class MushController : MonoBehaviour
             isDead = true;
             isActive = false;
         }
-        lifeBar.fillAmount = lifePoints / (maxLifePoints * GetStatValueByName("Health"));
+        lifeBar.fillAmount = lifePoints / (maxLifePoints * GetStatValueByType(StatType.Health));
         return damage;
     }
 
     public void Heal(float heal)
     {
-        lifePoints = Mathf.Min((maxLifePoints * GetStatValueByName("Health")), lifePoints + heal);
-        lifeBar.fillAmount = lifePoints / (maxLifePoints * GetStatValueByName("Health"));
+        lifePoints = Mathf.Min((maxLifePoints * GetStatValueByType(StatType.Health)), lifePoints + heal);
+        lifeBar.fillAmount = lifePoints / (maxLifePoints * GetStatValueByType(StatType.Health));
     }
 
     private void Update()
@@ -267,8 +268,9 @@ public class MushController : MonoBehaviour
 
     public void LevelUp()
     {
-        Heal(maxLifePoints * GetStatValueByName("Health"));
+        Heal(maxLifePoints * GetStatValueByType(StatType.Health));
         GameStateManager.Instance.SendEvent(GameEvent.LevelUp);
+        availablePoints += 10;
     }
 
     private void OnGameStateChanged(GameState newState)
@@ -347,12 +349,12 @@ public class MushController : MonoBehaviour
         {
             GameObject buttonObject = Instantiate(stat.statButtonPrefab, uiLevelUp) as GameObject;
             buttonObject.transform.SetParent(uiLevelUp.GetChild(1));
-            buttonObject.name = stat.name;
+            buttonObject.name = stat.GetStatType().ToString();
 
             GameObject buttonName = buttonObject.transform.GetChild(0).gameObject;
             if (buttonName)
             {
-                buttonName.GetComponent<TextMeshProUGUI>().text = stat.GetName() + " up " + stat.GetValueIncrease();
+                buttonName.GetComponent<TextMeshProUGUI>().text = stat.GetStatType().ToString() + " up " + stat.GetValueIncrease();
             }
             GameObject buttonValue = buttonObject.transform.GetChild(1).gameObject;
             if (buttonValue)
@@ -370,15 +372,17 @@ public class MushController : MonoBehaviour
 
     }
 
-    public void OnLevelUpButtonPressed(string statName)
+    public void OnLevelUpButtonPressed(StatType statType)
     {
         foreach (MushStats stat in stats)
         {
-            if (stat.name == statName)
+            if (stat.GetStatType() == statType)
             {
                 stat.IncreaseValue();
+                availablePoints--;
             }
         }
+        controller.UpdateInfoPanel();
     }
 
     public void Reset()
@@ -393,7 +397,7 @@ public class MushController : MonoBehaviour
         {
             stat.ResetValueToInitial();
         }
-        Heal(maxLifePoints * GetStatValueByName("Health"));
+        Heal(maxLifePoints * GetStatValueByType(StatType.Health));
 
         RemoveAllAbilities();
 

@@ -44,7 +44,7 @@ public class MushAttack : MonoBehaviour
 
     public void MeleeAttack(MushController mushController)
     {
-        if (Input.GetMouseButton(0) && Time.time - lastAttackTime > currentWeapon.attackTiming)
+        if (Input.GetMouseButton(0) && Time.time - lastAttackTime > Mathf.Max(currentWeapon.attackTiming - mushController.GetStatValueByType(StatType.Intelligence) * 0.05f, 0.1f))
         {
             Debug.Log("Melee Attack");
         }
@@ -52,7 +52,7 @@ public class MushAttack : MonoBehaviour
 
     public void RangedAttack(MushController mushController)
     {
-        if (Input.GetMouseButton(0) && Time.time - lastAttackTime > currentWeapon.attackTiming)
+        if (Input.GetMouseButton(0) && Time.time - lastAttackTime > Mathf.Max(currentWeapon.attackTiming - mushController.GetStatValueByType(StatType.Intelligence) * 0.05f, 0.1f))
         {
             StartCoroutine(Shoot(mushController));
         }
@@ -73,7 +73,7 @@ public class MushAttack : MonoBehaviour
             bullet.GetComponent<Rigidbody2D>().velocity = pivotPoint.up * currentWeapon.projectileSpeed;
 
             projectileStats.projectileDamage = currentWeapon.projectileDamage;
-            projectileStats.projectileDamage *= mushController.GetStatValueByName("Magic") * 0.1f;
+            projectileStats.projectileDamage *= mushController.GetStatValueByType(StatType.Intelligence) * 0.1f;
 
             bullet.transform.localScale = new Vector3(currentWeapon.projectileSize, currentWeapon.projectileSize, currentWeapon.projectileSize);
 

@@ -56,7 +56,7 @@ public class MushMovementController : MonoBehaviour
 
         animator.CrossFade(state, 0, 0);
 
-        rb.MovePosition(rb.position + movement * mushController.GetStatValueByName("Speed") * speed * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * mushController.GetStatValueByType(StatType.Speed) * speed * Time.deltaTime);
     }
 
 }

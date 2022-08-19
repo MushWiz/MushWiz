@@ -21,7 +21,7 @@ public class EnemyWaveController : MonoBehaviour
     public bool preparingEnemyWave = false;
     public bool isEnemyWaveActive = false;
 
-    public GameObject[] enemiesPrefabs;
+    public List<GameObject> enemySpawners = new List<GameObject>();
 
     public UIHandler uIHandler;
 
@@ -45,7 +45,7 @@ public class EnemyWaveController : MonoBehaviour
         isEnemyWaveActive = false;
     }
 
-    private IEnumerator PrepareWave()
+    private IEnumerator PrepareWave(List<GameObject> enemySpawnPoints)
     {
         preparingEnemyWave = true;
         uIHandler.currentWaveInitialization.GetComponent<TextMeshProUGUI>().text = "Wave " + enemyWave.ToString();
@@ -55,52 +55,56 @@ public class EnemyWaveController : MonoBehaviour
         StartCoroutine(uIHandler.FadeTextToZeroAlpha(1f, uIHandler.currentWaveInitialization));
         yield return new WaitForSeconds(1.5f);
 
-        uIHandler.currentWaveInitialization.GetComponent<TextMeshProUGUI>().text = "Enemy to kill: " + enemyPerWave.ToString();
+        List<GameObject> enemySpawnPointsCopy = new List<GameObject>(enemySpawnPoints);
+        List<GameObject> spawnPoints = new List<GameObject>();
+        for (int i = 0; i < Mathf.Max(enemyWave / 2, 1); i++)
+        {
+            if (spawnPoints.Count == enemySpawnPoints.Count)
+            {
+                break;
+            }
+
+            spawnPoints.Add(enemySpawnPointsCopy[Random.Range(0, enemySpawnPointsCopy.Count)]);
+            enemySpawnPointsCopy.Remove(spawnPoints[i]);
+        }
+
+
+        int enemiesAmount = 0;
+        foreach (GameObject enemySpawnPoint in spawnPoints)
+        {
+            enemySpawnPoint.GetComponent<EnemySpawner>().RandomizeSettings(enemyWave);
+            enemiesAmount += enemySpawnPoint.GetComponent<EnemySpawner>().groupSize;
+        }
+
+        uIHandler.currentWaveInitialization.GetComponent<TextMeshProUGUI>().text = "Enemy to kill: " + enemiesAmount.ToString();
         StartCoroutine(uIHandler.FadeTextToFullAlpha(1f, uIHandler.currentWaveInitialization));
         yield return new WaitForSeconds(1.5f);
         StartCoroutine(uIHandler.FadeTextToZeroAlpha(1f, uIHandler.currentWaveInitialization));
         yield return new WaitForSeconds(1.5f);
 
-        StartCoroutine(SendNewWave());
+        StartCoroutine(SendNewWave(spawnPoints));
     }
 
-    private IEnumerator SendNewWave()
+    private IEnumerator SendNewWave(List<GameObject> enemySpawnPoints)
     {
-        for (int i = 0; i < enemyPerWave; i++)
-        {
-
-            Vector2 spawnPoint = Random.insideUnitCircle.normalized * 10 * Random.Range(0.85f, 1.15f) + (Vector2)gameController.playerEntity.transform.position; ;
-
-            //Find safe spawn point
-            while (Physics2D.OverlapCircle(spawnPoint, 1f, LayerMask.GetMask("Obstacle")) != null)
-            {
-                spawnPoint = Random.insideUnitCircle.normalized * 10 * Random.Range(0.85f, 1.15f) + (Vector2)gameController.playerEntity.transform.position;
-            }
-
-            SpawnEnemy(spawnPoint);
-            yield return new WaitForSeconds(0.1f);
-        }
-        enemyPerWave = Mathf.FloorToInt(enemyPerWave * 1.25f);
         isEnemyWaveActive = true;
         preparingEnemyWave = false;
+
+        foreach (GameObject spawnPoint in enemySpawnPoints)
+        {
+            EnemySpawner spawner = spawnPoint.GetComponent<EnemySpawner>();
+            spawner.SpawnEnemy(gameController);
+            yield return new WaitForSeconds(0.1f);
+        }
         enemyWave++;
     }
 
-    private void SpawnEnemy(Vector2 spawnPoint)
+    public void ControlWaveActivation(List<GameObject> enemySpawnPoints)
     {
-        GameObject enemyToSpawn = enemiesPrefabs[Random.Range(0, enemiesPrefabs.Length)];
-
-        GameObject spawnedEnemy = Instantiate(enemyToSpawn, spawnPoint, Quaternion.identity);
-
-        gameController.enemiesEntities.Add(spawnedEnemy);
-    }
-
-    private void ControlWaveActivation()
-    {
-        if (!isEnemyWaveActive && !preparingEnemyWave && enemiesPrefabs.Length > 0)
+        if (!isEnemyWaveActive && !preparingEnemyWave && enemySpawnPoints.Count > 0)
         {
             preparingEnemyWave = true;
-            StartCoroutine(PrepareWave());
+            StartCoroutine(PrepareWave(enemySpawnPoints));
             return;
         }
 

@@ -76,4 +76,15 @@ public class MonsterStateController : MonoBehaviour
         aiActive = isActive;
         navMeshAgent.isStopped = !isActive;
     }
+
+    public void ResetAIState()
+    {
+        aiActive = true;
+        navMeshAgent.isStopped = false;
+    }
+
+    public void SetPatrolPoints(List<GameObject> patrolPoints)
+    {
+        this.patrolPoints = patrolPoints;
+    }
 }

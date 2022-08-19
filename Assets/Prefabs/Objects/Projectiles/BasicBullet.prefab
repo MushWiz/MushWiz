@@ -256,7 +256,6 @@ MonoBehaviour:
   currentVelocity: {x: 0, y: 0}
   rb: {fileID: 0}
   behaviours:
-  - {fileID: 11400000, guid: 5ab8e3a3509f3ec41907bbe7d06e1a6e, type: 2}
   - {fileID: 11400000, guid: 02289f52f4f6b52478f33961bf6db945, type: 2}
 --- !u!1 &7790847585683715775
 GameObject:

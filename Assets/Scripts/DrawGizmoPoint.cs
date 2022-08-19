@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class DrawGizmoPoint : MonoBehaviour
 {
+
+    public Color color = Color.red;
+    public float radius = 0.1f;
+
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 0.1f);
+        Gizmos.color = color;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }
