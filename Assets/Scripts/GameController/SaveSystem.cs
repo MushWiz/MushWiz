@@ -74,7 +74,7 @@ public class PlayerData
 
     public PlayerData(MushController player)
     {
-        foreach (MushStats stat in player.stats)
+        foreach (Stats stat in player.stats)
         {
             stats.Add(stat.value);
         }

@@ -21,6 +21,7 @@ public class MonsterStateController : MonoBehaviour
     [HideInInspector] public GameObject target;
     [HideInInspector] public Animator animator;
     [HideInInspector] public MonsterController monsterController;
+    [HideInInspector] public Vector2 homeBase;
 
     private void Awake()
     {
@@ -40,7 +41,7 @@ public class MonsterStateController : MonoBehaviour
 
     public bool aiActive = true;
 
-    void Update()
+    public void CallUpdateState()
     {
         if (!aiActive)
         {
@@ -86,5 +87,10 @@ public class MonsterStateController : MonoBehaviour
     public void SetPatrolPoints(List<GameObject> patrolPoints)
     {
         this.patrolPoints = patrolPoints;
+    }
+
+    public void UpdateNavMeshAgent()
+    {
+        navMeshAgent.speed = monsterController.movementSpeed + monsterController.GetStatValueByType(StatType.Speed) * 0.01f;
     }
 }

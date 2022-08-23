@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
     private int killCountHighscore = 0;
 
     public UIHandler uIHandler;
-    public EnemyWaveController enemyWaveController;
+    public SpawnersManager spawnersManager;
 
     public List<GameObject> enemiesEntities = new List<GameObject>();
 
@@ -38,8 +38,6 @@ public class GameController : MonoBehaviour
     public bool testing = false;
 
     public bool shouldWork = true;
-
-    [HideInInspector] public List<GameObject> spawnPointsList = new List<GameObject>();
 
     private void Awake()
     {
@@ -85,12 +83,6 @@ public class GameController : MonoBehaviour
         UpdateInfoPanel();
         UpdateActionBar();
         UpdateInventory();
-
-        GameObject[] enemiesSpawners = GameObject.FindGameObjectsWithTag("EnemySpawner");
-        foreach (GameObject enemySpawner in enemiesSpawners)
-        {
-            enemySpawner.GetComponent<EnemySpawner>().SpawnEnemy(this);
-        }
     }
 
     private void Update()
@@ -100,16 +92,13 @@ public class GameController : MonoBehaviour
 
         if ((gameState == GameState.Playing || gameState == GameState.Paused) && Input.GetKeyDown(KeyCode.Escape) && !paused)
         {
-            UpdateInfoPanel();
             PauseGame();
-            if (gameState == GameState.Paused)
-            {
-                uIHandler.EnableUIByType(UIType.CharacterInfo);
-            }
-            else
-            {
-                uIHandler.DisableUIByType(UIType.CharacterInfo);
-            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            UpdateInfoPanel();
+            uIHandler.ToggleUIType(UIType.CharacterInfo);
         }
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -129,7 +118,10 @@ public class GameController : MonoBehaviour
         {
             currentTime = Time.time;
             uIHandler.UpdateUIByType(UIType.InGame);
-            SpawnEnemies();
+            if (spawnersManager)
+            {
+                spawnersManager.SetupSpawn(this);
+            }
         }
         if (gameState == GameState.GameOver)
         {
@@ -170,7 +162,6 @@ public class GameController : MonoBehaviour
     {
         ClearAllEnemies();
         ResetPlayer();
-        enemyWaveController.Reset();
         killCount = 0;
         killCountHighscore = PlayerPrefs.GetInt("KillCount", 0);
         uIHandler.killCountText.text = "Score: " + killCount.ToString();
@@ -210,6 +201,13 @@ public class GameController : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void RegisterEnemyDeath(float experiencePoints)
+    {
+        IncreaseScore();
+        IncreaseExperience(experiencePoints);
+        spawnersManager.DeadEnemy();
     }
 
     public void IncreaseScore()
@@ -283,7 +281,7 @@ public class GameController : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         navMeshSurface.BuildNavMesh();
-        SearchSpawnPoints();
+        spawnersManager = GameObject.FindGameObjectWithTag("SpawnersManager").GetComponent<SpawnersManager>();
     }
 
     public void UpdateInfoPanel()
@@ -339,25 +337,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void SearchSpawnPoints()
-    {
-        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawner");
-        foreach (GameObject spawnPoint in spawnPoints)
-        {
-            spawnPointsList.Add(spawnPoint);
-        }
-    }
-
-    public void SpawnEnemies()
-    {
-
-        if (spawnPointsList.Count == 0)
-        {
-            SearchSpawnPoints();
-        }
-
-        enemyWaveController.ControlWaveActivation(spawnPointsList);
-    }
 }
 
 public enum GameState

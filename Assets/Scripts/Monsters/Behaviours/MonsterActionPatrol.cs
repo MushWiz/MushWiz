@@ -9,8 +9,15 @@ public class MonsterActionPatrol : MonsterAction
     {
         if (controller.patrolPoints.Count == 0)
         {
+            controller.navMeshAgent.isStopped = false;
             controller.transform.rotation = Quaternion.identity;
             controller.transform.position = new Vector3(controller.navMeshAgent.nextPosition.x, controller.navMeshAgent.nextPosition.y, 0);
+            if (controller.navMeshAgent.remainingDistance <= controller.navMeshAgent.stoppingDistance && !controller.navMeshAgent.pathPending)
+            {
+                Vector2 newDestination = Random.insideUnitCircle * 4 + controller.homeBase;
+                controller.navMeshAgent.destination = newDestination;
+            }
+
             return;
         }
         if (controller.patrolPoints[controller.wayPointListIndex] == null)

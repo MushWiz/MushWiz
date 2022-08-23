@@ -7,7 +7,7 @@ using TMPro;
 public class UIStatSlot : MonoBehaviour
 {
     public TextMeshProUGUI statName;
-    public MushStats mushStat;
+    public Stats mushStat;
     public Button increaseValueButton;
 
     public void UpdateStatSlot(MushController mushController)

@@ -28,6 +28,18 @@ public class UITypeController : MonoBehaviour
         }
         EnableUI();
     }
+
+    public void ToggleUI()
+    {
+        if (gameObject.activeSelf)
+        {
+            DisableUI();
+        }
+        else
+        {
+            EnableUI();
+        }
+    }
 }
 
 public enum UIType

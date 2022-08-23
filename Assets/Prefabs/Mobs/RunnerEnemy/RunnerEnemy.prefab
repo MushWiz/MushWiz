@@ -237,20 +237,67 @@ MonoBehaviour:
   lifePoints: 4
   maxLifePoints: 4
   damageDealer: 1
-  chaseRange: 50
+  chaseRange: 5
   attackRange: 2
+  attackRate: 5
   projectilePrefab: {fileID: 0}
   projectileSpeed: 0
   projectileMaxTravel: 0
-  movementSpeed: 5
+  movementSpeed: 1.2
   randomStats: 1
   dead: 0
   isAttacking: 0
   canAttack: 0
-  experiencePoints: 3
+  experiencePointsGiven: 3
+  enemyLevel: 1
+  currentExperiencePoints: 0
   rb: {fileID: 0}
   playerObject: {fileID: 0}
   animator: {fileID: 0}
+  monsterStateController: {fileID: 0}
+  ease:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  stats:
+  - value: 10
+    statType: 0
+    statButtonPrefab: {fileID: 0}
+  - value: 5
+    statType: 5
+    statButtonPrefab: {fileID: 0}
+  - value: 5
+    statType: 7
+    statButtonPrefab: {fileID: 0}
+  - value: 0
+    statType: 8
+    statButtonPrefab: {fileID: 0}
+  - value: 0
+    statType: 11
+    statButtonPrefab: {fileID: 0}
+  - value: 0
+    statType: 14
+    statButtonPrefab: {fileID: 0}
 --- !u!114 &3717894017620415651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +320,7 @@ MonoBehaviour:
   target: {fileID: 0}
   animator: {fileID: 0}
   monsterController: {fileID: 0}
+  homeBase: {x: 0, y: 0}
   aiActive: 1
 --- !u!195 &730739829010067093
 NavMeshAgent:

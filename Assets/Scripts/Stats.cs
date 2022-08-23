@@ -5,32 +5,26 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class MushStats
+public class Stats
 {
     public float value;
 
 
     public StatType statType;
 
-    public float statIncreaseAmount = 0.1f;
-
     public GameObject statButtonPrefab;
 
     private float initialValue;
 
-    public MushStats(float value, StatType statType)
+    public Stats(float value, StatType statType)
     {
         this.value = value;
         this.initialValue = value;
         this.statType = statType;
     }
 
-    public void IncreaseValue(float value = -1)
+    public void IncreaseValue(float value = 1)
     {
-        if (value < 0)
-        {
-            value = statIncreaseAmount;
-        }
         this.value += value;
     }
 
@@ -42,11 +36,6 @@ public class MushStats
     public float GetValue()
     {
         return value;
-    }
-
-    public float GetValueIncrease()
-    {
-        return statIncreaseAmount;
     }
 
     public StatType GetStatType()

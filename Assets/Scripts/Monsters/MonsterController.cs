@@ -16,6 +16,7 @@ public class MonsterController : MonoBehaviour
     public float damageDealer = 1f;
     public float chaseRange = 5f;
     public float attackRange = 5f;
+    public float attackRate = 2f;
     public GameObject projectilePrefab;
     public float projectileSpeed;
     public float projectileMaxTravel;
@@ -28,18 +29,28 @@ public class MonsterController : MonoBehaviour
     public bool isAttacking = false;
     public bool canAttack = false;
 
-    public float experiencePoints = 3f;
+    public float experiencePointsGiven = 3f;
+
+    public int enemyLevel = 1;
+    public float currentExperiencePoints = 0f;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public GameObject playerObject;
     [HideInInspector] public Animator animator;
+    [HideInInspector] public MonsterStateController monsterStateController;
+
+    public List<Stats> stats = new List<Stats>(){
+        new Stats(10f, StatType.Health),
+        new Stats(5f, StatType.Intelligence),
+        new Stats(5f, StatType.Speed),
+        new Stats(0f, StatType.Defense),
+        new Stats(0f, StatType.Evasion),
+        new Stats(0f, StatType.BlockChance),
+    };
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-
         if (randomStats)
         {
             maxLifePoints = Random.Range(Mathf.Max(maxLifePoints / 1.5f, 1), maxLifePoints * 1.5f);
@@ -55,6 +66,9 @@ public class MonsterController : MonoBehaviour
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        monsterStateController = GetComponent<MonsterStateController>();
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
     }
 
@@ -69,8 +83,7 @@ public class MonsterController : MonoBehaviour
         if (lifePoints <= 0)
         {
             dead = true;
-            gameController.IncreaseScore();
-            gameController.IncreaseExperience(experiencePoints);
+            gameController.RegisterEnemyDeath(experiencePointsGiven);
         }
         lifeBar.fillAmount = lifePoints / maxLifePoints;
     }
@@ -111,9 +124,11 @@ public class MonsterController : MonoBehaviour
         if (dead)
         {
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
-            gameObject.GetComponent<MonsterStateController>().aiActive = false;
+            gameObject.GetComponent<MonsterStateController>().ChangeAIState(false);
             return;
         }
+
+        monsterStateController.CallUpdateState();
     }
 
     private void OnGameStateChanged(GameState newState)
@@ -142,6 +157,59 @@ public class MonsterController : MonoBehaviour
         isAttacking = false;
     }
 
+    public void Setup(bool followsIndefinetly)
+    {
+        for (int i = 0; i < enemyLevel; i++)
+        {
+            //Pick a random stat to increase
+            int randomStat = Random.Range(0, stats.Count);
+            stats[randomStat].IncreaseValue(3);
+        }
+        monsterStateController.UpdateNavMeshAgent();
+        if (followsIndefinetly)
+        {
+            chaseRange = Mathf.Infinity;
+        }
+    }
+
+    public void LevelUp()
+    {
+        enemyLevel++;
+        int randomStat = Random.Range(0, stats.Count);
+        stats[randomStat].IncreaseValue(3);
+    }
+
+    public void IncreaseExperience(float experience)
+    {
+        currentExperiencePoints += experience;
+        if (currentExperiencePoints >= enemyLevel * 10)
+        {
+            LevelUp();
+        }
+    }
+
+    public float GetStatValueByType(StatType statType)
+    {
+        foreach (Stats stat in stats)
+        {
+            if (stat.GetStatType() == statType)
+            {
+                return stat.GetValue();
+            }
+        }
+        Debug.LogError("Stat not found: " + statType.ToString());
+        return 0f;
+    }
+
+    public IEnumerator MeleeAnimation(Vector2 targetPosition, float time)
+    {
+        Vector2 originalPosition = transform.position;
+        Vector3 direction = (targetPosition - originalPosition).normalized;
+        transform.position = Vector2.Lerp(transform.position + direction, targetPosition, time * 0.1f);
+        yield return new WaitForSeconds(time * 0.1f);
+        transform.position = originalPosition;
+        monsterStateController.navMeshAgent.isStopped = false;
+    }
 }
 
 public enum EnemyTier

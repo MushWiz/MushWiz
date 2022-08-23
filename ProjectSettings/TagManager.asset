@@ -12,6 +12,7 @@ TagManager:
   - ActionBarSlot
   - InventorySlot
   - EnemySpawner
+  - SpawnersManager
   layers:
   - Default
   - TransparentFX

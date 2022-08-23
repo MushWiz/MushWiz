@@ -6,50 +6,25 @@ public class EnemySpawner : MonoBehaviour
 {
     public List<GameObject> enemyPrefabs = new List<GameObject>();
     public List<GameObject> patrolPoints = new List<GameObject>();
-
-    public bool randomSettings = false;
-    public bool permanent = false;
-
     public float lastSpawnTime = 0;
-    public float spawnDelay = 1.5f;
 
-    public int maxSpawnAmount = -1;
-
-    public int groupSize = 1;
-
-    public void SpawnEnemy(GameController gameController)
+    public void SpawnEnemy(GameController gameController, SpawnersManager spawnersManager, bool isBoss)
     {
-
         lastSpawnTime = Time.time;
-        for (int i = 0; i < groupSize; i++)
+        GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], transform.position, Quaternion.identity);
+        MonsterController monsterController = enemy.GetComponent<MonsterController>();
+        MonsterStateController monsterStateController = enemy.GetComponent<MonsterStateController>();
+        monsterController.gameController = gameController;
+        monsterController.playerObject = gameController.playerEntity;
+        monsterController.enemyLevel = spawnersManager.enemyLevel;
+        monsterController.Setup(spawnersManager.isWave);
+        monsterStateController.homeBase = transform.position;
+        if (patrolPoints.Count > 0)
         {
-            GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], transform.position, Quaternion.identity);
-            enemy.GetComponent<MonsterController>().gameController = gameController;
-            enemy.GetComponent<MonsterController>().playerObject = gameController.playerEntity;
-            if (patrolPoints.Count > 0)
-            {
-                enemy.GetComponent<MonsterStateController>().SetPatrolPoints(patrolPoints);
-            }
-            gameController.enemiesEntities.Add(enemy);
+            monsterStateController.SetPatrolPoints(patrolPoints);
         }
-
-        if (!permanent || maxSpawnAmount == 0)
-        {
-            gameController.spawnPointsList.Remove(this.gameObject);
-            Destroy(gameObject);
-        }
-        if (maxSpawnAmount > 0)
-        {
-            maxSpawnAmount--;
-        }
+        gameController.enemiesEntities.Add(enemy);
     }
 
-    public void RandomizeSettings(int increaseAmount = 0)
-    {
-        if (randomSettings)
-        {
-            groupSize = Mathf.Max(Random.Range(groupSize - 2 + increaseAmount / 2, groupSize + 2 + increaseAmount / 2), 1);
-            spawnDelay = Mathf.Max(Random.Range(spawnDelay - 2 + increaseAmount / 2, spawnDelay + 1 + increaseAmount / 2), 0.3f);
-        }
-    }
+
 }

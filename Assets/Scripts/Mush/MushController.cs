@@ -32,13 +32,13 @@ public class MushController : MonoBehaviour
     public int level = 1;
     public int availablePoints = 0;
 
-    public List<MushStats> stats = new List<MushStats>(){
-        new MushStats(10f, StatType.Health),
-        new MushStats(5f, StatType.Intelligence),
-        new MushStats(5f, StatType.Speed),
-        new MushStats(0f, StatType.Defense),
-        new MushStats(0f, StatType.Evasion),
-        new MushStats(0f, StatType.BlockChance),
+    public List<Stats> stats = new List<Stats>(){
+        new Stats(10f, StatType.Health),
+        new Stats(5f, StatType.Intelligence),
+        new Stats(5f, StatType.Speed),
+        new Stats(0f, StatType.Defense),
+        new Stats(0f, StatType.Evasion),
+        new Stats(0f, StatType.BlockChance),
     };
 
     public MushWeaponHolder weaponHolder;
@@ -107,24 +107,11 @@ public class MushController : MonoBehaviour
 
     public float GetStatValueByType(StatType statType)
     {
-        foreach (MushStats stat in stats)
+        foreach (Stats stat in stats)
         {
             if (stat.GetStatType() == statType)
             {
                 return stat.GetValue();
-            }
-        }
-        Debug.LogError("Stat not found: " + statType.ToString());
-        return 0f;
-    }
-
-    public float GetStatValueIncreaseByType(StatType statType)
-    {
-        foreach (MushStats stat in stats)
-        {
-            if (stat.GetStatType() == statType)
-            {
-                return stat.GetValueIncrease();
             }
         }
         Debug.LogError("Stat not found: " + statType.ToString());
@@ -345,7 +332,7 @@ public class MushController : MonoBehaviour
             }
         }
 
-        foreach (MushStats stat in stats)
+        foreach (Stats stat in stats)
         {
             GameObject buttonObject = Instantiate(stat.statButtonPrefab, uiLevelUp) as GameObject;
             buttonObject.transform.SetParent(uiLevelUp.GetChild(1));
@@ -354,7 +341,7 @@ public class MushController : MonoBehaviour
             GameObject buttonName = buttonObject.transform.GetChild(0).gameObject;
             if (buttonName)
             {
-                buttonName.GetComponent<TextMeshProUGUI>().text = stat.GetStatType().ToString() + " up " + stat.GetValueIncrease();
+                buttonName.GetComponent<TextMeshProUGUI>().text = stat.GetStatType().ToString() + " up 1";
             }
             GameObject buttonValue = buttonObject.transform.GetChild(1).gameObject;
             if (buttonValue)
@@ -365,7 +352,7 @@ public class MushController : MonoBehaviour
             Button buttonComponent = buttonObject.GetComponent<Button>();
             buttonComponent.onClick.AddListener(() =>
             {
-                stat.IncreaseValue(stat.GetValueIncrease());
+                stat.IncreaseValue();
                 controller.paused = false;
             });
         }
@@ -374,7 +361,7 @@ public class MushController : MonoBehaviour
 
     public void OnLevelUpButtonPressed(StatType statType)
     {
-        foreach (MushStats stat in stats)
+        foreach (Stats stat in stats)
         {
             if (stat.GetStatType() == statType)
             {
@@ -393,7 +380,7 @@ public class MushController : MonoBehaviour
         experience = 0;
         level = 1;
         experienceToNextLevel = 10;
-        foreach (MushStats stat in stats)
+        foreach (Stats stat in stats)
         {
             stat.ResetValueToInitial();
         }
@@ -448,7 +435,7 @@ public class MushController : MonoBehaviour
             }
         }
 
-        foreach (MushStats stat in stats)
+        foreach (Stats stat in stats)
         {
             stat.SetValue(playerData.stats[stats.IndexOf(stat)]);
         }

@@ -19,13 +19,24 @@ public class UIHandler : MonoBehaviour
     public ActionBarManager actionBarManager;
     public MushInventory mushInventory;
 
+    public void ToggleUIType(UIType uiType)
+    {
+        foreach (UITypeController uiTypeController in uiTypeControllers)
+        {
+            if (uiTypeController.uiType == uiType)
+            {
+                uiTypeController.ToggleUI();
+            }
+        }
+    }
+
     public void EnableUIByType(UIType type)
     {
         foreach (UITypeController uITypeController in uiTypeControllers)
         {
             if (uITypeController.uiType == type)
             {
-                uITypeController.gameObject.SetActive(true);
+                uITypeController.EnableUI();
             }
         }
     }
@@ -44,7 +55,7 @@ public class UIHandler : MonoBehaviour
         {
             if (uITypeController.uiType == type)
             {
-                uITypeController.gameObject.SetActive(false);
+                uITypeController.DisableUI();
             }
         }
     }
