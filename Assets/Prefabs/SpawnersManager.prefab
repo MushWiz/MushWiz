@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8422611712097184468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8422611712097184474}
+  - component: {fileID: 8422611712097184469}
+  m_Layer: 0
+  m_Name: SpawnersManager
+  m_TagString: SpawnersManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8422611712097184474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422611712097184468}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8422611712097184469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422611712097184468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb6d1f3d967657b4a96575e05402704f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawners: []
+  randomizedSpanwers: 0
+  spawnersEnabled: 1
+  isWave: 0
+  enemyLevel: 1
+  enemyLevelIncrease: 1
+  totalAmountOfEnemiesNotWave: 5
+  amountOfEnemiesSpawned: 0
+  amountOfEnemiesKilled: 0
+  numberOfEnemiesPerLevelUp: 10
+  numberOfEnemiesPerLevelUpIncrease: 5
+  enemiesPerWave: 5
+  enemiesPerWaveIncrease: 5
+  enemyLevelIncreaseAfterCounter: 3
+  enemyLevelIncreaseCounter: 0
+  currentWave: 1
+  canSpawnBoss: 0
+  bossAfterEnemyAmount: 0
+  bossAfterEnemyAmountIncrease: 0
+  bossAfterWaveAmount: 0
+  bossAfterWaveAmountIncrease: 0
+  bossGuardsAmount: 0
+  bossGuardsAmountIncrease: 0
+  currentBossAmount: 0
+  isBossPresent: 0
+  respawnTime: 0
+  bossPrefab: {fileID: 0}
+  gameController: {fileID: 0}
+  uIHandler: {fileID: 0}

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneHandler
 {
+    public static GameController controller;
+
     public static SceneHandler instance;
     public static SceneHandler Instance
     {
@@ -18,9 +20,21 @@ public class SceneHandler
         }
     }
 
+    private void ConnectController()
+    {
+        if (controller) { return; }
+        controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+    }
+
+    public void LoadPortalScene(string sceneName, PortalController portal)
+    {
+        ConnectController();
+        controller.LoadScene(sceneName, portal);
+    }
+
     public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        controller.LoadScene(sceneName);
     }
 
     public void LoadScene(int sceneIndex)

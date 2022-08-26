@@ -13,6 +13,7 @@ public class MushInventory : MonoBehaviour
     public MushInventorySlot currentWeaponSlot;
     public Item defaultWeapon;
 
+    public int coinAmount = 0;
     public List<MushInventorySlot> inventorySlots = new List<MushInventorySlot>();
 
     public bool dragging = false;
@@ -28,10 +29,41 @@ public class MushInventory : MonoBehaviour
         {
             return AddItem(item);
         }
+
+        else if (item.itemType == MushInventoryType.Money)
+        {
+            return AddMoney((CoinItem)item);
+        }
+
         else
         {
             return AddEquipment(item);
         }
+    }
+
+    public bool AddMoney(CoinItem item)
+    {
+        if (item == null)
+        {
+            Debug.LogError("Item is null");
+            return false;
+        }
+
+        coinAmount += item.value;
+
+        return true;
+    }
+
+    public bool UseMoney(int amountToUse)
+    {
+        if (coinAmount < amountToUse)
+        {
+            Debug.Log("Not enough money!");
+            return false;
+        }
+
+        coinAmount -= amountToUse;
+        return true;
     }
 
     public bool AddItem(Item item)

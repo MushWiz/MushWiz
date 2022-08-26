@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class PortalController : MonoBehaviour
 {
-    //To what scene should the player be transferred?
     public string sceneToLoad;
+    public string locationSpawnerTag;
 
     public float timeToLoad = 3f;
 
     bool playerIsOverlapping = false;
+    bool teleporting = false;
+
+    GameController controller;
+
+    private void Start()
+    {
+        controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -32,10 +40,10 @@ public class PortalController : MonoBehaviour
     IEnumerator LoadScene()
     {
         yield return new WaitForSeconds(timeToLoad);
-        if (playerIsOverlapping)
+        if (playerIsOverlapping && !teleporting)
         {
-            SceneHandler.Instance.LoadScene(sceneToLoad);
-            GameStateManager.Instance.SendEvent(GameEvent.ChangeScene);
+            teleporting = true;
+            controller.LoadScene(sceneToLoad, this);
         }
     }
 }

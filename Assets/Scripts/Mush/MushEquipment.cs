@@ -24,5 +24,6 @@ public enum MushInventoryType
     Item,
     Weapon,
     Armor,
-    Accessory
+    Accessory,
+    Money,
 }

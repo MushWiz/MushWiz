@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.AI;
 using TMPro;
+using Cinemachine;
 
 public class GameController : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class GameController : MonoBehaviour
 
     public bool shouldWork = true;
 
+    string currentFloorLanding;
+
     private void Awake()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
@@ -69,9 +72,15 @@ public class GameController : MonoBehaviour
             mushController.isActive = false;
         }
 
+        UpdateNavMeshData();
+
+        GameObject spawnerManagerObj = GameObject.FindGameObjectWithTag("SpawnersManager");
+        spawnersManager = spawnerManagerObj?.GetComponent<SpawnersManager>();
+
         mushController.controller = this;
 
         cameraController.playerEntity = playerEntity;
+        cameraController.gameObject.transform.GetChild(0).GetComponent<CinemachineVirtualCamera>().Follow = playerEntity.transform;
 
         currentTime = Time.time;
 
@@ -278,10 +287,32 @@ public class GameController : MonoBehaviour
         //PauseGame(true, GameState.Playing);
     }
 
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void LoadScene(string sceneName, PortalController portal)
+    {
+        if (currentFloorLanding == null)
+        {
+            currentFloorLanding = portal.locationSpawnerTag;
+        }
+        SceneManager.LoadScene(sceneName);
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (currentFloorLanding != null)
+        {
+            GameObject portalSpawn = GameObject.FindGameObjectWithTag(currentFloorLanding);
+            playerEntity.transform.position = portalSpawn.transform.position;
+            currentFloorLanding = null;
+        }
+
         navMeshSurface.BuildNavMesh();
-        spawnersManager = GameObject.FindGameObjectWithTag("SpawnersManager").GetComponent<SpawnersManager>();
+        GameObject spawnerManagerObj = GameObject.FindGameObjectWithTag("SpawnersManager");
+        spawnersManager = spawnerManagerObj?.GetComponent<SpawnersManager>();
     }
 
     public void UpdateInfoPanel()
@@ -335,6 +366,17 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void UpdateNavMeshData()
+    {
+        StartCoroutine(UpdateNavMeshDataCoroutine());
+    }
+
+    public IEnumerator UpdateNavMeshDataCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        navMeshSurface.UpdateNavMesh(navMeshSurface.navMeshData);
     }
 
 }

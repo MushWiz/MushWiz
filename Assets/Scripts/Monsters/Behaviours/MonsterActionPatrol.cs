@@ -17,7 +17,7 @@ public class MonsterActionPatrol : MonsterAction
                 Vector2 newDestination = Random.insideUnitCircle * 4 + controller.homeBase;
                 controller.navMeshAgent.destination = newDestination;
             }
-
+            AdjustAnimation(controller);
             return;
         }
         if (controller.patrolPoints[controller.wayPointListIndex] == null)
@@ -41,7 +41,7 @@ public class MonsterActionPatrol : MonsterAction
     public void AdjustAnimation(MonsterStateController controller)
     {
         Animator animator = controller.animator;
-        Vector2 direction = (controller.patrolPoints[controller.wayPointListIndex].transform.position - controller.transform.position).normalized;
+        Vector2 direction = (controller.navMeshAgent.destination - controller.transform.position).normalized;
 
         string prefix = controller.animationPrefix;
 

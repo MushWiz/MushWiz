@@ -45,6 +45,14 @@ public class GameStateManager
 
     }
 
+    public void SendSignal(GameObject source, string signal)
+    {
+        OnSignalReceived?.Invoke(source, signal);
+    }
+
+    public delegate void SignalHandler(GameObject source, string signal);
+    public event SignalHandler OnSignalReceived;
+
 }
 
 public enum GameEvent

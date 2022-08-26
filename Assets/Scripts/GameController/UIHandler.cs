@@ -132,7 +132,7 @@ public class UIHandler : MonoBehaviour
     public void UpdateInfoPanel(MushController mushController)
     {
         infoPanelManager.level.text = "Level: " + mushController.level.ToString();
-        infoPanelManager.playerName.text = mushController.name;
+        infoPanelManager.playerName.text = "Mush";
         infoPanelManager.availablePoints.text = "Available Points: " + mushController.availablePoints.ToString();
         foreach (UIStatSlot statSlot in infoPanelManager.stats)
         {

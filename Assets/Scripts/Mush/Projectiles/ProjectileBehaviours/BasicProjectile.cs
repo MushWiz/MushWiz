@@ -7,7 +7,7 @@ public class BasicProjectile : ProjectileBehaviour
 {
     public override void OnProjectileCreated(ProjectileController projectile)
     {
-        Debug.Log("Projectile created");
+
     }
 
     public override void OnProjectileDestroyed(ProjectileController projectile)

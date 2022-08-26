@@ -13,6 +13,8 @@ public class ProjectileController : MonoBehaviour
     public int projectileMaxReflections = 3;
     public float dampeningEffect = 0.75f;
 
+    public float accuracy = 100;
+
     public Transform shooter;
 
     Vector2 pauseVelocity;

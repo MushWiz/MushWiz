@@ -13,6 +13,8 @@ TagManager:
   - InventorySlot
   - EnemySpawner
   - SpawnersManager
+  - MainPortalActivator
+  - FirstFloorSpawn
   layers:
   - Default
   - TransparentFX
