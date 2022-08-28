@@ -30,7 +30,7 @@ public class MushInventorySlotDrag : EventTrigger
         if (eventData.pointerCurrentRaycast.gameObject != null)
         {
             GameObject otherSlot = eventData.pointerCurrentRaycast.gameObject;
-            if (otherSlot != null && otherSlot != gameObject && otherSlot.tag == "InventorySlot")
+            if (otherSlot != null && otherSlot != gameObject && otherSlot.CompareTag("InventorySlot"))
             {
                 mushInventory.SwapInventories(gameObject, otherSlot);
             }

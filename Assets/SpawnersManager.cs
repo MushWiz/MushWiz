@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -6,10 +7,16 @@ using TMPro;
 public class SpawnersManager : MonoBehaviour
 {
     public List<EnemySpawner> spawners;
+    public List<GameObject> enemiesPrefabs;
+    [HideInInspector] public List<GameObject> enemiesEntities;
 
     public bool randomizedSpanwers = false;
     public bool spawnersEnabled = true;
     public bool isWave = false;
+    public bool useManagerPrefabs = false;
+    public bool activeWhenTriggered = false;
+    [HideInInspector] public bool triggered = false;
+    public string triggererId = "";
     public int enemyLevel = 1;
     public int enemyLevelIncrease = 0;
 
@@ -57,9 +64,29 @@ public class SpawnersManager : MonoBehaviour
     bool isEnemyWaveActive = false;
     bool preparingEnemyWave = false;
 
-    public void SetupSpawn(GameController gameController)
+    private void Awake()
     {
-        this.gameController = gameController;
+        GetComponent<CircleCollider2D>().enabled = activeWhenTriggered;
+        GameStateManager.Instance.OnSignalReceived += OnSignalReceived;
+    }
+
+    private void OnDestroy()
+    {
+        GameStateManager.Instance.OnSignalReceived -= OnSignalReceived;
+    }
+
+    public void ConnectController(GameController controller)
+    {
+        gameController = controller;
+    }
+
+    public void SetupSpawn()
+    {
+        if (activeWhenTriggered && !triggered)
+        {
+            return;
+        }
+
         uIHandler = gameController.uIHandler;
         if (isWave)
         {
@@ -199,12 +226,67 @@ public class SpawnersManager : MonoBehaviour
         }
     }
 
+    public void CheckEnemyDead()
+    {
+        foreach (GameObject enemyCheck in enemiesEntities.ToList())
+        {
+            if (enemyCheck == null || enemyCheck.GetComponent<MonsterController>() == null)
+            {
+                enemiesEntities.Remove(enemyCheck);
+            }
+            if (enemyCheck.GetComponent<MonsterController>().dead)
+            {
+                enemiesEntities.Remove(enemyCheck);
+                Destroy(enemyCheck);
+                DeadEnemy();
+            }
+        }
+    }
+
     public void DeadEnemy()
     {
         if (isWave) return;
 
         amountOfEnemiesKilled++;
         amountOfEnemiesSpawned--;
+    }
+
+    private void OnSignalReceived(GameObject source, string signal)
+    {
+        if (signal == triggererId)
+        {
+            triggered = !triggered;
+        }
+    }
+
+    public void ClearAllEnemies()
+    {
+        foreach (GameObject enemy in enemiesEntities)
+        {
+            Destroy(enemy);
+        }
+        enemiesEntities.Clear();
+        amountOfEnemiesSpawned = 0;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            triggered = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            triggered = false;
+            if (activeWhenTriggered)
+            {
+                ClearAllEnemies();
+            }
+        }
     }
 
 }

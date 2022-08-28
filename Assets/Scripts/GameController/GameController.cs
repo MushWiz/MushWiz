@@ -11,6 +11,7 @@ using Cinemachine;
 public class GameController : MonoBehaviour
 {
     public Scene currentScene;
+    public string floorLanding;
 
     public NavMeshSurface navMeshSurface;
 
@@ -28,7 +29,7 @@ public class GameController : MonoBehaviour
     private int killCountHighscore = 0;
 
     public UIHandler uIHandler;
-    public SpawnersManager spawnersManager;
+    public List<SpawnersManager> spawnersManagers;
 
     public List<GameObject> enemiesEntities = new List<GameObject>();
 
@@ -39,8 +40,7 @@ public class GameController : MonoBehaviour
     public bool testing = false;
 
     public bool shouldWork = true;
-
-    string currentFloorLanding;
+    bool updating = false;
 
     private void Awake()
     {
@@ -73,9 +73,7 @@ public class GameController : MonoBehaviour
         }
 
         UpdateNavMeshData();
-
-        GameObject spawnerManagerObj = GameObject.FindGameObjectWithTag("SpawnersManager");
-        spawnersManager = spawnerManagerObj?.GetComponent<SpawnersManager>();
+        UpdateSpawnersManagersList();
 
         mushController.controller = this;
 
@@ -88,7 +86,7 @@ public class GameController : MonoBehaviour
         uIHandler.killCountHighscoreText.text = highscore.ToString();
         uIHandler.killCountText.text = "Score: " + killCount.ToString();
         uIHandler.EnableUIByType(UIType.MainMenu);
-        uIHandler.DisableUIByTypeList(new List<UIType>() { UIType.InGame, UIType.LevelUp, UIType.CharacterInfo });
+        uIHandler.DisableUIByTypeList(new List<UIType>() { UIType.InGame, UIType.LevelUp, UIType.CharacterInfo, UIType.LoadingScreen });
         UpdateInfoPanel();
         UpdateActionBar();
         UpdateInventory();
@@ -96,6 +94,11 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+
+        if (updating)
+        {
+            return;
+        }
 
         RemoveDeadEnemiesFromList();
 
@@ -127,10 +130,7 @@ public class GameController : MonoBehaviour
         {
             currentTime = Time.time;
             uIHandler.UpdateUIByType(UIType.InGame);
-            if (spawnersManager)
-            {
-                spawnersManager.SetupSpawn(this);
-            }
+            ActivateSpawners();
         }
         if (gameState == GameState.GameOver)
         {
@@ -140,6 +140,20 @@ public class GameController : MonoBehaviour
             uIHandler.DisableUIByType(UIType.InGame);
         }
 
+    }
+
+    private void ActivateSpawners()
+    {
+        foreach (SpawnersManager manager in spawnersManagers)
+        {
+            if (manager.activeWhenTriggered && !manager.triggered)
+            {
+                continue;
+            }
+
+            manager.SetupSpawn();
+
+        }
     }
 
     private void RemoveDeadEnemiesFromList()
@@ -216,7 +230,10 @@ public class GameController : MonoBehaviour
     {
         IncreaseScore();
         IncreaseExperience(experiencePoints);
-        spawnersManager.DeadEnemy();
+        foreach (SpawnersManager manager in spawnersManagers)
+        {
+            manager.CheckEnemyDead();
+        }
     }
 
     public void IncreaseScore()
@@ -289,30 +306,31 @@ public class GameController : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        updating = true;
+        StartCoroutine(LoadSceneAsync(sceneName));
     }
 
-    public void LoadScene(string sceneName, PortalController portal)
+    public IEnumerator LoadSceneAsync(string sceneName)
     {
-        if (currentFloorLanding == null)
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        uIHandler.EnableUIByType(UIType.LoadingScreen);
+        while (!operation.isDone)
         {
-            currentFloorLanding = portal.locationSpawnerTag;
+            float progress = Mathf.Clamp01(operation.progress / .09f);
+            uIHandler.UpdateLoadingScreen(progress);
+            yield return null;
         }
-        SceneManager.LoadScene(sceneName);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (currentFloorLanding != null)
-        {
-            GameObject portalSpawn = GameObject.FindGameObjectWithTag(currentFloorLanding);
-            playerEntity.transform.position = portalSpawn.transform.position;
-            currentFloorLanding = null;
-        }
+        GameObject portalSpawn = GameObject.FindGameObjectWithTag(floorLanding);
+        playerEntity.transform.position = portalSpawn.transform.position;
 
         navMeshSurface.BuildNavMesh();
-        GameObject spawnerManagerObj = GameObject.FindGameObjectWithTag("SpawnersManager");
-        spawnersManager = spawnerManagerObj?.GetComponent<SpawnersManager>();
+        UpdateSpawnersManagersList();
+        uIHandler.DisableUIByType(UIType.LoadingScreen);
+        updating = false;
     }
 
     public void UpdateInfoPanel()
@@ -377,6 +395,18 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         navMeshSurface.UpdateNavMesh(navMeshSurface.navMeshData);
+    }
+
+    private void UpdateSpawnersManagersList()
+    {
+        spawnersManagers.Clear();
+        List<GameObject> spawnerManagerObjs = GameObject.FindGameObjectsWithTag("SpawnersManager").ToList();
+        foreach (GameObject spawnersManagerObj in spawnerManagerObjs)
+        {
+            SpawnersManager manager = spawnersManagerObj?.GetComponent<SpawnersManager>();
+            manager.ConnectController(this);
+            spawnersManagers.Add(manager);
+        }
     }
 
 }

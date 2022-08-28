@@ -56,7 +56,7 @@ public class EnemyWaveController : MonoBehaviour
 
     public void UpdateSpawnerManager()
     {
-        currentSpawnersManager = GameObject.FindGameObjectWithTag("SpawnersManager").GetComponent<SpawnersManager>();
+        currentSpawnersManager = GameObject.FindGameObjectWithTag("SpawnersManager")?.GetComponent<SpawnersManager>();
     }
 
     private IEnumerator PrepareWave()

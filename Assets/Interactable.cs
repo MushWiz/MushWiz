@@ -68,12 +68,12 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (canBeActivatedByObjects && other.tag == workingObjectTag)
+        if (canBeActivatedByObjects && other.CompareTag(workingObjectTag))
         {
             Trigger();
             return;
         }
-        if (!canBeActivatedByObjects && other.tag == "Player" && !(triggered && !reversable))
+        if (!canBeActivatedByObjects && other.CompareTag("Player") && !(triggered && !reversable))
         {
             if (activateOnPass)
             {
@@ -87,13 +87,13 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (canBeActivatedByObjects && other.tag == workingObjectTag && !(triggered && !reversable))
+        if (canBeActivatedByObjects && other.CompareTag(workingObjectTag) && !(triggered && !reversable))
         {
             Trigger();
             return;
         }
 
-        if (!canBeActivatedByObjects && other.tag == "Player")
+        if (!canBeActivatedByObjects && other.CompareTag("Player"))
         {
             canBeTriggered = false;
             activationText?.SetActive(false);

@@ -96,12 +96,12 @@ public class MonsterController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Ability")
+        if (other.gameObject.CompareTag("Ability"))
         {
             other.gameObject.GetComponent<AbilityStats>().OnHit(this);
         }
 
-        if (other.gameObject.tag == "Projectile")
+        if (other.gameObject.CompareTag("Projectile"))
         {
             TakeDamage(other.gameObject.GetComponent<ProjectileController>().projectileDamage);
             Destroy(other.gameObject);

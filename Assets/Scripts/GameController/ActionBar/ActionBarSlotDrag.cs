@@ -20,7 +20,7 @@ public class ActionBarSlotDrag : MonoBehaviour, IPointerDownHandler, IPointerUpH
         if (eventData.pointerCurrentRaycast.gameObject != null)
         {
             GameObject otherSlot = eventData.pointerCurrentRaycast.gameObject;
-            if (otherSlot != null && otherSlot != gameObject && otherSlot.tag == "ActionBarSlot")
+            if (otherSlot != null && otherSlot != gameObject && otherSlot.CompareTag("ActionBarSlot"))
             {
                 actionBarManager.SwapAbilities(gameObject, otherSlot);
             }

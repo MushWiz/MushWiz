@@ -18,6 +18,7 @@ public class UIHandler : MonoBehaviour
     public InfoPanelManager infoPanelManager;
     public ActionBarManager actionBarManager;
     public MushInventory mushInventory;
+    public GameObject loadingScreen;
 
     public void ToggleUIType(UIType uiType)
     {
@@ -158,6 +159,12 @@ public class UIHandler : MonoBehaviour
     public void UpdateInventory(MushController mushController)
     {
         mushInventory.mushController = mushController;
+    }
+
+    public void UpdateLoadingScreen(float progress)
+    {
+        Image loadingBar = loadingScreen.transform.GetChild(1).GetComponent<Image>();
+        loadingBar.fillAmount = progress;
     }
 
 }

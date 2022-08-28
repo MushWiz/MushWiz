@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8422611712097184474}
   - component: {fileID: 8422611712097184469}
+  - component: {fileID: 1536099984114460170}
   m_Layer: 0
   m_Name: SpawnersManager
   m_TagString: SpawnersManager
@@ -45,9 +46,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawners: []
+  enemiesPrefabs: []
+  enemiesEntities: []
   randomizedSpanwers: 0
   spawnersEnabled: 1
   isWave: 0
+  useManagerPrefabs: 0
+  activeWhenTriggered: 0
+  triggererId: 
   enemyLevel: 1
   enemyLevelIncrease: 1
   totalAmountOfEnemiesNotWave: 5
@@ -73,3 +79,19 @@ MonoBehaviour:
   bossPrefab: {fileID: 0}
   gameController: {fileID: 0}
   uIHandler: {fileID: 0}
+--- !u!58 &1536099984114460170
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422611712097184468}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

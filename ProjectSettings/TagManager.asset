@@ -14,7 +14,7 @@ TagManager:
   - EnemySpawner
   - SpawnersManager
   - MainPortalActivator
-  - FirstFloorSpawn
+  - FloorLanding
   layers:
   - Default
   - TransparentFX

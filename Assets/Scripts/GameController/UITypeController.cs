@@ -49,4 +49,5 @@ public enum UIType
     InGame,
     LevelUp,
     CharacterInfo,
+    LoadingScreen,
 }

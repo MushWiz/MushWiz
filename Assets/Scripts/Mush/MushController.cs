@@ -72,7 +72,7 @@ public class MushController : MonoBehaviour
     //On collision stay, if the object is an enemy, take damage once every 1.5 seconds
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.CompareTag("Enemy"))
         {
             if (Time.time - lastDamageTime > 1.5f && !isInvincible)
             {
@@ -89,7 +89,7 @@ public class MushController : MonoBehaviour
     //on collisioin enter, if the object is an enemy projectile, take damage
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "EnemyProjectile")
+        if (other.gameObject.CompareTag("EnemyProjectile"))
         {
             if (Time.time - lastDamageTime > 1.5f && !isInvincible)
             {

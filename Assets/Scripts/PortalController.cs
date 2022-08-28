@@ -8,8 +8,6 @@ public class PortalController : MonoBehaviour
     public string locationSpawnerTag;
 
     public float timeToLoad = 3f;
-
-    bool playerIsOverlapping = false;
     bool teleporting = false;
 
     GameController controller;
@@ -21,29 +19,10 @@ public class PortalController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player")
-        {
-            playerIsOverlapping = true;
-            StartCoroutine(LoadScene());
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            playerIsOverlapping = false;
-            StopAllCoroutines();
-        }
-    }
-
-    IEnumerator LoadScene()
-    {
-        yield return new WaitForSeconds(timeToLoad);
-        if (playerIsOverlapping && !teleporting)
+        if (other.gameObject.CompareTag("Player") && !teleporting)
         {
             teleporting = true;
-            controller.LoadScene(sceneToLoad, this);
+            controller.LoadScene(sceneToLoad);
         }
     }
 }

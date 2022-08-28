@@ -26,12 +26,6 @@ public class SceneHandler
         controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
-    public void LoadPortalScene(string sceneName, PortalController portal)
-    {
-        ConnectController();
-        controller.LoadScene(sceneName, portal);
-    }
-
     public void LoadScene(string sceneName)
     {
         controller.LoadScene(sceneName);

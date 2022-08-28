@@ -57,7 +57,7 @@ public class Collectible : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             touchingInventory = other.gameObject.GetComponent<MushController>().controller.uIHandler.mushInventory;
             if (autoCollect)
@@ -73,7 +73,7 @@ public class Collectible : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             touchingInventory = null;
             isActive = false;

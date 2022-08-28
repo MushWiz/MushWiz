@@ -11,7 +11,16 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemy(GameController gameController, SpawnersManager spawnersManager, bool isBoss)
     {
         lastSpawnTime = Time.time;
-        GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], transform.position, Quaternion.identity);
+        GameObject enemy;
+        if (spawnersManager.useManagerPrefabs)
+        {
+            enemy = Instantiate(spawnersManager.enemiesPrefabs[Random.Range(0, spawnersManager.enemiesPrefabs.Count)], transform.position, Quaternion.identity);
+        }
+        else
+        {
+            enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], transform.position, Quaternion.identity);
+        }
+        enemy.transform.SetParent(transform);
         MonsterController monsterController = enemy.GetComponent<MonsterController>();
         MonsterStateController monsterStateController = enemy.GetComponent<MonsterStateController>();
         monsterController.gameController = gameController;
@@ -23,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
         {
             monsterStateController.SetPatrolPoints(patrolPoints);
         }
-        gameController.enemiesEntities.Add(enemy);
+        spawnersManager.enemiesEntities.Add(enemy);
     }
 
 

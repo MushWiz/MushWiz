@@ -131,7 +131,7 @@ public class ProjectileController : MonoBehaviour
     {
 
         //check the layer of the collider
-        if (other.gameObject.tag == "ReflectiveObstacle")
+        if (other.gameObject.CompareTag("ReflectiveObstacle"))
         {
             foreach (ProjectileBehaviour behaviour in behaviours)
             {

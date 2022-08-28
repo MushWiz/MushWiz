@@ -17,7 +17,7 @@ public class BoxHandler : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Player" && (Time.time - lastPush) > timeBetweenPushes)
+        if (other.gameObject.CompareTag("Player") && (Time.time - lastPush) > timeBetweenPushes)
         {
             lastPush = Time.time;
             Vector2 direction = (colliderCheck.transform.position - other.transform.position).normalized;
