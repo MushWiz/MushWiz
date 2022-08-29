@@ -351,8 +351,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c464f6cac3074bc42a11c5dc9253b052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SignalToSend: 
   reversable: 1
   activateOnPass: 0
+  canBeActivatedByObjects: 0
+  workingObjectTag: 
   activationRadius: 0.3
   activationText: {fileID: 6582673804627228527}
   startingSprite: {fileID: 0}
