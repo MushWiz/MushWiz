@@ -17,6 +17,9 @@ public class SpawnersManager : MonoBehaviour
     public bool activeWhenTriggered = false;
     [HideInInspector] public bool triggered = false;
     public string triggererId = "";
+    public bool sendsSignalAfterEnemies = false;
+    [HideInInspector] public bool signalSent = false;
+    public string signalToSend = "";
     public int enemyLevel = 1;
     public int enemyLevelIncrease = 0;
 
@@ -27,6 +30,7 @@ public class SpawnersManager : MonoBehaviour
     public int amountOfEnemiesKilled = 0;
     public int numberOfEnemiesPerLevelUp = 0;
     public int numberOfEnemiesPerLevelUpIncrease = 0;
+    public int remainingEnemiesToSpawn = 99999;
     #endregion
 
     #region Wave Spawn
@@ -35,6 +39,7 @@ public class SpawnersManager : MonoBehaviour
     public int enemiesPerWaveIncrease = 0;
     public int enemyLevelIncreaseAfterCounter = 0;
     public int enemyLevelIncreaseCounter = 0;
+    public int remainingWaves = 99999;
 
     public int currentWave = 0;
     #endregion
@@ -100,6 +105,10 @@ public class SpawnersManager : MonoBehaviour
 
     public void PrepareWaveInitialCheck()
     {
+        if (remainingWaves <= 0)
+        {
+            return;
+        }
         if (!isEnemyWaveActive && !preparingEnemyWave)
         {
             preparingEnemyWave = true;
@@ -170,6 +179,7 @@ public class SpawnersManager : MonoBehaviour
             }
         }
         currentWave++;
+        remainingWaves--;
     }
 
     private void SpawnEnemy()
@@ -185,7 +195,7 @@ public class SpawnersManager : MonoBehaviour
 
     public void PrepareSpawnInitialCheck()
     {
-        if (amountOfEnemiesSpawned >= totalAmountOfEnemiesNotWave)
+        if (amountOfEnemiesSpawned >= totalAmountOfEnemiesNotWave || remainingEnemiesToSpawn <= 0)
         {
             return;
         }
@@ -207,6 +217,7 @@ public class SpawnersManager : MonoBehaviour
             enemyLevel += enemyLevelIncrease;
             numberOfEnemiesPerLevelUp += numberOfEnemiesPerLevelUpIncrease;
         }
+        remainingEnemiesToSpawn--;
     }
 
     public void SpawnBoss()
@@ -249,6 +260,12 @@ public class SpawnersManager : MonoBehaviour
 
         amountOfEnemiesKilled++;
         amountOfEnemiesSpawned--;
+
+        if (amountOfEnemiesSpawned <= 0 && remainingEnemiesToSpawn <= 0 && sendsSignalAfterEnemies)
+        {
+            SendSignal();
+        }
+
     }
 
     private void OnSignalReceived(GameObject source, string signal)
@@ -286,6 +303,15 @@ public class SpawnersManager : MonoBehaviour
             {
                 ClearAllEnemies();
             }
+        }
+    }
+
+    private void SendSignal()
+    {
+        if (sendsSignalAfterEnemies && !signalSent)
+        {
+            GameStateManager.Instance.SendSignal(gameObject, signalToSend);
+            signalSent = true;
         }
     }
 

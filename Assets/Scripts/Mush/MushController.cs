@@ -359,17 +359,24 @@ public class MushController : MonoBehaviour
 
     }
 
-    public void OnLevelUpButtonPressed(StatType statType)
+    public bool IncreaseStatValue(StatType statType, int increaseAmount = 1)
     {
         foreach (Stats stat in stats)
         {
             if (stat.GetStatType() == statType)
             {
-                stat.IncreaseValue();
-                availablePoints--;
+                stat.IncreaseValue(increaseAmount);
+                controller.UpdateInfoPanel();
+                return true;
             }
         }
-        controller.UpdateInfoPanel();
+        return AddNewStat(statType, increaseAmount);
+    }
+
+    public bool AddNewStat(StatType statType, int initialValue)
+    {
+        stats.Add(new Stats(initialValue, statType));
+        return true;
     }
 
     public void Reset()

@@ -315,6 +315,7 @@ MonoBehaviour:
   damageDealer: 1
   chaseRange: 10
   attackRange: 5
+  attackRate: 2
   projectilePrefab: {fileID: 4866811093426136794, guid: 58d966e436ce69646bf668269a10efb7, type: 3}
   projectileSpeed: 5
   projectileMaxTravel: 10
@@ -323,10 +324,33 @@ MonoBehaviour:
   dead: 0
   isAttacking: 0
   canAttack: 0
-  experiencePoints: 3
+  experiencePointsGiven: 3
+  enemyLevel: 1
+  currentExperiencePoints: 0
   rb: {fileID: 0}
   playerObject: {fileID: 0}
   animator: {fileID: 0}
+  monsterStateController: {fileID: 0}
+  mushPointPrefab: {fileID: 249874853089292869, guid: a2202df409f93b84badb07d42ab43ded, type: 3}
+  stats:
+  - value: 10
+    statType: 0
+    statButtonPrefab: {fileID: 0}
+  - value: 5
+    statType: 5
+    statButtonPrefab: {fileID: 0}
+  - value: 5
+    statType: 7
+    statButtonPrefab: {fileID: 0}
+  - value: 0
+    statType: 8
+    statButtonPrefab: {fileID: 0}
+  - value: 0
+    statType: 11
+    statButtonPrefab: {fileID: 0}
+  - value: 0
+    statType: 14
+    statButtonPrefab: {fileID: 0}
 --- !u!114 &6284750796994508489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +373,8 @@ MonoBehaviour:
   target: {fileID: 0}
   animator: {fileID: 0}
   monsterController: {fileID: 0}
+  homeBase: {x: 0, y: 0}
+  aiActive: 1
 --- !u!195 &1393105274810679645
 NavMeshAgent:
   m_ObjectHideFlags: 0

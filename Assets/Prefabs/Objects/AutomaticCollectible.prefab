@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.2
-  m_fontSizeBase: 0.2
+  m_fontSize: 0.5
+  m_fontSizeBase: 0.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -238,9 +238,13 @@ MonoBehaviour:
   item: {fileID: 0}
   actionText: {fileID: 249874852958173200}
   autoCollect: 1
+  consumeMicelium: 0
+  requiredMicelium: 0
   collectionRadius: 1
   lightColor: {r: 0.7977246, g: 1, b: 0.3339622, a: 1}
   floatStrength: 0.1
+  fromMerchant: 0
+  seller: {fileID: 0}
 --- !u!58 &249874853089292874
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -472,7 +476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.20000005}
+  m_AnchoredPosition: {x: 0, y: 0.402}
   m_SizeDelta: {x: -1, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2855453835145492612
@@ -530,10 +534,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.2
-  m_fontSizeBase: 0.2
+  m_fontSize: 0.4
+  m_fontSizeBase: 0.4
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0.2
   m_fontSizeMax: 72
   m_fontStyle: 0

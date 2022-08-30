@@ -13,7 +13,7 @@ public class MushInventory : MonoBehaviour
     public MushInventorySlot currentWeaponSlot;
     public Item defaultWeapon;
 
-    public int coinAmount = 0;
+    public int miceliumAmount = 0;
     public List<MushInventorySlot> inventorySlots = new List<MushInventorySlot>();
 
     public bool dragging = false;
@@ -32,7 +32,12 @@ public class MushInventory : MonoBehaviour
 
         else if (item.itemType == MushInventoryType.Money)
         {
-            return AddMoney((CoinItem)item);
+            return AddCurrency((CoinItem)item);
+        }
+
+        else if (item.itemType == MushInventoryType.StatBoost)
+        {
+            return IncreaseStat((StatBoost)item);
         }
 
         else
@@ -41,7 +46,7 @@ public class MushInventory : MonoBehaviour
         }
     }
 
-    public bool AddMoney(CoinItem item)
+    public bool AddCurrency(CoinItem item)
     {
         if (item == null)
         {
@@ -49,21 +54,26 @@ public class MushInventory : MonoBehaviour
             return false;
         }
 
-        coinAmount += item.value;
+        miceliumAmount += item.value;
 
         return true;
     }
 
-    public bool UseMoney(int amountToUse)
+    public bool UseCurrency(int amountToUse)
     {
-        if (coinAmount < amountToUse)
+        if (miceliumAmount < amountToUse)
         {
-            Debug.Log("Not enough money!");
+            Debug.Log("Not enough micelium!");
             return false;
         }
 
-        coinAmount -= amountToUse;
+        miceliumAmount -= amountToUse;
         return true;
+    }
+
+    public bool IncreaseStat(StatBoost boost)
+    {
+        return mushController.IncreaseStatValue(boost.stat, boost.boostAmount);
     }
 
     public bool AddItem(Item item)

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58a0d8dc296eed4da21926361875604, type: 3}
+  m_Name: AgilityBoostBase
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: -1205495502, guid: f5954dfaa926d9549952b248209a758f, type: 3}
+  itemName: Intelligence Boost
+  itemType: 5
+  collectiblePrefab: {fileID: 5932013499083416374, guid: 181adf61e39e2624fa67a5e151117fe8, type: 3}
+  stat: 4
+  boostAmount: 1

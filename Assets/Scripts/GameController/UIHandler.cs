@@ -138,16 +138,6 @@ public class UIHandler : MonoBehaviour
         foreach (UIStatSlot statSlot in infoPanelManager.stats)
         {
             statSlot.UpdateStatSlot(mushController);
-            statSlot.increaseValueButton.onClick.RemoveAllListeners();
-            statSlot.increaseValueButton.onClick.AddListener(() => { mushController.OnLevelUpButtonPressed(statSlot.mushStat.GetStatType()); });
-            if (mushController.availablePoints > 0)
-            {
-                statSlot.increaseValueButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                statSlot.increaseValueButton.gameObject.SetActive(false);
-            }
         }
     }
 

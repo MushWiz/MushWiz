@@ -14,7 +14,7 @@ public class MonsterActionMelee : MonsterAction
         {
             controller.navMeshAgent.isStopped = true;
             controller.stateTimeElapsed = 0;
-            controller.monsterController.StartCoroutine(controller.monsterController.MeleeAnimation(controller.target.transform.position, controller.monsterController.attackRate * 0.85f));
+            controller.monsterController.StartCoroutine(controller.monsterController.MeleeAnimation(controller.target.transform.position, controller.monsterController.attackRate));
         }
     }
 }

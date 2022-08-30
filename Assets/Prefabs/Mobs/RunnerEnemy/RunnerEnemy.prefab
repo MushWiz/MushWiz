@@ -239,7 +239,7 @@ MonoBehaviour:
   damageDealer: 1
   chaseRange: 5
   attackRange: 2
-  attackRate: 5
+  attackRate: 2
   projectilePrefab: {fileID: 0}
   projectileSpeed: 0
   projectileMaxTravel: 0
@@ -255,30 +255,7 @@ MonoBehaviour:
   playerObject: {fileID: 0}
   animator: {fileID: 0}
   monsterStateController: {fileID: 0}
-  ease:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  mushPointPrefab: {fileID: 249874853089292869, guid: a2202df409f93b84badb07d42ab43ded, type: 3}
   stats:
   - value: 10
     statType: 0

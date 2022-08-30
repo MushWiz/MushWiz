@@ -39,6 +39,8 @@ public class MonsterController : MonoBehaviour
     [HideInInspector] public Animator animator;
     [HideInInspector] public MonsterStateController monsterStateController;
 
+    public GameObject mushPointPrefab;
+
     public List<Stats> stats = new List<Stats>(){
         new Stats(10f, StatType.Health),
         new Stats(5f, StatType.Intelligence),
@@ -84,6 +86,9 @@ public class MonsterController : MonoBehaviour
         {
             dead = true;
             gameController.RegisterEnemyDeath(experiencePointsGiven);
+            Collectible miceliumPoint = Instantiate(mushPointPrefab, transform.position, Quaternion.identity).GetComponent<Collectible>();
+            miceliumPoint.target = playerObject;
+            miceliumPoint.flyToTarget = true;
         }
         lifeBar.fillAmount = lifePoints / maxLifePoints;
     }

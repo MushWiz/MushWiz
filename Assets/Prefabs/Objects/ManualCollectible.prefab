@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5932013498952264036
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.2
-  m_fontSizeBase: 0.2
+  m_fontSize: 0.45
+  m_fontSizeBase: 0.45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -238,9 +238,15 @@ MonoBehaviour:
   item: {fileID: 0}
   actionText: {fileID: 5932013498952264035}
   autoCollect: 0
+  flyToTarget: 0
+  target: {fileID: 0}
+  consumeMicelium: 0
+  requiredMicelium: 0
   collectionRadius: 0.8
   lightColor: {r: 1, g: 0.37169808, b: 0.37169808, a: 1}
   floatStrength: 0.1
+  fromMerchant: 0
+  seller: {fileID: 0}
 --- !u!58 &5932013499083416377
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -373,8 +379,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.018, y: 0.668}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.018, y: 0.74}
+  m_SizeDelta: {x: 1, y: 1.785}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5932013499105243287
 Canvas:
@@ -472,7 +478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.19999999}
+  m_AnchoredPosition: {x: 0, y: -0.000000059604645}
   m_SizeDelta: {x: -1, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1583959272432268423
@@ -530,10 +536,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.2
-  m_fontSizeBase: 0.2
+  m_fontSize: 0.45
+  m_fontSizeBase: 0.45
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0.2
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -565,8 +571,8 @@ MonoBehaviour:
   m_IsTextObjectScaleStatic: 0
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_pageToDisplay: 5
+  m_margin: {x: -2.5413105, y: -0.6253484, z: -2.8340268, w: 0.67857003}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

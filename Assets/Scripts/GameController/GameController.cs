@@ -19,8 +19,6 @@ public class GameController : MonoBehaviour
     public GameObject playerEntity;
     public MushController mushController;
 
-    public CameraController cameraController;
-
     public float currentTime;
 
     public bool isLevellingUp = false;
@@ -77,8 +75,7 @@ public class GameController : MonoBehaviour
 
         mushController.controller = this;
 
-        cameraController.playerEntity = playerEntity;
-        cameraController.gameObject.transform.GetChild(0).GetComponent<CinemachineVirtualCamera>().Follow = playerEntity.transform;
+        Camera.main.transform.GetChild(0).GetComponent<CinemachineVirtualCamera>().Follow = playerEntity.transform;
 
         currentTime = Time.time;
 
@@ -299,7 +296,7 @@ public class GameController : MonoBehaviour
 
     public void OnLevelUpButtonPressed(StatType statType)
     {
-        mushController.OnLevelUpButtonPressed(statType);
+        mushController.IncreaseStatValue(statType);
         //paused = false;
         //PauseGame(true, GameState.Playing);
     }

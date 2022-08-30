@@ -10,6 +10,10 @@ public class Collectible : MonoBehaviour
     public GameObject actionText;
 
     public bool autoCollect = false;
+    public bool flyToTarget = false;
+    [HideInInspector] public GameObject target;
+    public bool consumeMicelium = false;
+    public int requiredMicelium = 0;
     public float collectionRadius = 0.8f;
     public Color lightColor;
 
@@ -19,6 +23,8 @@ public class Collectible : MonoBehaviour
     bool isCollected = false;
     float originalY;
     bool isActive = false;
+    [HideInInspector] public bool fromMerchant = false;
+    [HideInInspector] public MerchantManager seller;
 
     private void Start()
     {
@@ -29,27 +35,49 @@ public class Collectible : MonoBehaviour
         spriteRenderer.sprite = item.itemIcon;
         CircleCollider2D circleCollider2D = GetComponent<CircleCollider2D>();
         circleCollider2D.radius = collectionRadius;
-        actionText?.SetActive(false);
-        transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.itemName;
+        if (actionText)
+        {
+            actionText.SetActive(false);
+            transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.itemName;
+        }
         isActive = false;
     }
     private void Update()
     {
-
-        transform.position = new Vector3(transform.position.x,
+        if (!flyToTarget)
+        {
+            transform.position = new Vector3(transform.position.x,
                     originalY + ((float)Mathf.Sin(Time.time) * floatStrength),
                     transform.position.z);
+        }
+        else
+        {
+            Vector2 direction = (target.transform.position - transform.position).normalized;
+            transform.Translate(direction * 0.1f * (1 / Vector2.Distance(target.transform.position, transform.position)));
+        }
 
         if (!isActive)
         {
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && !isCollected)
+        if (Input.GetKeyUp(KeyCode.E) && !isCollected)
         {
-            isCollected = true;
+            if (consumeMicelium)
+            {
+                if (!touchingInventory.UseCurrency(requiredMicelium))
+                {
+                    return;
+                }
+            }
+
             if (touchingInventory.AddToInventory(item))
             {
+                isCollected = true;
+                if (fromMerchant)
+                {
+                    seller?.SoldItem();
+                }
                 Destroy(gameObject);
             }
         }
@@ -67,7 +95,10 @@ public class Collectible : MonoBehaviour
                 return;
             }
             isActive = true;
-            actionText?.SetActive(true);
+            if (actionText)
+            {
+                actionText.SetActive(true);
+            }
         }
     }
 
@@ -77,7 +108,10 @@ public class Collectible : MonoBehaviour
         {
             touchingInventory = null;
             isActive = false;
-            actionText?.SetActive(false);
+            if (actionText)
+            {
+                actionText.SetActive(false);
+            }
         }
     }
 }

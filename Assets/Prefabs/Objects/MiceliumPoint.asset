@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3abc21a0a803d17499e5eb1467d116f2, type: 3}
-  m_Name: Coin
+  m_Name: MiceliumPoint
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 225637396, guid: f5954dfaa926d9549952b248209a758f, type: 3}
-  itemName: Coin
+  itemIcon: {fileID: 21300000, guid: 3696f27ce672a104fa2563b5e9049cfc, type: 3}
+  itemName: Micelium Point
   itemType: 4
-  collectiblePrefab: {fileID: 249874853089292869, guid: 3302d993b2b51bc408ae11aa4e1a7b0b, type: 3}
-  value: 10
+  collectiblePrefab: {fileID: 249874853089292869, guid: a2202df409f93b84badb07d42ab43ded, type: 3}
+  value: 1

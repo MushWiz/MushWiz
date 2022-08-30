@@ -6,5 +6,4 @@ using UnityEngine;
 public class CoinItem : Item
 {
     public int value = 0;
-
 }

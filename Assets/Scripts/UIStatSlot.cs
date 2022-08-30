@@ -8,7 +8,6 @@ public class UIStatSlot : MonoBehaviour
 {
     public TextMeshProUGUI statName;
     public Stats mushStat;
-    public Button increaseValueButton;
 
     public void UpdateStatSlot(MushController mushController)
     {
