@@ -15,6 +15,9 @@ TagManager:
   - SpawnersManager
   - MainPortalActivator
   - FloorLanding
+  - BlackScreensHolder
+  - DoorsHolder
+  - Melee
   layers:
   - Default
   - TransparentFX

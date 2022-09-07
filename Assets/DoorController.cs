@@ -6,6 +6,7 @@ public class DoorController : MonoBehaviour
 {
     public string doorId;
     public DoorState initialState;
+    public List<string> otherSignals;
 
     [HideInInspector] public DoorState currentState;
 

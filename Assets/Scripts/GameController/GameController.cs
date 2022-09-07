@@ -29,8 +29,6 @@ public class GameController : MonoBehaviour
     public UIHandler uIHandler;
     public List<SpawnersManager> spawnersManagers;
 
-    public List<GameObject> enemiesEntities = new List<GameObject>();
-
     [SerializeField] private GameState gameState = GameState.MainMenu;
 
     public bool paused = false;
@@ -97,8 +95,6 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        RemoveDeadEnemiesFromList();
-
         if ((gameState == GameState.Playing || gameState == GameState.Paused) && Input.GetKeyDown(KeyCode.Escape) && !paused)
         {
             PauseGame();
@@ -153,34 +149,8 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void RemoveDeadEnemiesFromList()
-    {
-        foreach (GameObject enemyCheck in enemiesEntities.ToList())
-        {
-            if (enemyCheck == null || enemyCheck.GetComponent<MonsterController>() == null)
-            {
-                enemiesEntities.Remove(enemyCheck);
-            }
-            if (enemyCheck.GetComponent<MonsterController>().dead)
-            {
-                enemiesEntities.Remove(enemyCheck);
-                Destroy(enemyCheck);
-            }
-        }
-    }
-
-    private void ClearAllEnemies()
-    {
-        foreach (GameObject enemy in enemiesEntities)
-        {
-            Destroy(enemy);
-        }
-        enemiesEntities.Clear();
-    }
-
     void ResetWorld()
     {
-        ClearAllEnemies();
         ResetPlayer();
         killCount = 0;
         killCountHighscore = PlayerPrefs.GetInt("KillCount", 0);
@@ -227,7 +197,7 @@ public class GameController : MonoBehaviour
     {
         IncreaseScore();
         IncreaseExperience(experiencePoints);
-        foreach (SpawnersManager manager in spawnersManagers)
+        foreach (SpawnersManager manager in spawnersManagers.ToList())
         {
             manager.CheckEnemyDead();
         }

@@ -24,6 +24,11 @@ public class BoxHandler : MonoBehaviour
             float xMagnitude = Mathf.Abs(direction.x);
             float yMagnitude = Mathf.Abs(direction.y);
 
+            if (Mathf.Abs(xMagnitude - yMagnitude) < 0.25f)
+            {
+                return;
+            }
+
             if (xMagnitude > yMagnitude)
             {
                 int amount = direction.x > 0 ? 1 : -1;

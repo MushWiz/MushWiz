@@ -237,7 +237,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 0}
   actionText: {fileID: 249874852958173200}
+  itemName: {fileID: 0}
+  itemPrice: {fileID: 0}
   autoCollect: 1
+  flyToTarget: 0
+  target: {fileID: 0}
   consumeMicelium: 0
   requiredMicelium: 0
   collectionRadius: 1
@@ -414,7 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 32
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -422,7 +426,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
+  m_DynamicPixelsPerUnit: 10
   m_PresetInfoIsWorld: 1
 --- !u!114 &249874853345993190
 MonoBehaviour:

@@ -14,6 +14,10 @@ public class MerchantManager : MonoBehaviour
     public bool hasShop = false;
     int itemsOnDisplay = 0;
 
+    [Range(0, 200)] public int costOfItems = 100;
+
+    MushController mushController;
+
     private void Awake()
     {
         GameStateManager.Instance.OnSignalReceived += OnSignalReceived;
@@ -26,6 +30,7 @@ public class MerchantManager : MonoBehaviour
 
     private void Start()
     {
+        mushController = GameObject.FindGameObjectWithTag("Player").GetComponent<MushController>();
         if (sellOnSignal)
         {
             GetComponent<SpriteRenderer>().enabled = false;
@@ -59,10 +64,18 @@ public class MerchantManager : MonoBehaviour
         {
             MerchantItem merchantItem = stockCopy[Random.Range(0, stockCopy.Count)];
             stockCopy.Remove(merchantItem);
-            Collectible placedCollectible = Instantiate(merchantItem.itemSold.collectiblePrefab, transform.position + new Vector3(increment, -1, 0), Quaternion.identity).GetComponent<Collectible>();
+
+            int statValue = 0;
+            if (merchantItem.itemSold.itemType == MushInventoryType.StatBoost)
+            {
+                StatBoost statToBuy = (StatBoost)merchantItem.itemSold;
+                statValue = mushController.GetStatValueByType(statToBuy.stat) * statToBuy.boostAmount;
+            }
+
+            Collectible placedCollectible = Instantiate(merchantItem.itemSold.collectiblePrefab, transform.position + new Vector3(increment, -1 + 0.5f * Mathf.Abs(increment), 0), Quaternion.identity).GetComponent<Collectible>();
             placedCollectible.item = merchantItem.itemSold;
             placedCollectible.consumeMicelium = true;
-            placedCollectible.requiredMicelium = merchantItem.miceliumRequirement;
+            placedCollectible.requiredMicelium = (merchantItem.miceliumRequirement + statValue * 2) * (costOfItems / 100);
             placedCollectible.fromMerchant = true;
             placedCollectible.seller = this;
             increment++;

@@ -59,7 +59,7 @@ public class GameData
 [System.Serializable]
 public class PlayerData
 {
-    public List<float> stats = new List<float>();
+    public List<int> stats = new List<int>();
     public List<string> abilities = new List<string>();
     public List<float> position = new List<float>();
     public List<int> items = new List<int>();

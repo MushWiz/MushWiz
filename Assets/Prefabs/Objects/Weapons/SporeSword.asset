@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935327ba54b47784cafa0a1c518db9d4, type: 3}
+  m_Name: SporeSword
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 21300000, guid: 0653857230038cf46a22e957968e1aca, type: 3}
+  itemName: SporeSword
+  itemType: 1
+  collectiblePrefab: {fileID: 5932013499083416374, guid: 181adf61e39e2624fa67a5e151117fe8, type: 3}
+  weaponPrefab: {fileID: 4942265823058860964, guid: eafa41dc34dcb654f9c46ed7fc9ba42c, type: 3}
+  weaponType: 0
+  onWeaponUseAnimation: {fileID: 6570074455570805878, guid: eafa41dc34dcb654f9c46ed7fc9ba42c, type: 3}
+  weaponAnimationAttackType: Swing
+  attackTiming: 1
+  meleeDamage: 2
+  rangedDamage: 0
+  maxRange: 0
+  minRange: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 0
+  projectileLifetime: 0
+  projectileDamage: 0
+  projectileSize: 0
+  projectileSpread: 0
+  projectileCount: 0
+  projectileMaxReflections: 0

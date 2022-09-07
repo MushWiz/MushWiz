@@ -2197,6 +2197,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: DungeonTile_96
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 478
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcd51f0093606834ca608ddc34921365
+      internalID: -1151569531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTile_97
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 478
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97794352eacfb804ab13d544aefc5dad
+      internalID: 1920044379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTile_98
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 478
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc689b23e7ddef94886d5b58e6fc3bdb
+      internalID: -1996337692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTile_99
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 446
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e42fc203da68f48b2c09c68935b36f
+      internalID: -1863819647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -2223,6 +2307,7 @@ TextureImporter:
       DungeonTile_15: 1669443130
       DungeonTile_39: -893461803
       DungeonTile_61: 1943251057
+      DungeonTile_99: -1863819647
       DungeonTile_51: 1407096475
       DungeonTile_12: 1301612469
       DungeonTile_73: 986133247
@@ -2255,6 +2340,7 @@ TextureImporter:
       DungeonTile_11: -207915457
       DungeonTile_1: 2047196541
       DungeonTile_88: 1846975884
+      DungeonTile_96: -1151569531
       DungeonTile_33: -272117152
       DungeonTile_10: 1809670498
       DungeonTile_37: -1378455810
@@ -2269,9 +2355,11 @@ TextureImporter:
       DungeonTile_45: 1013340179
       DungeonTile_32: 1124090398
       DungeonTile_80: 1318962797
+      DungeonTile_97: 1920044379
       DungeonTile_0: 1151919404
       DungeonTile_44: 1493050330
       DungeonTile_38: -473096487
+      DungeonTile_98: -1996337692
       DungeonTile_68: 1430042985
       DungeonTile_86: -1807309985
       DungeonTile_85: 528415506

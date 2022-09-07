@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ManaBoostBase
   m_EditorClassIdentifier: 
   itemIcon: {fileID: -1205495502, guid: f5954dfaa926d9549952b248209a758f, type: 3}
-  itemName: Intelligence Boost
+  itemName: Mana Boost
   itemType: 5
   collectiblePrefab: {fileID: 5932013499083416374, guid: 181adf61e39e2624fa67a5e151117fe8, type: 3}
   stat: 1

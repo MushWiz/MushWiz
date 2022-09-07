@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 1808523948037338314}
   - component: {fileID: 6284750796994508489}
   - component: {fileID: 1393105274810679645}
+  - component: {fileID: 8510512805611297088}
   m_Layer: 0
   m_Name: ShootingEnemy
   m_TagString: Enemy
@@ -319,7 +320,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4866811093426136794, guid: 58d966e436ce69646bf668269a10efb7, type: 3}
   projectileSpeed: 5
   projectileMaxTravel: 10
-  movementSpeed: 5
+  movementSpeed: 1
   randomStats: 1
   dead: 0
   isAttacking: 0
@@ -351,6 +352,7 @@ MonoBehaviour:
   - value: 0
     statType: 14
     statButtonPrefab: {fileID: 0}
+  invincibilityTime: 0.5
 --- !u!114 &6284750796994508489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +399,27 @@ NavMeshAgent:
   m_BaseOffset: 0.6
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!50 &8510512805611297088
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808523948037338310}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1808523948186255477
 GameObject:
   m_ObjectHideFlags: 0

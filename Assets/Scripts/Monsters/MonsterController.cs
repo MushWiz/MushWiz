@@ -42,13 +42,16 @@ public class MonsterController : MonoBehaviour
     public GameObject mushPointPrefab;
 
     public List<Stats> stats = new List<Stats>(){
-        new Stats(10f, StatType.Health),
-        new Stats(5f, StatType.Intelligence),
-        new Stats(5f, StatType.Speed),
-        new Stats(0f, StatType.Defense),
-        new Stats(0f, StatType.Evasion),
-        new Stats(0f, StatType.BlockChance),
+        new Stats(10, StatType.Health),
+        new Stats(5, StatType.Intelligence),
+        new Stats(5, StatType.Speed),
+        new Stats(0, StatType.Defense),
+        new Stats(0, StatType.Evasion),
+        new Stats(0, StatType.BlockChance),
     };
+
+    public float invincibilityTime = 0.5f;
+    bool isInvincible = false;
 
     // Start is called before the first frame update
     void Start()
@@ -79,8 +82,10 @@ public class MonsterController : MonoBehaviour
         GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
-    public void TakeDamage(float damage)
+    public IEnumerator TakeDamage(float damage)
     {
+        isInvincible = true;
+        StartCoroutine(Flash());
         lifePoints -= damage;
         if (lifePoints <= 0)
         {
@@ -91,6 +96,20 @@ public class MonsterController : MonoBehaviour
             miceliumPoint.flyToTarget = true;
         }
         lifeBar.fillAmount = lifePoints / maxLifePoints;
+        yield return new WaitForSeconds(invincibilityTime);
+        isInvincible = false;
+        GetComponent<MonsterStateController>().navMeshAgent.isStopped = false;
+    }
+
+    IEnumerator Flash()
+    {
+        while (isInvincible)
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            GetComponent<SpriteRenderer>().enabled = true;
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     public void Heal(float heal)
@@ -101,6 +120,10 @@ public class MonsterController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isInvincible)
+        {
+            return;
+        }
         if (other.gameObject.CompareTag("Ability"))
         {
             other.gameObject.GetComponent<AbilityStats>().OnHit(this);
@@ -108,8 +131,17 @@ public class MonsterController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Projectile"))
         {
-            TakeDamage(other.gameObject.GetComponent<ProjectileController>().projectileDamage);
+            StartCoroutine(TakeDamage(other.gameObject.GetComponent<ProjectileController>().projectileDamage));
             Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Melee"))
+        {
+            float damageDealth = other.gameObject.GetComponentInParent<MushAttack>().currentWeapon.meleeDamage;
+            Vector3 pushDirection = other.gameObject.transform.up;
+            GetComponent<MonsterStateController>().navMeshAgent.isStopped = true;
+            rb.MovePosition(transform.position + pushDirection.normalized * 0.5f);
+            StartCoroutine(TakeDamage(damageDealth));
         }
     }
 

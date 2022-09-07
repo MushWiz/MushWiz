@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class MushAttack : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class MushAttack : MonoBehaviour
     public float lastAttackTime = 0f;
 
     public WeaponItem currentWeapon;
+
+    bool lockedPivot = false;
 
     public void AttackControl(MushController mushController)
     {
@@ -33,21 +36,33 @@ public class MushAttack : MonoBehaviour
 
     public void PivotController(MushController mushController)
     {
+        if (lockedPivot)
+        {
+            return;
+        }
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = new Vector2(
-            mousePos.x - transform.position.x,
-            mousePos.y - transform.position.y
-        );
-        pivotPoint.up = direction;
+        Vector3 aimDirection = (mousePos - transform.position).normalized;
+        aimDirection.z = 0;
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+
+        pivotPoint.eulerAngles = new Vector3(0, 0, angle);
     }
 
     public void MeleeAttack(MushController mushController)
     {
-        if (Input.GetMouseButton(0) && Time.time - lastAttackTime > Mathf.Max(currentWeapon.attackTiming - mushController.GetStatValueByType(StatType.Intelligence) * 0.05f, 0.1f))
+        float attackRate = Mathf.Max(currentWeapon.attackTiming - mushController.GetStatValueByType(StatType.Strength) * 0.05f, 0.1f);
+        if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Melee Attack");
+            float animationLength = currentWeapon.AttackAnimation(mushController);
         }
+    }
+
+    public IEnumerator LockPivot(float attackRate)
+    {
+        lockedPivot = true;
+        yield return new WaitForSeconds(attackRate);
+        lockedPivot = false;
     }
 
     public void RangedAttack(MushController mushController)
@@ -60,17 +75,16 @@ public class MushAttack : MonoBehaviour
 
     private IEnumerator Shoot(MushController mushController)
     {
-
         lastAttackTime = Time.time;
 
         for (int i = 0; i < currentWeapon.projectileCount; i++)
         {
-            GameObject bullet = Instantiate(currentWeapon.projectilePrefab, shootingPoint.position - shootingPoint.forward.normalized * 0.4f + shootingPoint.forward.normalized * currentWeapon.minRange, shootingPoint.rotation);
+            GameObject bullet = Instantiate(currentWeapon.projectilePrefab, shootingPoint.position - shootingPoint.forward.normalized * 0.4f + shootingPoint.forward.normalized * currentWeapon.minRange, Quaternion.identity);
             ProjectileController projectileStats = bullet.GetComponent<ProjectileController>();
 
             projectileStats.maxTravelDistance = currentWeapon.maxRange;
 
-            bullet.GetComponent<Rigidbody2D>().velocity = pivotPoint.up * currentWeapon.projectileSpeed;
+            bullet.GetComponent<Rigidbody2D>().velocity = pivotPoint.right * currentWeapon.projectileSpeed;
 
             projectileStats.projectileDamage = currentWeapon.projectileDamage;
             projectileStats.projectileDamage *= mushController.GetStatValueByType(StatType.Intelligence) * 0.1f;

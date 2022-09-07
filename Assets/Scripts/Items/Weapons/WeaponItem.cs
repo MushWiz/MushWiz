@@ -9,6 +9,9 @@ public class WeaponItem : Item
     public GameObject weaponPrefab;
     public WeaponType weaponType;
 
+    public Animator onWeaponUseAnimation;
+    public string weaponAnimationAttackType;
+
     public float attackTiming;
 
     [Header("Direct damages")]
@@ -48,6 +51,16 @@ public class WeaponItem : Item
     {
         mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().UnequipWeapon();
         CreateCollectible(mushController.transform);
+    }
+
+    public override void Use(MushController mushController)
+    {
+        AttackAnimation(mushController);
+    }
+
+    public float AttackAnimation(MushController mushController)
+    {
+        return mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().UseWeapon(this);
     }
 }
 

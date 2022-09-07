@@ -17,7 +17,7 @@ public class Item : ScriptableObject
         collectible.GetComponent<Collectible>().item = this;
     }
 
-    public virtual void Use(MushController mushController, MushEquipment equipmentSlot)
+    public virtual void Use(MushController mushController)
     {
         Debug.Log("Using " + itemName);
     }

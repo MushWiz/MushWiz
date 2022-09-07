@@ -15,11 +15,13 @@ public class SpawnersManager : MonoBehaviour
     public bool isWave = false;
     public bool useManagerPrefabs = false;
     public bool activeWhenTriggered = false;
+    public bool onlySignalActivation = true;
     [HideInInspector] public bool triggered = false;
     public string triggererId = "";
     public bool sendsSignalAfterEnemies = false;
     [HideInInspector] public bool signalSent = false;
     public string signalToSend = "";
+    public bool disabeAfterEnemies = true;
     public int enemyLevel = 1;
     public int enemyLevelIncrease = 0;
 
@@ -71,7 +73,7 @@ public class SpawnersManager : MonoBehaviour
 
     private void Awake()
     {
-        GetComponent<CircleCollider2D>().enabled = activeWhenTriggered;
+        GetComponent<CircleCollider2D>().enabled = activeWhenTriggered && !onlySignalActivation;
         GameStateManager.Instance.OnSignalReceived += OnSignalReceived;
     }
 
@@ -87,6 +89,10 @@ public class SpawnersManager : MonoBehaviour
 
     public void SetupSpawn()
     {
+        if (!spawnersEnabled)
+        {
+            return;
+        }
         if (activeWhenTriggered && !triggered)
         {
             return;
@@ -154,7 +160,7 @@ public class SpawnersManager : MonoBehaviour
 
     private bool CheckAllEnemiesDead()
     {
-        foreach (GameObject enemy in gameController.enemiesEntities)
+        foreach (GameObject enemy in enemiesEntities)
         {
             if (enemy && !enemy.GetComponent<MonsterController>().dead)
             {
@@ -180,6 +186,11 @@ public class SpawnersManager : MonoBehaviour
         }
         currentWave++;
         remainingWaves--;
+
+        if (remainingWaves <= 0 && sendsSignalAfterEnemies)
+        {
+            SendSignal();
+        }
     }
 
     private void SpawnEnemy()
@@ -228,7 +239,7 @@ public class SpawnersManager : MonoBehaviour
             GameObject boss = Instantiate(bossPrefab, transform.position, Quaternion.identity);
             boss.GetComponent<MonsterController>().gameController = gameController;
             boss.GetComponent<MonsterController>().playerObject = gameController.playerEntity;
-            gameController.enemiesEntities.Add(boss);
+            enemiesEntities.Add(boss);
             if (isWave)
             {
                 isEnemyWaveActive = true;
@@ -261,7 +272,7 @@ public class SpawnersManager : MonoBehaviour
         amountOfEnemiesKilled++;
         amountOfEnemiesSpawned--;
 
-        if (amountOfEnemiesSpawned <= 0 && remainingEnemiesToSpawn <= 0 && sendsSignalAfterEnemies)
+        if (amountOfEnemiesSpawned <= 0 && remainingEnemiesToSpawn <= 0 && sendsSignalAfterEnemies && !isWave)
         {
             SendSignal();
         }
@@ -299,7 +310,7 @@ public class SpawnersManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             triggered = false;
-            if (activeWhenTriggered)
+            if (activeWhenTriggered && !onlySignalActivation)
             {
                 ClearAllEnemies();
             }
@@ -312,6 +323,11 @@ public class SpawnersManager : MonoBehaviour
         {
             GameStateManager.Instance.SendSignal(gameObject, signalToSend);
             signalSent = true;
+            if (disabeAfterEnemies)
+            {
+                spawnersEnabled = false;
+                gameController.spawnersManagers.Remove(this);
+            }
         }
     }
 

@@ -16,18 +16,20 @@ MonoBehaviour:
   itemName: Basic Spore
   itemType: 1
   collectiblePrefab: {fileID: 5932013499083416374, guid: 181adf61e39e2624fa67a5e151117fe8, type: 3}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 724468895263049700, guid: 5a5cb1995d4961e42b2e10658d43409d, type: 3}
   weaponType: 1
-  attackTiming: 0.5
+  onWeaponUseAnimation: {fileID: 0}
+  weaponAnimationAttackType: 
+  attackTiming: 1
   meleeDamage: 0
   rangedDamage: 3
   maxRange: 10
   minRange: 0
   projectilePrefab: {fileID: 1709584543498734086, guid: 25da6ff0c66a92a469bbea0b1b458889, type: 3}
-  projectileSpeed: 5
+  projectileSpeed: 8
   projectileLifetime: 0
   projectileDamage: 3
-  projectileSize: 1
+  projectileSize: 2
   projectileSpread: 0
   projectileCount: 1
   projectileMaxReflections: 0

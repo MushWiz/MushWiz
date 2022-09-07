@@ -33,12 +33,12 @@ public class MushController : MonoBehaviour
     public int availablePoints = 0;
 
     public List<Stats> stats = new List<Stats>(){
-        new Stats(10f, StatType.Health),
-        new Stats(5f, StatType.Intelligence),
-        new Stats(5f, StatType.Speed),
-        new Stats(0f, StatType.Defense),
-        new Stats(0f, StatType.Evasion),
-        new Stats(0f, StatType.BlockChance),
+        new Stats(10, StatType.Health),
+        new Stats(5, StatType.Intelligence),
+        new Stats(5, StatType.Speed),
+        new Stats(0, StatType.Defense),
+        new Stats(0, StatType.Evasion),
+        new Stats(0, StatType.BlockChance),
     };
 
     public MushWeaponHolder weaponHolder;
@@ -105,7 +105,7 @@ public class MushController : MonoBehaviour
         }
     }
 
-    public float GetStatValueByType(StatType statType)
+    public int GetStatValueByType(StatType statType)
     {
         foreach (Stats stat in stats)
         {
@@ -114,8 +114,7 @@ public class MushController : MonoBehaviour
                 return stat.GetValue();
             }
         }
-        Debug.LogError("Stat not found: " + statType.ToString());
-        return 0f;
+        return 0;
     }
 
     public float TakeDamage(float damage)

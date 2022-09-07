@@ -23,7 +23,10 @@ public class Interactable : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = startingSprite;
-        activationText?.SetActive(false);
+        if (activationText)
+        {
+            activationText.SetActive(false);
+        }
         CircleCollider2D circleCollider2D = GetComponent<CircleCollider2D>();
         circleCollider2D.radius = activationRadius;
     }
@@ -51,9 +54,9 @@ public class Interactable : MonoBehaviour
         GameStateManager.Instance.SendSignal(gameObject, SignalToSend);
 
         triggered = !triggered;
-        if (!reversable)
+        if (!reversable && activationText)
         {
-            activationText?.SetActive(false);
+            activationText.SetActive(false);
         }
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (triggered)
@@ -73,15 +76,22 @@ public class Interactable : MonoBehaviour
             Trigger();
             return;
         }
-        if (!canBeActivatedByObjects && other.CompareTag("Player") && !(triggered && !reversable))
+        if (!canBeActivatedByObjects && other.CompareTag("Player"))
         {
+            if (triggered && !reversable)
+            {
+                return;
+            }
             if (activateOnPass)
             {
                 Trigger();
                 return;
             }
             canBeTriggered = true;
-            activationText?.SetActive(true);
+            if (activationText)
+            {
+                activationText.SetActive(true);
+            }
         }
     }
 
@@ -96,7 +106,10 @@ public class Interactable : MonoBehaviour
         if (!canBeActivatedByObjects && other.CompareTag("Player"))
         {
             canBeTriggered = false;
-            activationText?.SetActive(false);
+            if (activationText)
+            {
+                activationText.SetActive(false);
+            }
         }
     }
 }

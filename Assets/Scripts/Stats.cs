@@ -7,33 +7,33 @@ using UnityEngine.UI;
 [Serializable]
 public class Stats
 {
-    public float value;
+    public int value;
 
 
     public StatType statType;
 
     public GameObject statButtonPrefab;
 
-    private float initialValue;
+    private int initialValue;
 
-    public Stats(float value, StatType statType)
+    public Stats(int value, StatType statType)
     {
         this.value = value;
         this.initialValue = value;
         this.statType = statType;
     }
 
-    public void IncreaseValue(float value = 1)
+    public void IncreaseValue(int value = 1)
     {
         this.value += value;
     }
 
-    public void SetValue(float value)
+    public void SetValue(int value)
     {
         this.value = value;
     }
 
-    public float GetValue()
+    public int GetValue()
     {
         return value;
     }

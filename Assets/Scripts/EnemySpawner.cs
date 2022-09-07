@@ -20,6 +20,10 @@ public class EnemySpawner : MonoBehaviour
         {
             enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], transform.position, Quaternion.identity);
         }
+        SpriteRenderer mobSprite = enemy.GetComponent<SpriteRenderer>();
+        Color tmp = enemy.GetComponent<SpriteRenderer>().color;
+        tmp.a = 0f;
+        enemy.GetComponent<SpriteRenderer>().color = tmp;
         enemy.transform.SetParent(transform);
         MonsterController monsterController = enemy.GetComponent<MonsterController>();
         MonsterStateController monsterStateController = enemy.GetComponent<MonsterStateController>();
@@ -28,6 +32,7 @@ public class EnemySpawner : MonoBehaviour
         monsterController.enemyLevel = spawnersManager.enemyLevel;
         monsterController.Setup(spawnersManager.isWave);
         monsterStateController.homeBase = transform.position;
+        StartCoroutine(FadeInMob(mobSprite));
         if (patrolPoints.Count > 0)
         {
             monsterStateController.SetPatrolPoints(patrolPoints);
@@ -35,5 +40,21 @@ public class EnemySpawner : MonoBehaviour
         spawnersManager.enemiesEntities.Add(enemy);
     }
 
+    public IEnumerator FadeInMob(SpriteRenderer mobSprite)
+    {
+        {
+            float alphaVal = mobSprite.color.a;
+            Color tmp = mobSprite.color;
 
+            while (mobSprite.color.a < 1)
+            {
+                alphaVal += 0.05f;
+                tmp.a = alphaVal;
+                mobSprite.color = tmp;
+
+                yield return new WaitForSeconds(0.05f); // update interval
+            }
+        }
+
+    }
 }

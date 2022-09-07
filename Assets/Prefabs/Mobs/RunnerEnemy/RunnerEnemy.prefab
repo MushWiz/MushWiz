@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 6420264786150268519}
   - component: {fileID: 3717894017620415651}
   - component: {fileID: 730739829010067093}
+  - component: {fileID: -3285339015323921600}
   m_Layer: 0
   m_Name: RunnerEnemy
   m_TagString: Enemy
@@ -275,6 +276,7 @@ MonoBehaviour:
   - value: 0
     statType: 14
     statButtonPrefab: {fileID: 0}
+  invincibilityTime: 0.5
 --- !u!114 &3717894017620415651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +323,27 @@ NavMeshAgent:
   m_BaseOffset: 0.6
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!50 &-3285339015323921600
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3717894017620415678}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &4820046140307586760
 GameObject:
   m_ObjectHideFlags: 0

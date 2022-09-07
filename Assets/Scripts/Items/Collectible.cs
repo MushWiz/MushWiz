@@ -8,6 +8,8 @@ public class Collectible : MonoBehaviour
 {
     public Item item;
     public GameObject actionText;
+    public TextMeshProUGUI itemName;
+    public TextMeshProUGUI itemPrice;
 
     public bool autoCollect = false;
     public bool flyToTarget = false;
@@ -38,7 +40,15 @@ public class Collectible : MonoBehaviour
         if (actionText)
         {
             actionText.SetActive(false);
-            transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.itemName;
+        }
+        if (itemName)
+        {
+            itemName.text = item.itemName;
+        }
+        if (itemPrice && consumeMicelium)
+        {
+            itemPrice.gameObject.SetActive(true);
+            itemPrice.text = requiredMicelium.ToString() + " M§";
         }
         isActive = false;
     }
@@ -87,7 +97,8 @@ public class Collectible : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            touchingInventory = other.gameObject.GetComponent<MushController>().controller.uIHandler.mushInventory;
+            MushController mushController = other.gameObject.GetComponent<MushController>();
+            touchingInventory = mushController.controller.uIHandler.mushInventory;
             if (autoCollect)
             {
                 touchingInventory.AddToInventory(item);
