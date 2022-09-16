@@ -252,6 +252,7 @@ MonoBehaviour:
   deleting: 0
   projectileMaxReflections: 3
   dampeningEffect: 0.75
+  accuracy: 100
   shooter: {fileID: 0}
   currentVelocity: {x: 0, y: 0}
   rb: {fileID: 0}

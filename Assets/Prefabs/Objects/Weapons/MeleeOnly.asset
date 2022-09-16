@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935327ba54b47784cafa0a1c518db9d4, type: 3}
+  m_Name: MeleeOnly
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 0}
+  itemName: 
+  itemType: 1
+  collectiblePrefab: {fileID: 0}
+  weaponPrefab: {fileID: 4612391583703532094, guid: 53169bf2c623670468c18c1f020cffc1, type: 3}
+  weaponType: 0
+  onWeaponUseAnimation: {fileID: 0}
+  weaponAnimationAttackType: 
+  attackTiming: 0
+  meleeDamage: 3
+  rangedDamage: 0
+  maxRange: 0
+  minRange: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 0
+  projectileLifetime: 0
+  projectileDamage: 0
+  projectileSize: 0
+  projectileSpread: 0
+  projectileCount: 0
+  projectileMaxReflections: 0

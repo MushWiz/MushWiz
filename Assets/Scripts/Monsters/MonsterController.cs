@@ -7,19 +7,19 @@ public class MonsterController : MonoBehaviour
 {
     public EnemyTier tier = EnemyTier.Basic;
 
+    public Transform pivotPoint;
+    public Transform weaponHolder;
+    public WeaponItem starterWeapon;
+
     public Image lifeBar;
     public GameController gameController;
 
     public float lifePoints = 4f;
     public float maxLifePoints = 4f;
 
-    public float damageDealer = 1f;
     public float chaseRange = 5f;
     public float attackRange = 5f;
     public float attackRate = 2f;
-    public GameObject projectilePrefab;
-    public float projectileSpeed;
-    public float projectileMaxTravel;
 
     public float movementSpeed = 5f;
 
@@ -35,7 +35,7 @@ public class MonsterController : MonoBehaviour
     public float currentExperiencePoints = 0f;
 
     [HideInInspector] public Rigidbody2D rb;
-    [HideInInspector] public GameObject playerObject;
+    public GameObject playerObject;
     [HideInInspector] public Animator animator;
     [HideInInspector] public MonsterStateController monsterStateController;
 
@@ -56,10 +56,16 @@ public class MonsterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        if (starterWeapon)
+        {
+            GameObject spawnedWeapon = Instantiate(starterWeapon.weaponPrefab, weaponHolder.position, weaponHolder.rotation) as GameObject;
+            spawnedWeapon.transform.SetParent(weaponHolder);
+        }
+
         if (randomStats)
         {
             maxLifePoints = Random.Range(Mathf.Max(maxLifePoints / 1.5f, 1), maxLifePoints * 1.5f);
-            damageDealer = Random.Range(Mathf.Max(damageDealer / 1.5f, 1), damageDealer * 1.5f);
             movementSpeed = Random.Range(Mathf.Max(movementSpeed / 1.5f, 1), movementSpeed * 1.5f);
         }
 
@@ -154,9 +160,14 @@ public class MonsterController : MonoBehaviour
 
     private void Update()
     {
-
         if (!playerObject)
             return;
+
+        Vector3 aimDirection = (playerObject.transform.position - transform.position).normalized;
+        aimDirection.z = 0;
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        pivotPoint.eulerAngles = new Vector3(0, 0, angle);
+        Debug.DrawRay(transform.position, aimDirection, Color.green, Time.deltaTime);
 
         if (dead)
         {
@@ -164,9 +175,9 @@ public class MonsterController : MonoBehaviour
             gameObject.GetComponent<MonsterStateController>().ChangeAIState(false);
             return;
         }
-
         monsterStateController.CallUpdateState();
     }
+
 
     private void OnGameStateChanged(GameState newState)
     {

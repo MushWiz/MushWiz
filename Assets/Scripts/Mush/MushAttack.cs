@@ -13,7 +13,17 @@ public class MushAttack : MonoBehaviour
 
     public WeaponItem currentWeapon;
 
+    public WeaponItem initialWeapon;
+
     bool lockedPivot = false;
+
+    private void Awake()
+    {
+        if (initialWeapon)
+        {
+            GetComponent<MushWeaponHolder>().EquipWeapon(initialWeapon);
+        }
+    }
 
     public void AttackControl(MushController mushController)
     {
@@ -91,7 +101,7 @@ public class MushAttack : MonoBehaviour
 
             bullet.transform.localScale = new Vector3(currentWeapon.projectileSize, currentWeapon.projectileSize, currentWeapon.projectileSize);
 
-            projectileStats.shooter = mushController.transform;
+            projectileStats.shooter = transform;
 
             projectileStats.projectileMaxReflections = currentWeapon.projectileMaxReflections;
 

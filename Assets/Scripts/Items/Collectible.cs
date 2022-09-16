@@ -50,6 +50,10 @@ public class Collectible : MonoBehaviour
             itemPrice.gameObject.SetActive(true);
             itemPrice.text = requiredMicelium.ToString() + " M§";
         }
+        else if (itemPrice && !consumeMicelium)
+        {
+            itemPrice.gameObject.SetActive(false);
+        }
         isActive = false;
     }
     private void Update()

@@ -76,7 +76,7 @@ public class MushController : MonoBehaviour
         {
             if (Time.time - lastDamageTime > 1.5f && !isInvincible)
             {
-                float damageAmount = TakeDamage(other.gameObject.GetComponent<MonsterController>().damageDealer);
+                float damageAmount = TakeDamage(Mathf.Max(other.gameObject.GetComponent<MonsterController>().starterWeapon.meleeDamage, 1));
                 lastDamageTime = Time.time;
                 if (!isDead)
                 {

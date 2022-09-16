@@ -24,6 +24,16 @@ public class MushWeaponHolder : MonoBehaviour
         gameObject.GetComponentInParent<MushAttack>().EquipWeapon(weapon);
     }
 
+    public void EquipWeapon(WeaponItem weapon)
+    {
+        if (weapon.weaponPrefab)
+        {
+            currentWeapon = Instantiate(weapon.weaponPrefab, weaponHolder.position, weaponHolder.rotation) as GameObject;
+            currentWeapon.transform.SetParent(weaponHolder);
+        }
+        gameObject.GetComponentInParent<MushAttack>().EquipWeapon(weapon);
+    }
+
     public void UnequipWeapon()
     {
         gameObject.GetComponentInParent<MushAttack>().UnequipWeapon();

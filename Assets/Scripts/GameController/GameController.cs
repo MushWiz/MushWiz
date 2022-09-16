@@ -27,7 +27,6 @@ public class GameController : MonoBehaviour
     private int killCountHighscore = 0;
 
     public UIHandler uIHandler;
-    public List<SpawnersManager> spawnersManagers;
 
     [SerializeField] private GameState gameState = GameState.MainMenu;
 
@@ -80,8 +79,8 @@ public class GameController : MonoBehaviour
         int highscore = PlayerPrefs.GetInt("KillCount", 0);
         uIHandler.killCountHighscoreText.text = highscore.ToString();
         uIHandler.killCountText.text = "Score: " + killCount.ToString();
+        uIHandler.DisableAllUI();
         uIHandler.EnableUIByType(UIType.MainMenu);
-        uIHandler.DisableUIByTypeList(new List<UIType>() { UIType.InGame, UIType.LevelUp, UIType.CharacterInfo, UIType.LoadingScreen });
         UpdateInfoPanel();
         UpdateActionBar();
         UpdateInventory();
@@ -100,10 +99,15 @@ public class GameController : MonoBehaviour
             PauseGame();
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && (gameState == GameState.Playing || gameState == GameState.Paused))
         {
             UpdateInfoPanel();
             uIHandler.ToggleUIType(UIType.CharacterInfo);
+        }
+
+        if (Input.GetKeyDown(KeyCode.I) && (gameState == GameState.Playing || gameState == GameState.Paused))
+        {
+            uIHandler.ToggleUIType(UIType.Inventory);
         }
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -123,7 +127,6 @@ public class GameController : MonoBehaviour
         {
             currentTime = Time.time;
             uIHandler.UpdateUIByType(UIType.InGame);
-            ActivateSpawners();
         }
         if (gameState == GameState.GameOver)
         {
@@ -133,20 +136,6 @@ public class GameController : MonoBehaviour
             uIHandler.DisableUIByType(UIType.InGame);
         }
 
-    }
-
-    private void ActivateSpawners()
-    {
-        foreach (SpawnersManager manager in spawnersManagers)
-        {
-            if (manager.activeWhenTriggered && !manager.triggered)
-            {
-                continue;
-            }
-
-            manager.SetupSpawn();
-
-        }
     }
 
     void ResetWorld()
@@ -197,10 +186,6 @@ public class GameController : MonoBehaviour
     {
         IncreaseScore();
         IncreaseExperience(experiencePoints);
-        foreach (SpawnersManager manager in spawnersManagers.ToList())
-        {
-            manager.CheckEnemyDead();
-        }
     }
 
     public void IncreaseScore()
@@ -366,13 +351,11 @@ public class GameController : MonoBehaviour
 
     private void UpdateSpawnersManagersList()
     {
-        spawnersManagers.Clear();
         List<GameObject> spawnerManagerObjs = GameObject.FindGameObjectsWithTag("SpawnersManager").ToList();
         foreach (GameObject spawnersManagerObj in spawnerManagerObjs)
         {
             SpawnersManager manager = spawnersManagerObj?.GetComponent<SpawnersManager>();
             manager.ConnectController(this);
-            spawnersManagers.Add(manager);
         }
     }
 

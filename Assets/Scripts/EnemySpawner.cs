@@ -20,13 +20,13 @@ public class EnemySpawner : MonoBehaviour
         {
             enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], transform.position, Quaternion.identity);
         }
-        SpriteRenderer mobSprite = enemy.GetComponent<SpriteRenderer>();
-        Color tmp = enemy.GetComponent<SpriteRenderer>().color;
+        SpriteRenderer mobSprite = enemy.GetComponentInChildren<SpriteRenderer>();
+        Color tmp = enemy.GetComponentInChildren<SpriteRenderer>().color;
         tmp.a = 0f;
-        enemy.GetComponent<SpriteRenderer>().color = tmp;
+        enemy.GetComponentInChildren<SpriteRenderer>().color = tmp;
         enemy.transform.SetParent(transform);
-        MonsterController monsterController = enemy.GetComponent<MonsterController>();
-        MonsterStateController monsterStateController = enemy.GetComponent<MonsterStateController>();
+        MonsterController monsterController = enemy.GetComponentInChildren<MonsterController>();
+        MonsterStateController monsterStateController = enemy.GetComponentInChildren<MonsterStateController>();
         monsterController.gameController = gameController;
         monsterController.playerObject = gameController.playerEntity;
         monsterController.enemyLevel = spawnersManager.enemyLevel;

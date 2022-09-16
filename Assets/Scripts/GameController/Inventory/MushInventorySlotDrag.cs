@@ -34,6 +34,10 @@ public class MushInventorySlotDrag : EventTrigger
             {
                 mushInventory.SwapInventories(gameObject, otherSlot);
             }
+            else if (otherSlot != null && otherSlot != gameObject && otherSlot.CompareTag("InventoryDrop"))
+            {
+                mushInventory.RemoveItem(gameObject);
+            }
         }
     }
 

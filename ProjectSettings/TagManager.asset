@@ -18,6 +18,8 @@ TagManager:
   - BlackScreensHolder
   - DoorsHolder
   - Melee
+  - InventoryDrop
+  - BaseGrid
   layers:
   - Default
   - TransparentFX

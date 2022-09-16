@@ -76,38 +76,28 @@ public class DoorsManager : MonoBehaviour
     {
         foreach (DoorController door in doors)
         {
-            if (door.doorId == signal)
+            Dictionary<string, bool> doorSignals = new Dictionary<string, bool>(door.requiredSignals);
+            foreach (KeyValuePair<string, bool> requiredSignal in doorSignals)
             {
-                ChangeDoorState(door);
-                continue;
-            }
-
-            foreach (string signalToCheck in door.otherSignals)
-            {
-                if (signalToCheck == signal)
+                if (requiredSignal.Key == signal)
                 {
-                    ChangeDoorState(door);
-                    break;
+                    door.requiredSignals[requiredSignal.Key] = !requiredSignal.Value;
                 }
             }
+            ChangeDoorState(door);
         }
 
         foreach (DoorController blackScreen in blackScreens)
         {
-            if (blackScreen.doorId == signal)
+            Dictionary<string, bool> blackScreenSignals = new Dictionary<string, bool>(blackScreen.requiredSignals);
+            foreach (KeyValuePair<string, bool> requiredSignal in blackScreenSignals)
             {
-                ChangeDoorState(blackScreen);
-                continue;
-            }
-
-            foreach (string signalToCheck in blackScreen.otherSignals)
-            {
-                if (signalToCheck == signal)
+                if (requiredSignal.Key == signal)
                 {
-                    ChangeDoorState(blackScreen);
-                    break;
+                    blackScreen.requiredSignals[requiredSignal.Key] = !requiredSignal.Value;
                 }
             }
+            ChangeDoorState(blackScreen);
         }
 
         GetComponent<GameController>().UpdateNavMeshData();
@@ -115,6 +105,32 @@ public class DoorsManager : MonoBehaviour
 
     public void ChangeDoorState(DoorController doorToChange)
     {
+        if (doorToChange.requiredSignals.Count == 0)
+        {
+            return;
+        }
+        Dictionary<string, bool> doorSignals = new Dictionary<string, bool>(doorToChange.requiredSignals);
+        foreach (KeyValuePair<string, bool> requiredSignal in doorSignals)
+        {
+            if (requiredSignal.Key == "null")
+            {
+                return;
+            }
+            if (doorToChange.currentState == DoorState.Active)
+            {
+                if (doorToChange.requiredSignals[requiredSignal.Key])
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if (!doorToChange.requiredSignals[requiredSignal.Key])
+                {
+                    return;
+                }
+            }
+        }
         doorToChange.gameObject.SetActive(!doorToChange.gameObject.activeSelf);
         if (doorToChange.gameObject.activeSelf)
         {
@@ -123,6 +139,11 @@ public class DoorsManager : MonoBehaviour
         else
         {
             doorToChange.currentState = DoorState.Disabled;
+        }
+
+        if (doorToChange.sendSignalOnTrigger)
+        {
+            GameStateManager.Instance.SendSignal(doorToChange.gameObject, doorToChange.signalToSend);
         }
     }
 }

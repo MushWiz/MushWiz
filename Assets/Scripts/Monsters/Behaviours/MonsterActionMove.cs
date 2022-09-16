@@ -13,8 +13,6 @@ public class MonsterActionMove : MonsterAction
         }
         controller.navMeshAgent.destination = controller.target.transform.position;
         controller.navMeshAgent.isStopped = false;
-        controller.transform.rotation = Quaternion.identity;
-        controller.transform.position = new Vector3(controller.navMeshAgent.nextPosition.x, controller.navMeshAgent.nextPosition.y, 0);
         AdjustAnimation(controller);
     }
 

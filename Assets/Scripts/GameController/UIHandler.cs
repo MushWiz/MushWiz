@@ -69,6 +69,14 @@ public class UIHandler : MonoBehaviour
         }
     }
 
+    public void DisableAllUI()
+    {
+        foreach (UITypeController uITypeController in uiTypeControllers)
+        {
+            uITypeController.DisableUI();
+        }
+    }
+
     public void UpdateUIByType(UIType type)
     {
         foreach (UITypeController uITypeController in uiTypeControllers)

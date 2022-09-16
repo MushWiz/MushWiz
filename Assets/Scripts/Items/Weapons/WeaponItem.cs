@@ -42,6 +42,11 @@ public class WeaponItem : Item
         mushController.gameObject.GetComponentInChildren<MushWeaponHolder>().EquipWeapon(this, equipmentSlot);
     }
 
+    public override void OnDrop(MushController mushController, MushEquipment equipmentSlot)
+    {
+        OnUnequip(mushController, equipmentSlot);
+    }
+
     public override void OnUnequip(MushController mushController, MushEquipment equipmentSlot)
     {
         Unequip(mushController, equipmentSlot);

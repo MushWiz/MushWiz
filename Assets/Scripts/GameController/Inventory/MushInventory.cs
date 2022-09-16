@@ -159,6 +159,17 @@ public class MushInventory : MonoBehaviour
         inventorySlots[slot].inventorySlot.GetComponent<Image>().sprite = null;
     }
 
+    public void RemoveItem(GameObject slotToCheck)
+    {
+        foreach (MushInventorySlot slot in inventorySlots)
+        {
+            if (slot.inventorySlot == slotToCheck)
+            {
+                RemoveItem(slot.itemEquipment.item);
+            }
+        }
+    }
+
     public void RemoveEquipment(Item item)
     {
         if (currentWeaponSlot.itemEquipment.item == item)
@@ -291,5 +302,4 @@ public class MushInventory : MonoBehaviour
     {
         itemOverlay.HideOverlay();
     }
-
 }

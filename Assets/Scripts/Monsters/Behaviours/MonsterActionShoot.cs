@@ -8,8 +8,8 @@ public class MonsterActionShoot : MonsterAction
 
     public override void Act(MonsterStateController controller)
     {
-        controller.transform.rotation = Quaternion.identity;
-        controller.transform.position = new Vector3(controller.navMeshAgent.nextPosition.x, controller.navMeshAgent.nextPosition.y, 0);
+        //controller.transform.rotation = Quaternion.identity;
+        //controller.transform.position = new Vector3(controller.navMeshAgent.nextPosition.x, controller.navMeshAgent.nextPosition.y, 0);
         AdjustAnimation(controller);
         if (CanAttack(controller))
         {
@@ -27,16 +27,33 @@ public class MonsterActionShoot : MonsterAction
 
         if (controller.monsterController.canAttack)
         {
-            //Shoot the player
-            GameObject bullet = Instantiate(controller.monsterController.projectilePrefab, controller.transform.position - Vector3.up * 0.1f, Quaternion.identity);
+            WeaponItem currentWeapon = controller.monsterController.starterWeapon;
+            if (!currentWeapon)
+            {
+                Debug.LogError("No weapon on this mob");
+                return;
+            }
+            GameObject bullet = Instantiate(currentWeapon.projectilePrefab, controller.monsterController.weaponHolder.position, Quaternion.identity);
             bullet.tag = "EnemyProjectile";
-            Vector2 direction = controller.target.transform.position - controller.transform.position;
-            direction.Normalize();
-            bullet.GetComponent<Rigidbody2D>().velocity = direction * controller.monsterController.projectileSpeed;
-            bullet.GetComponent<ProjectileController>().shooter = controller.transform;
-            bullet.GetComponent<ProjectileController>().maxTravelDistance = controller.monsterController.projectileMaxTravel;
-            bullet.GetComponent<ProjectileController>().projectileDamage = controller.monsterController.damageDealer;
+            bullet.GetComponent<Rigidbody2D>().velocity = controller.monsterController.pivotPoint.right * currentWeapon.projectileSpeed;
+            ProjectileController projectileController = bullet.GetComponent<ProjectileController>();
+            projectileController.shooter = controller.transform;
             controller.monsterController.canAttack = false;
+
+
+            projectileController.maxTravelDistance = currentWeapon.maxRange;
+
+            projectileController.projectileDamage = currentWeapon.projectileDamage;
+            projectileController.projectileDamage *= controller.monsterController.GetStatValueByType(StatType.Intelligence) * 0.1f;
+
+            bullet.transform.localScale = new Vector3(currentWeapon.projectileSize, currentWeapon.projectileSize, currentWeapon.projectileSize);
+
+            projectileController.projectileMaxReflections = currentWeapon.projectileMaxReflections;
+
+            if (currentWeapon.projectileLifetime > 0)
+            {
+                Destroy(bullet, currentWeapon.projectileLifetime);
+            }
         }
     }
 

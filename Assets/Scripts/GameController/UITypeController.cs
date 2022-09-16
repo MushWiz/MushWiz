@@ -50,4 +50,5 @@ public enum UIType
     LevelUp,
     CharacterInfo,
     LoadingScreen,
+    Inventory,
 }

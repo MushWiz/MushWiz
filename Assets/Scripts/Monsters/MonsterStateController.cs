@@ -17,7 +17,7 @@ public class MonsterStateController : MonoBehaviour
     [HideInInspector] public int wayPointListIndex = 0;
 
     [HideInInspector] public float stateTimeElapsed;
-    [HideInInspector] public NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;
     [HideInInspector] public GameObject target;
     [HideInInspector] public Animator animator;
     [HideInInspector] public MonsterController monsterController;
@@ -26,10 +26,8 @@ public class MonsterStateController : MonoBehaviour
     private void Awake()
     {
         monsterController = GetComponent<MonsterController>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = Mathf.Max(monsterController.attackRange - Random.Range(0.5f, 1.5f), 0);
         Vector2 setPosition = transform.position;
-        navMeshAgent.baseOffset = -4.03f;
         transform.position = setPosition;
     }
 
