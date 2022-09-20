@@ -5,8 +5,10 @@ using TMPro;
 
 public class Interactable : MonoBehaviour
 {
-    public string SignalToSend;
+    public List<string> SignalsToSend;
     public bool reversable = true;
+    public bool reversedBySignal = false;
+    public string signalToReverse = "";
     public bool activateOnPass = false;
     public bool canBeActivatedByObjects = false;
     public string workingObjectTag = "";
@@ -37,19 +39,15 @@ public class Interactable : MonoBehaviour
 
     private void Awake()
     {
-        if (disableOnSignal)
-        {
-            GameStateManager.Instance.OnSignalReceived += OnSignalReceived;
-        }
+        GameStateManager.Instance.OnSignalReceived += OnSignalReceived;
     }
+
 
     private void OnDestroy()
     {
-        if (disableOnSignal)
-        {
-            GameStateManager.Instance.OnSignalReceived -= OnSignalReceived;
-        }
+        GameStateManager.Instance.OnSignalReceived -= OnSignalReceived;
     }
+
 
     private void Update()
     {
@@ -64,14 +62,20 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    void Trigger()
+    void Trigger(bool triggeredBySignal = false)
     {
-        if (disabled || (!reversable && triggered))
+        if (!triggeredBySignal && (disabled || (!reversable && triggered)))
         {
             return;
         }
 
-        GameStateManager.Instance.SendSignal(gameObject, SignalToSend);
+        if (!triggeredBySignal)
+        {
+            foreach (string SignalToSend in SignalsToSend)
+            {
+                GameStateManager.Instance.SendSignal(gameObject, SignalToSend);
+            }
+        }
 
         triggered = !triggered;
         if (!reversable && activationText)
@@ -154,6 +158,11 @@ public class Interactable : MonoBehaviour
         if (signalToDisable == signal)
         {
             disabled = true;
+        }
+
+        if (reversedBySignal && signalToReverse == signal)
+        {
+            Trigger(true);
         }
     }
 }

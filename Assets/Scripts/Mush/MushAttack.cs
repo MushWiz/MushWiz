@@ -6,6 +6,11 @@ using Cinemachine;
 public class MushAttack : MonoBehaviour
 {
 
+    public float lockOnLimit = 10;
+    public int lockOnAngle = 25;
+
+    public bool autoRelock = true;
+
     public Transform pivotPoint;
     public Transform shootingPoint;
 
@@ -16,18 +21,26 @@ public class MushAttack : MonoBehaviour
     public WeaponItem initialWeapon;
 
     bool lockedPivot = false;
+    [SerializeField] bool lockOn = false;
+    [SerializeField] MonsterController lockedMonster;
 
     private void Awake()
     {
         if (initialWeapon)
         {
-            GetComponent<MushWeaponHolder>().EquipWeapon(initialWeapon);
+            GetComponentInChildren<MushWeaponHolder>().EquipWeapon(initialWeapon);
         }
     }
 
     public void AttackControl(MushController mushController)
     {
+        CheckLockOn();
         PivotController(mushController);
+
+        if (Input.GetMouseButtonDown(2))
+        {
+            ToggleLockOn();
+        }
 
         if (currentWeapon == null)
         {
@@ -50,9 +63,18 @@ public class MushAttack : MonoBehaviour
         {
             return;
         }
+        Vector3 aimDirection = Vector3.zero;
+        if (!lockOn || lockedMonster == null)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            aimDirection = (mousePos - transform.position).normalized;
+        }
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 aimDirection = (mousePos - transform.position).normalized;
+        else
+        {
+            aimDirection = (lockedMonster.transform.position - transform.position).normalized;
+        }
+
         aimDirection.z = 0;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
 
@@ -73,6 +95,64 @@ public class MushAttack : MonoBehaviour
         lockedPivot = true;
         yield return new WaitForSeconds(attackRate);
         lockedPivot = false;
+    }
+
+    public bool ToggleLockOn()
+    {
+        if (lockOn)
+        {
+            lockOn = false;
+            return false;
+        }
+
+        float closestDistance = Mathf.Infinity;
+        MonsterController checkedMob = null;
+
+        for (int i = -lockOnAngle; i < lockOnAngle; i += 2)
+        {
+            Vector2 direction = Quaternion.Euler(0, 0, i) * pivotPoint.right;
+            RaycastHit2D[] hits = Physics2D.RaycastAll(shootingPoint.position, direction, lockOnLimit);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (!hit.transform.CompareTag("Enemy"))
+                {
+                    continue;
+                }
+                if (Vector2.Distance(transform.position, hit.transform.position) > closestDistance)
+                {
+                    continue;
+                }
+                checkedMob = hit.transform.gameObject.GetComponent<MonsterController>();
+                closestDistance = Vector2.Distance(transform.position, hit.transform.position);
+            }
+        }
+
+        if (checkedMob != null)
+        {
+            lockOn = true;
+            lockedMonster = checkedMob;
+            return true;
+        }
+        return false;
+    }
+
+    public void CheckLockOn()
+    {
+        if (!lockOn)
+        {
+            return;
+        }
+
+        if (lockedMonster == null || Vector2.Distance(lockedMonster.transform.position, transform.position) > lockOnLimit)
+        {
+            lockOn = false;
+            if (autoRelock && ToggleLockOn())
+            {
+                return;
+            }
+            lockedMonster = null;
+        }
+
     }
 
     public void RangedAttack(MushController mushController)

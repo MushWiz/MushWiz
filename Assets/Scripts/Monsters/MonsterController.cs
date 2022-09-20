@@ -51,7 +51,7 @@ public class MonsterController : MonoBehaviour
     };
 
     public float invincibilityTime = 0.5f;
-    bool isInvincible = false;
+    public bool isInvincible = false;
 
     // Start is called before the first frame update
     void Start()
@@ -146,7 +146,7 @@ public class MonsterController : MonoBehaviour
             float damageDealth = other.gameObject.GetComponentInParent<MushAttack>().currentWeapon.meleeDamage;
             Vector3 pushDirection = other.gameObject.transform.up;
             GetComponent<MonsterStateController>().navMeshAgent.isStopped = true;
-            rb.MovePosition(transform.position + pushDirection.normalized * 0.5f);
+            monsterStateController.navMeshAgent.Move(pushDirection.normalized * 0.5f);
             StartCoroutine(TakeDamage(damageDealth));
         }
     }
@@ -171,8 +171,8 @@ public class MonsterController : MonoBehaviour
 
         if (dead)
         {
-            gameObject.GetComponent<SpriteRenderer>().enabled = false;
-            gameObject.GetComponent<MonsterStateController>().ChangeAIState(false);
+            GetComponent<SpriteRenderer>().enabled = false;
+            monsterStateController.ChangeAIState(false);
             return;
         }
         monsterStateController.CallUpdateState();
@@ -184,13 +184,13 @@ public class MonsterController : MonoBehaviour
         if (newState != GameState.Paused)
         {
             enabled = true;
-            gameObject.GetComponent<MonsterStateController>().ChangeAIState(true);
+            monsterStateController.ChangeAIState(true);
             GetComponent<Collider2D>().enabled = true;
             return;
         }
 
         enabled = false;
-        gameObject.GetComponent<MonsterStateController>().ChangeAIState(false);
+        monsterStateController.ChangeAIState(false);
         GetComponent<Collider2D>().enabled = false;
     }
 
@@ -213,6 +213,7 @@ public class MonsterController : MonoBehaviour
             int randomStat = Random.Range(0, stats.Count);
             stats[randomStat].IncreaseValue(3);
         }
+        experiencePointsGiven = enemyLevel + 2;
         monsterStateController.UpdateNavMeshAgent();
         if (followsIndefinetly)
         {

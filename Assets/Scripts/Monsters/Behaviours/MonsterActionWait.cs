@@ -2,21 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "PluggableAI/Actions/Chase")]
-public class MonsterActionMove : MonsterAction
+[CreateAssetMenu(menuName = "PluggableAI/Actions/Wait")]
+public class MonsterActionWait : MonsterAction
 {
     public override void Act(MonsterStateController controller)
     {
-        if (Vector2.Distance(controller.transform.position, controller.target.transform.position) > controller.monsterController.attackRange)
-        {
-            controller.monsterController.isAttacking = false;
-        }
-        controller.navMeshAgent.stoppingDistance = controller.initialStoppingDistance;
-        controller.navMeshAgent.destination = controller.target.transform.position;
-        controller.navMeshAgent.isStopped = false;
+        controller.navMeshAgent.isStopped = true;
         AdjustAnimation(controller);
     }
-
     public void AdjustAnimation(MonsterStateController controller)
     {
         Animator animator = controller.animator;

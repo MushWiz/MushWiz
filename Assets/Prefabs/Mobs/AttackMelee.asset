@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0671308b9435cf14ebdf13f262a963eb, type: 3}
-  m_Name: RunnerAttackMelee
+  m_Name: AttackMelee
   m_EditorClassIdentifier: 

@@ -6,11 +6,13 @@ public class EnemySpawner : MonoBehaviour
 {
     public List<GameObject> enemyPrefabs = new List<GameObject>();
     public List<GameObject> patrolPoints = new List<GameObject>();
-    public float lastSpawnTime = 0;
+    public float lastDeadTime = 0;
+    public float spawnTime = 0;
+
+    [HideInInspector] public List<GameObject> ownEnemy = new List<GameObject>();
 
     public void SpawnEnemy(GameController gameController, SpawnersManager spawnersManager, bool isBoss)
     {
-        lastSpawnTime = Time.time;
         GameObject enemy;
         if (spawnersManager.useManagerPrefabs)
         {
@@ -38,6 +40,9 @@ public class EnemySpawner : MonoBehaviour
             monsterStateController.SetPatrolPoints(patrolPoints);
         }
         spawnersManager.enemiesEntities.Add(enemy);
+        ownEnemy.Add(enemy);
+        spawnTime = Random.Range(25, 100);
+        lastDeadTime = 0;
     }
 
     public IEnumerator FadeInMob(SpriteRenderer mobSprite)

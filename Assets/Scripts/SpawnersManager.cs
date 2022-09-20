@@ -14,6 +14,7 @@ public class SpawnersManager : MonoBehaviour
     public bool spawnersEnabled = true;
     public bool isWave = false;
     public bool useManagerPrefabs = false;
+    public bool checkSpawnTime = false;
     public bool activeWhenTriggered = false;
     public bool onlySignalActivation = true;
     [HideInInspector] public bool triggered = false;
@@ -42,7 +43,13 @@ public class SpawnersManager : MonoBehaviour
     public int enemiesPerWaveIncrease = 0;
     public int enemyLevelIncreaseAfterCounter = 0;
     public int enemyLevelIncreaseCounter = 0;
+    public bool infiniteWaves = false;
     public int remainingWaves = 99999;
+
+    public bool needSignalAfterWave = false;
+
+    public bool sendSignalAfterWave = false;
+    public List<string> signalsAfterWave;
 
     public int currentWave = 0;
     #endregion
@@ -71,11 +78,13 @@ public class SpawnersManager : MonoBehaviour
 
     bool isEnemyWaveActive = false;
     bool preparingEnemyWave = false;
+    bool paused = false;
 
     private void Awake()
     {
         GetComponent<CircleCollider2D>().enabled = activeWhenTriggered && !onlySignalActivation;
         GameStateManager.Instance.OnSignalReceived += OnSignalReceived;
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
 
         if (randomizedSpanwers)
         {
@@ -91,12 +100,28 @@ public class SpawnersManager : MonoBehaviour
     private void OnDestroy()
     {
         GameStateManager.Instance.OnSignalReceived -= OnSignalReceived;
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+
+    private void OnGameStateChanged(GameState newState)
+    {
+        if (newState == GameState.Paused)
+        {
+            paused = true;
+            return;
+        }
+        paused = false;
     }
 
     private void Update()
     {
-        SetupSpawn();
         CheckEnemyDead();
+        if (!spawnersEnabled || paused)
+        {
+            return;
+        }
+        SetupSpawn();
+
     }
 
     public void ConnectController(GameController controller)
@@ -107,31 +132,28 @@ public class SpawnersManager : MonoBehaviour
 
     public void SetupSpawn()
     {
-        if (!spawnersEnabled)
+        if (isWave)
         {
+            PrepareWaveInitialCheck();
             return;
         }
+
         if (activeWhenTriggered && !triggered)
         {
             return;
         }
-        if (isWave)
-        {
-            PrepareWaveInitialCheck();
-        }
-        else
-        {
-            PrepareSpawnInitialCheck();
-        }
+        PrepareSpawnInitialCheck();
+
     }
 
     public void PrepareWaveInitialCheck()
     {
-        if (remainingWaves <= 0)
+        if (remainingWaves <= 0 && !infiniteWaves)
         {
             return;
         }
-        if (!isEnemyWaveActive && !preparingEnemyWave)
+
+        if (!isEnemyWaveActive && !preparingEnemyWave && (needSignalAfterWave && triggered))
         {
             preparingEnemyWave = true;
             PrepareWave();
@@ -145,6 +167,13 @@ public class SpawnersManager : MonoBehaviour
 
         if (CheckAllEnemiesDead())
         {
+            if (sendSignalAfterWave)
+            {
+                foreach (string signal in signalsAfterWave)
+                {
+                    GameStateManager.Instance.SendSignal(gameObject, signal);
+                }
+            }
             isEnemyWaveActive = false;
         }
     }
@@ -201,6 +230,17 @@ public class SpawnersManager : MonoBehaviour
             }
         }
         currentWave++;
+
+        if (needSignalAfterWave)
+        {
+            triggered = false;
+        }
+
+        if (infiniteWaves)
+        {
+            return;
+        }
+
         remainingWaves--;
 
         if (remainingWaves <= 0 && sendsSignalAfterEnemies)
@@ -209,15 +249,30 @@ public class SpawnersManager : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy()
+    private bool SpawnEnemy()
     {
         if (spawners.Count == 0)
         {
-            return;
+            return false;
         }
 
-        int randomSpawner = Random.Range(0, spawners.Count);
-        spawners[randomSpawner].SpawnEnemy(gameController, this, false);
+        List<EnemySpawner> spawnersCopy = new List<EnemySpawner>(spawners);
+        for (int i = 0; i < spawnersCopy.Count; i++)
+        {
+            EnemySpawner temp = spawnersCopy[i];
+            int randomIndex = Random.Range(i, spawnersCopy.Count);
+            spawnersCopy[i] = spawnersCopy[randomIndex];
+            spawnersCopy[randomIndex] = temp;
+        }
+
+        int randomSpawner = Random.Range(0, spawnersCopy.Count);
+        EnemySpawner spawner = spawnersCopy[randomSpawner];
+        if (checkSpawnTime && gameController.currentTime - spawner.lastDeadTime < spawner.spawnTime)
+        {
+            return false;
+        }
+        spawner.SpawnEnemy(gameController, this, false);
+        return true;
     }
 
     public void PrepareSpawnInitialCheck()
@@ -233,8 +288,12 @@ public class SpawnersManager : MonoBehaviour
         }
         int storedLevel = enemyLevel;
         enemyLevel = Mathf.Max(Random.Range(-5, 6) + enemyLevel, 1);
-        SpawnEnemy();
+        bool spawned = SpawnEnemy();
         enemyLevel = storedLevel;
+        if (!spawned)
+        {
+            return;
+        }
         PostEnemySpawnCheck();
     }
 
@@ -284,6 +343,15 @@ public class SpawnersManager : MonoBehaviour
             }
             if (enemyCheck.GetComponentInChildren<MonsterController>().dead)
             {
+                foreach (EnemySpawner enemySpawner in spawners)
+                {
+                    if (enemySpawner.ownEnemy.Contains(enemyCheck))
+                    {
+                        enemySpawner.ownEnemy.Remove(enemyCheck);
+                        enemySpawner.lastDeadTime = gameController.currentTime;
+                    }
+                }
+
                 enemiesEntities.Remove(enemyCheck);
                 Destroy(enemyCheck);
                 DeadEnemy();

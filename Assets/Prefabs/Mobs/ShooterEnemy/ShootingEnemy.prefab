@@ -381,6 +381,7 @@ GameObject:
   - component: {fileID: 4030078167968349577}
   - component: {fileID: 4030078167968349684}
   - component: {fileID: 4030078167968349685}
+  - component: {fileID: 616442167445267395}
   m_Layer: 0
   m_Name: Mob
   m_TagString: Enemy
@@ -531,6 +532,7 @@ MonoBehaviour:
     statType: 14
     statButtonPrefab: {fileID: 0}
   invincibilityTime: 0.5
+  isInvincible: 0
 --- !u!114 &4030078167968349577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,7 +546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationPrefix: Shooter
-  currentState: {fileID: 11400000, guid: f8341044d9a987243b553e578127989c, type: 2}
+  currentState: {fileID: 11400000, guid: 11b132aeaa37aa641a1efe680702f4f5, type: 2}
   remainState: {fileID: 11400000, guid: 264a9146700c80a42912c2f81e514291, type: 2}
   patrolPoints: []
   wayPointListIndex: 0
@@ -587,6 +589,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.45}
   serializedVersion: 2
   m_Radius: 0.25
+--- !u!50 &616442167445267395
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4030078167968349583}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &4030078168168453971
 GameObject:
   m_ObjectHideFlags: 0

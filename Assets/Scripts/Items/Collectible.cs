@@ -90,7 +90,7 @@ public class Collectible : MonoBehaviour
                 isCollected = true;
                 if (fromMerchant)
                 {
-                    seller?.SoldItem();
+                    seller?.SoldItem(this);
                 }
                 Destroy(gameObject);
             }

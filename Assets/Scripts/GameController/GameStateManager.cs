@@ -47,6 +47,10 @@ public class GameStateManager
 
     public void SendSignal(GameObject source, string signal)
     {
+        if (signal == "")
+        {
+            return;
+        }
         OnSignalReceived?.Invoke(source, signal);
     }
 

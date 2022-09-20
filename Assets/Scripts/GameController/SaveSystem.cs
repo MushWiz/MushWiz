@@ -89,7 +89,7 @@ public class PlayerData
 
         foreach (MushInventorySlot equipment in inventory.inventorySlots)
         {
-            if (equipment != null && equipment.itemEquipment != null)
+            if (equipment != null && equipment.itemEquipment.item != null)
             {
                 items.Add(database.itemsIDs[equipment.itemEquipment.item]);
                 Debug.Log(equipment.itemEquipment.item.itemName + " " + database.itemsIDs[equipment.itemEquipment.item]);
@@ -97,7 +97,7 @@ public class PlayerData
         }
 
         MushInventorySlot currentWeaponSlot = inventory.currentWeaponSlot;
-        if (currentWeaponSlot != null && currentWeaponSlot.itemEquipment != null)
+        if (currentWeaponSlot != null && currentWeaponSlot.itemEquipment.item != null)
         {
             equipments.Add(database.itemsIDs[currentWeaponSlot.itemEquipment.item]);
             Debug.Log(currentWeaponSlot.itemEquipment.item.itemName + " " + database.itemsIDs[currentWeaponSlot.itemEquipment.item]);

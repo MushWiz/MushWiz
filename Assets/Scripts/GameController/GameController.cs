@@ -125,7 +125,7 @@ public class GameController : MonoBehaviour
         }
         if (gameState == GameState.Playing)
         {
-            currentTime = Time.time;
+            currentTime += Time.deltaTime;
             uIHandler.UpdateUIByType(UIType.InGame);
         }
         if (gameState == GameState.GameOver)

@@ -10,15 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21bd029011ef53946a65771c9c3bf177, type: 3}
-  m_Name: RunnerAttackState
+  m_Name: RunnerDamagedState
   m_EditorClassIdentifier: 
   actions:
-  - {fileID: 11400000, guid: df359e3df1ad9cb4da47ed6e08d7c600, type: 2}
+  - {fileID: 11400000, guid: 33323f22c4fc4454c8c1c5ad99332a0e, type: 2}
   transitions:
   - decision: {fileID: 11400000, guid: eb18c1dae443aaa478e8b64f908c732a, type: 2}
-    trueState: {fileID: 11400000, guid: d734633fc021ee74bbe3d38b12c53795, type: 2}
-    falseState: {fileID: 11400000, guid: 264a9146700c80a42912c2f81e514291, type: 2}
-  - decision: {fileID: 11400000, guid: 2b1b064d79a2b27498d62af07c566a7b, type: 2}
     trueState: {fileID: 11400000, guid: 264a9146700c80a42912c2f81e514291, type: 2}
     falseState: {fileID: 11400000, guid: a179199df93bd7c47936bbc7a62af49a, type: 2}
   sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

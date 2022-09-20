@@ -22,11 +22,12 @@ public class MonsterStateController : MonoBehaviour
     [HideInInspector] public Animator animator;
     [HideInInspector] public MonsterController monsterController;
     [HideInInspector] public Vector2 homeBase;
+    [HideInInspector] public float initialStoppingDistance;
 
     private void Awake()
     {
         monsterController = GetComponent<MonsterController>();
-        navMeshAgent.stoppingDistance = Mathf.Max(monsterController.attackRange - Random.Range(0.5f, 1.5f), 0);
+        navMeshAgent.stoppingDistance = initialStoppingDistance = Mathf.Max(monsterController.attackRange - Random.Range(0.5f, 1.5f), 0);
         Vector2 setPosition = transform.position;
         transform.position = setPosition;
     }
@@ -73,6 +74,10 @@ public class MonsterStateController : MonoBehaviour
     public void ChangeAIState(bool isActive)
     {
         aiActive = isActive;
+        if (monsterController.dead)
+        {
+            return;
+        }
         navMeshAgent.isStopped = !isActive;
     }
 
