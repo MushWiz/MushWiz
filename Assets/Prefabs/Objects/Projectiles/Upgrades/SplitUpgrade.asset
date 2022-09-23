@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daced4dd12390eb40b19e4ba74be4594, type: 3}
+  m_Name: SplitUpgrade
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 21300000, guid: 3696f27ce672a104fa2563b5e9049cfc, type: 3}
+  itemName: Split Upgrade
+  itemType: 6
+  collectiblePrefab: {fileID: 5932013499083416374, guid: 181adf61e39e2624fa67a5e151117fe8, type: 3}
+  behaviouralUpgrade: {fileID: 11400000, guid: 5ab8e3a3509f3ec41907bbe7d06e1a6e, type: 2}

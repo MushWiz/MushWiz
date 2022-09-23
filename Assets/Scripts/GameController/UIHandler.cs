@@ -143,9 +143,31 @@ public class UIHandler : MonoBehaviour
         infoPanelManager.level.text = "Level: " + mushController.level.ToString();
         infoPanelManager.playerName.text = "Mush";
         infoPanelManager.availablePoints.text = "Available Points: " + mushController.availablePoints.ToString();
-        foreach (UIStatSlot statSlot in infoPanelManager.stats)
+
+        foreach (Stats stat in mushController.stats)
         {
-            statSlot.UpdateStatSlot(mushController);
+            if (infoPanelManager.StatExist(stat.statType))
+            {
+                infoPanelManager.GetStatSlot(stat.statType).UpdateStatSlot(mushController);
+                continue;
+            }
+
+            GameObject statButton = Instantiate(infoPanelManager.statIncreaseButton, infoPanelManager.statsHolder.position, Quaternion.identity);
+            statButton.transform.SetParent(infoPanelManager.statsHolder);
+            UIStatSlot statButtonUI = statButton.GetComponent<UIStatSlot>();
+            statButtonUI.statName.text = stat.statType.ToString();
+            statButtonUI.mushStat = stat;
+
+            Button buttonComponent = statButtonUI.transform.GetChild(0).GetComponent<Button>();
+
+            buttonComponent.onClick.AddListener(() =>
+                {
+                    statButtonUI.IncreaseStatValue(stat, mushController);
+                    UpdateInfoPanel(mushController);
+                });
+            statButtonUI.increaseButton = buttonComponent;
+            infoPanelManager.stats.Add(statButtonUI);
+            statButtonUI.UpdateStatSlot(mushController);
         }
     }
 

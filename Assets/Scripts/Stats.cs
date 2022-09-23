@@ -9,10 +9,9 @@ public class Stats
 {
     public int value;
 
-
     public StatType statType;
 
-    public GameObject statButtonPrefab;
+    public GameObject statButton;
 
     private int initialValue;
 

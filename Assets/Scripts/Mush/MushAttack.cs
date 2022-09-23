@@ -24,11 +24,13 @@ public class MushAttack : MonoBehaviour
     [SerializeField] bool lockOn = false;
     [SerializeField] MonsterController lockedMonster;
 
-    private void Awake()
+    [HideInInspector] public List<ProjectileBehaviour> shootBehaviours = new List<ProjectileBehaviour>();
+
+    private void Start()
     {
         if (initialWeapon)
         {
-            GetComponentInChildren<MushWeaponHolder>().EquipWeapon(initialWeapon);
+            GetComponent<MushController>().controller.uIHandler.mushInventory.AddToInventory(initialWeapon);
         }
     }
 
@@ -83,7 +85,7 @@ public class MushAttack : MonoBehaviour
 
     public void MeleeAttack(MushController mushController)
     {
-        float attackRate = Mathf.Max(currentWeapon.attackTiming - mushController.GetStatValueByType(StatType.Strength) * 0.05f, 0.1f);
+        float attackRate = Mathf.Max(currentWeapon.attackTiming - mushController.GetStatValueByType(StatType.Strength) * 0.1f, 0.1f);
         if (Input.GetMouseButtonDown(0))
         {
             float animationLength = currentWeapon.AttackAnimation(mushController);
@@ -157,7 +159,7 @@ public class MushAttack : MonoBehaviour
 
     public void RangedAttack(MushController mushController)
     {
-        if (Input.GetMouseButton(0) && Time.time - lastAttackTime > Mathf.Max(currentWeapon.attackTiming - mushController.GetStatValueByType(StatType.Intelligence) * 0.05f, 0.1f))
+        if (Input.GetMouseButton(0) && Time.time - lastAttackTime > Mathf.Max(currentWeapon.attackTiming - mushController.GetStatValueByType(StatType.Intelligence) * 0.1f, 0.1f))
         {
             StartCoroutine(Shoot(mushController));
         }
@@ -166,6 +168,13 @@ public class MushAttack : MonoBehaviour
     private IEnumerator Shoot(MushController mushController)
     {
         lastAttackTime = Time.time;
+
+        /* if (mushController.mana < 1)
+        {
+            yield return null;
+        } */ //TODO: Make mana weapons require mana
+
+        //mushController.mana -= 1;
 
         for (int i = 0; i < currentWeapon.projectileCount; i++)
         {
@@ -184,6 +193,11 @@ public class MushAttack : MonoBehaviour
             projectileStats.shooter = transform;
 
             projectileStats.projectileMaxReflections = currentWeapon.projectileMaxReflections;
+
+            if (shootBehaviours.Count > 0)
+            {
+                projectileStats.behaviours.AddRange(shootBehaviours);
+            }
 
             if (currentWeapon.projectileLifetime > 0)
             {

@@ -27,4 +27,5 @@ public enum MushInventoryType
     Accessory,
     Money,
     StatBoost,
+    ProjectileUpgrader,
 }

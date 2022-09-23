@@ -40,6 +40,11 @@ public class MushInventory : MonoBehaviour
             return IncreaseStat((StatBoost)item);
         }
 
+        else if (item.itemType == MushInventoryType.ProjectileUpgrader)
+        {
+            return UpgradeProjectile((ProjectileUpgrader)item);
+        }
+
         else
         {
             return AddEquipment(item);
@@ -74,6 +79,17 @@ public class MushInventory : MonoBehaviour
     public bool IncreaseStat(StatBoost boost)
     {
         return mushController.IncreaseStatValue(boost.stat, boost.boostAmount);
+    }
+
+    public bool UpgradeProjectile(ProjectileUpgrader upgrader)
+    {
+        if (upgrader.behaviouralUpgrade == null)
+        {
+            Debug.LogError("Projectile Upgrade missing behaviour.");
+            return true;
+        }
+        mushController.gameObject.GetComponent<MushAttack>().shootBehaviours.Add(upgrader.behaviouralUpgrade);
+        return true;
     }
 
     public bool AddItem(Item item)

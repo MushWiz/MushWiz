@@ -10,6 +10,12 @@ public class MushController : MonoBehaviour
     public float lifePoints = 5f;
     public int maxLifePoints = 10;
 
+    public float stamina = 10f;
+    public int maxStamina = 10;
+
+    public float mana = 10f;
+    public int maxMana = 10;
+
     private float lastDamageTime = 0f;
 
     private MushAttack mushAttack;
@@ -21,6 +27,8 @@ public class MushController : MonoBehaviour
 
     public Image lifeBar;
     public Image expBar;
+    public Image staminaBar;
+    public Image manaBar;
 
     public List<MushAbilities> abilities = new List<MushAbilities>();
     public List<MushAbilities> activableAbilities = new List<MushAbilities>();
@@ -119,7 +127,10 @@ public class MushController : MonoBehaviour
 
     public float TakeDamage(float damage)
     {
-        lifePoints -= damage;
+
+        float armor = GetStatValueByType(StatType.Defense) * 0.5f + GetStatValueByType(StatType.Resistance) * 0.1f;
+
+        lifePoints = lifePoints - Mathf.Max(damage - armor, 0);
         if (lifePoints <= 0)
         {
             isDead = true;
@@ -133,6 +144,11 @@ public class MushController : MonoBehaviour
     {
         lifePoints = Mathf.Min((maxLifePoints * GetStatValueByType(StatType.Health)), lifePoints + heal);
         lifeBar.fillAmount = lifePoints / (maxLifePoints * GetStatValueByType(StatType.Health));
+
+        stamina = maxStamina * GetStatValueByType(StatType.Stamina);
+
+        mana = maxMana * GetStatValueByType(StatType.Mana);
+        manaBar.fillAmount = mana / (maxMana * GetStatValueByType(StatType.Mana));
     }
 
     private void Update()
@@ -140,6 +156,19 @@ public class MushController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             IncreaseExperience(15f);
+        }
+
+        if (stamina < maxStamina * GetStatValueByType(StatType.Stamina))
+        {
+            stamina += Time.deltaTime * 5;
+            stamina = Mathf.Min(stamina, maxStamina * GetStatValueByType(StatType.Stamina));
+        }
+
+        if (mana < maxMana * GetStatValueByType(StatType.Mana))
+        {
+            mana += Time.deltaTime * 5;
+            mana = Mathf.Min(mana, maxMana * GetStatValueByType(StatType.Mana));
+            manaBar.fillAmount = mana / (maxMana * GetStatValueByType(StatType.Mana));
         }
 
         if (!isActive || isDead)
@@ -170,17 +199,18 @@ public class MushController : MonoBehaviour
     }
 
     //Add experience to the player
-    public void IncreaseExperience(float experience)
+    public void IncreaseExperience(float experienceGained)
     {
-        this.experience += experience;
-        if (this.experience >= experienceToNextLevel)
+        experience += experienceGained;
+        if (experience >= experienceToNextLevel)
         {
-            this.experience -= experienceToNextLevel;
+            experience -= experienceToNextLevel;
             level++;
             experienceToNextLevel = experienceToNextLevel * experienceToNextLevelMultiplier;
             LevelUp();
+            IncreaseExperience(0);
         }
-        expBar.fillAmount = this.experience / experienceToNextLevel;
+        expBar.fillAmount = experience / experienceToNextLevel;
     }
 
     //Add an ability to the player
@@ -256,7 +286,7 @@ public class MushController : MonoBehaviour
     {
         Heal(maxLifePoints * GetStatValueByType(StatType.Health));
         GameStateManager.Instance.SendEvent(GameEvent.LevelUp);
-        availablePoints += 10;
+        availablePoints += 3;
     }
 
     private void OnGameStateChanged(GameState newState)
@@ -333,7 +363,7 @@ public class MushController : MonoBehaviour
 
         foreach (Stats stat in stats)
         {
-            GameObject buttonObject = Instantiate(stat.statButtonPrefab, uiLevelUp) as GameObject;
+            GameObject buttonObject = Instantiate(stat.statButton, uiLevelUp) as GameObject;
             buttonObject.transform.SetParent(uiLevelUp.GetChild(1));
             buttonObject.name = stat.GetStatType().ToString();
 

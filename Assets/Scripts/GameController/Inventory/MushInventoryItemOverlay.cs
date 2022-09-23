@@ -32,8 +32,7 @@ public class MushInventoryItemOverlay : MonoBehaviour
         SetItem(item);
 
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.position = Input.mousePosition + new Vector3(-150f, 0f, 0);
-
+        rectTransform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
 
         gameObject.SetActive(true);
     }

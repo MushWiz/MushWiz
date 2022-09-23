@@ -55,6 +55,11 @@ public class GameController : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene();
 
+        if (!testing)
+        {
+            mushController.isActive = false;
+        }
+
         if (!playerEntity)
         {
             playerEntity = Instantiate(playerPrefab, transform.position, Quaternion.identity);
@@ -62,15 +67,10 @@ public class GameController : MonoBehaviour
 
         mushController = playerEntity.GetComponent<MushController>();
 
-        if (!testing)
-        {
-            mushController.isActive = false;
-        }
+        mushController.controller = this;
 
         UpdateNavMeshData();
         UpdateSpawnersManagersList();
-
-        mushController.controller = this;
 
         Camera.main.transform.GetChild(0).GetComponent<CinemachineVirtualCamera>().Follow = playerEntity.transform;
 

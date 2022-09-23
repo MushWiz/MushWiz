@@ -156,7 +156,7 @@ public class SpawnersManager : MonoBehaviour
         if (!isEnemyWaveActive && !preparingEnemyWave && (needSignalAfterWave && triggered))
         {
             preparingEnemyWave = true;
-            PrepareWave();
+            StartCoroutine(PrepareWave());
             return;
         }
 
@@ -178,7 +178,7 @@ public class SpawnersManager : MonoBehaviour
         }
     }
 
-    private void PrepareWave()
+    private IEnumerator PrepareWave()
     {
         preparingEnemyWave = true;
 
@@ -187,10 +187,27 @@ public class SpawnersManager : MonoBehaviour
             if (currentWave >= bossAfterWaveAmount)
             {
                 SpawnBoss();
-                return;
+                yield return null;
             }
         }
-        StartCoroutine(SendNewWave());
+        else
+        {
+
+            uIHandler.currentWaveInitialization.GetComponent<TextMeshProUGUI>().text = "Wave " + currentWave.ToString();
+            uIHandler.enemyWaveText.GetComponent<TextMeshProUGUI>().text = "Wave " + currentWave.ToString();
+            StartCoroutine(uIHandler.FadeTextToFullAlpha(1f, uIHandler.currentWaveInitialization));
+            yield return new WaitForSeconds(1.5f);
+            StartCoroutine(uIHandler.FadeTextToZeroAlpha(1f, uIHandler.currentWaveInitialization));
+            yield return new WaitForSeconds(1.5f);
+
+            uIHandler.currentWaveInitialization.GetComponent<TextMeshProUGUI>().text = "Enemies to kill: " + enemiesPerWave.ToString();
+            StartCoroutine(uIHandler.FadeTextToFullAlpha(1f, uIHandler.currentWaveInitialization));
+            yield return new WaitForSeconds(1.5f);
+            StartCoroutine(uIHandler.FadeTextToZeroAlpha(1f, uIHandler.currentWaveInitialization));
+            yield return new WaitForSeconds(1.5f);
+
+            StartCoroutine(SendNewWave());
+        }
     }
 
     private IEnumerator SendNewWave()
